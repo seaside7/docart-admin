@@ -23,6 +23,9 @@
             // Sample
             'app.sample',
 
+            // Catalogs,
+            'app.catalogs',
+
             // Products,
             'app.products',
 

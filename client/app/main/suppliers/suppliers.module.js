@@ -24,7 +24,7 @@
 
     msNavigationServiceProvider.saveItem('docart.suppliers', {
             title    : 'Suppliers',
-            icon     : 'icon-store',
+            icon     : 'icon-truck',
             state    : 'app.suppliers',
             /*stateParams: {
                 'param1': 'page'

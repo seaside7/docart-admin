@@ -17,7 +17,7 @@
 
     msNavigationServiceProvider.saveItem('docart.products', {
             title    : 'Products',
-            icon     : 'icon-tag-multiple',
+            icon     : 'icon-basket',
             state    : 'app.products',
             translate: 'PRODUCTS.PRODUCTS_NAV',
             weight   : 1
