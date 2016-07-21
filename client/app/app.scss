@@ -41,9 +41,10 @@
 @import 'client/app/core/directives/ms-widget/ms-widget';
 @import 'client/app/quick-panel/quick-panel';
 @import 'client/app/toolbar/toolbar';
-@import 'client/app/main/supplier/supplier';
-@import 'client/app/navigation/layouts/vertical-navigation/navigation';
+@import 'client/app/main/products/products';
+@import 'client/app/main/suppliers/suppliers';
 @import 'client/app/navigation/layouts/horizontal-navigation/navigation';
+@import 'client/app/navigation/layouts/vertical-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';
 @import 'client/app/quick-panel/tabs/activity/activity-tab';
 @import 'client/app/quick-panel/tabs/chat/chat-tab';

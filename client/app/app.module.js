@@ -23,6 +23,10 @@
             // Sample
             'app.sample',
 
-            'app.supplier'
+            // Products,
+            'app.products',
+
+            // Suppliers
+            'app.suppliers'
         ]);
 })();
