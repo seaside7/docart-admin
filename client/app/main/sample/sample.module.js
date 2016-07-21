@@ -30,13 +30,13 @@
         msApiProvider.register('sample', ['app/data/sample/sample.json']);
 
         // Navigation
-        msNavigationServiceProvider.saveItem('fuse', {
+        msNavigationServiceProvider.saveItem('app', {
             title : 'SAMPLE',
             group : true,
             weight: 1
         });
 
-        msNavigationServiceProvider.saveItem('fuse.sample', {
+        msNavigationServiceProvider.saveItem('app.sample', {
             title    : 'Sample',
             icon     : 'icon-tile-four',
             state    : 'app.sample',
