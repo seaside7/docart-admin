@@ -15,7 +15,7 @@
 
     $translatePartialLoaderProvider.addPart('app/main/catalogs');
 
-    msNavigationServiceProvider.saveItem('docart.catalogs', {
+    msNavigationServiceProvider.saveItem('commerce.catalogs', {
             title    : 'Catalogs',
             icon     : 'icon-tag-multiple',
             state    : 'app.catalogs',

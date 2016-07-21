@@ -15,7 +15,7 @@
 
     $translatePartialLoaderProvider.addPart('app/main/orders');
 
-    msNavigationServiceProvider.saveItem('docart.orders', {
+    msNavigationServiceProvider.saveItem('commerce.orders', {
             title    : 'Orders',
             icon     : 'icon-cart',
             state    : 'app.orders',

@@ -7,7 +7,7 @@
     {
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/sample');
+        $urlRouterProvider.otherwise('/dashboard');
 
         /**
          * Layout Style Switcher

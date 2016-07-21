@@ -21,7 +21,7 @@
             'app.quick-panel',
 
             // Sample
-            'app.sample',
+            'app.dashboard',
 
             // Catalogs,
             'app.catalogs',

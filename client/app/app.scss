@@ -11,8 +11,8 @@
  */
 // injector
 @import 'client/app/core/scss/global';
-@import 'client/app/core/directives/ms-card/templates/template-1/template-1';
 @import 'client/app/core/directives/ms-card/templates/template-10/template-10';
+@import 'client/app/core/directives/ms-card/templates/template-1/template-1';
 @import 'client/app/core/directives/ms-card/templates/template-2/template-2';
 @import 'client/app/core/directives/ms-card/templates/template-3/template-3';
 @import 'client/app/core/directives/ms-card/templates/template-4/template-4';
@@ -26,8 +26,8 @@
 @import 'client/app/core/theme-options/theme-options';
 @import 'client/app/core/directives/ms-card/ms-card';
 @import 'client/app/core/directives/ms-form-wizard/ms-form-wizard';
-@import 'client/app/core/directives/ms-info-bar/ms-info-bar';
 @import 'client/app/core/directives/ms-masonry/ms-masonry';
+@import 'client/app/core/directives/ms-info-bar/ms-info-bar';
 @import 'client/app/core/directives/ms-material-color-picker/ms-material-color-picker';
 @import 'client/app/core/directives/ms-nav/ms-nav';
 @import 'client/app/core/directives/ms-navigation/ms-navigation';
@@ -41,12 +41,13 @@
 @import 'client/app/core/directives/ms-widget/ms-widget';
 @import 'client/app/quick-panel/quick-panel';
 @import 'client/app/toolbar/toolbar';
-@import 'client/app/main/catalogs/catalogs';
-@import 'client/app/main/orders/orders';
+@import 'client/app/main/dashboard/dashboard';
 @import 'client/app/main/products/products';
 @import 'client/app/main/suppliers/suppliers';
-@import 'client/app/navigation/layouts/vertical-navigation/navigation';
+@import 'client/app/main/catalogs/catalogs';
+@import 'client/app/main/orders/orders';
 @import 'client/app/navigation/layouts/horizontal-navigation/navigation';
+@import 'client/app/navigation/layouts/vertical-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';
 @import 'client/app/quick-panel/tabs/activity/activity-tab';
 @import 'client/app/quick-panel/tabs/chat/chat-tab';
