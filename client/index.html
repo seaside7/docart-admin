@@ -1,4 +1,5 @@
 <!doctype html>
+<html ng-app="fuse">
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -13,80 +14,135 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
+      <link rel="stylesheet" href="bower_components/perfect-scrollbar/css/perfect-scrollbar.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
-      <link rel="stylesheet" href="app/app.css">
+    <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
   </head>
-  <body ng-app="docartAdminApp">
-    <!--[if lt IE 7]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  
+  <!--[if lt IE 10]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+        your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <navbar></navbar>
-    <div ui-view=""></div>
-    <footer></footer>
+    <body md-theme="{{vm.themes.active.name}}" md-theme-watch ng-controller="IndexController as vm"
+          class="{{state.current.bodyClass || ''}}">
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        <!-- SPLASH SCREEN -->
+        <ms-splash-screen id="splash-screen">
+            <div class="center">
+                <div class="logo">
+                    <span>DC</span>
+                </div>
+                <!-- Material Design Spinner -->
+                <div class="spinner-wrapper">
+                    <div class="spinner">
+                        <div class="inner">
+                            <div class="gap"></div>
+                            <div class="left">
+                                <div class="half-circle"></div>
+                            </div>
+                            <div class="right">
+                                <div class="half-circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Material Design Spinner -->
+            </div>
+        </ms-splash-screen>
+        <!-- / SPLASH SCREEN -->
 
-      ga('create', 'UA-XXXXX-X');
-      ga('send', 'pageview');
-    </script>
+        <div id="main" class="animate-slide-up" ui-view="main" layout="column"></div>
 
-    <!--[if lt IE 9]>
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]-->
+        <ms-theme-options></ms-theme-options>
+
     <!-- build:js({client,node_modules}) app/vendor.js -->
       <!-- bower:js -->
       <script src="bower_components/jquery/dist/jquery.js"></script>
       <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-resource/angular-resource.js"></script>
+      <script src="bower_components/angular-animate/angular-animate.js"></script>
+      <script src="bower_components/angular-aria/angular-aria.js"></script>
       <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+      <script src="bower_components/angular-messages/angular-messages.js"></script>
+      <script src="bower_components/angular-material/angular-material.js"></script>
+      <script src="bower_components/angular-resource/angular-resource.js"></script>
       <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="bower_components/angular-translate/angular-translate.js"></script>
+      <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="bower_components/mobile-detect/mobile-detect.js"></script>
+      <script src="bower_components/moment/moment.js"></script>
+      <script src="bower_components/perfect-scrollbar/js/perfect-scrollbar.js"></script>
       <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-socket-io/socket.js"></script>
-      <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
       <!-- endbower -->
       <script src="socket.io-client/socket.io.js"></script>
     <!-- endbuild -->
     <!-- build:js(.tmp) app/app.js -->
-      <script src="app/app.js"></script>
+
       <!-- injector:js -->
-      <script src="app/admin/admin.module.js"></script>
-      <script src="components/auth/auth.module.js"></script>
-      <script src="components/util/util.module.js"></script>
-      <script src="app/account/account.js"></script>
-      <script src="app/account/login/login.controller.js"></script>
-      <script src="app/account/settings/settings.controller.js"></script>
-      <script src="app/account/signup/signup.controller.js"></script>
-      <script src="app/admin/admin.controller.js"></script>
-      <script src="app/admin/admin.router.js"></script>
+      <script src="app/app.module.js"></script>
+      <script src="app/core/core.module.js"></script>
+      <script src="app/main/sample/sample.module.js"></script>
+      <script src="app/navigation/navigation.module.js"></script>
+      <script src="app/quick-panel/quick-panel.module.js"></script>
+      <script src="app/toolbar/toolbar.module.js"></script>
+      <script src="app/app.api.js"></script>
+      <script src="app/app.config.js"></script>
       <script src="app/app.constant.js"></script>
+      <script src="app/app.constants.js"></script>
+      <script src="app/app.controller.js"></script>
+      <script src="app/app.route.js"></script>
+      <script src="app/app.run.js"></script>
+      <script src="app/core/config/fuse-config.provider.js"></script>
+      <script src="app/core/core.config.js"></script>
+      <script src="app/core/core.run.js"></script>
+      <script src="app/core/directives/highlight.directive.js"></script>
+      <script src="app/core/directives/ms-card/ms-card.directive.js"></script>
+      <script src="app/core/directives/ms-datepicker-fix/ms-datepicker-fix.directive.js"></script>
+      <script src="app/core/directives/ms-form-wizard/ms-form-wizard.directive.js"></script>
+      <script src="app/core/directives/ms-info-bar/ms-info-bar.directive.js"></script>
+      <script src="app/core/directives/ms-masonry/ms-masonry.directive.js"></script>
+      <script src="app/core/directives/ms-material-color-picker/ms-material-color-picker.directive.js"></script>
+      <script src="app/core/directives/ms-nav/ms-nav.directive.js"></script>
+      <script src="app/core/directives/ms-navigation/ms-navigation.directive.js"></script>
+      <script src="app/core/directives/ms-random-class/ms-random-class.directive.js"></script>
+      <script src="app/core/directives/ms-responsive-table/ms-responsive-table.directive.js"></script>
+      <script src="app/core/directives/ms-scroll/ms-scroll.directive.js"></script>
+      <script src="app/core/directives/ms-search-bar/ms-search-bar.directive.js"></script>
+      <script src="app/core/directives/ms-shortcuts/ms-shortcuts.directive.js"></script>
+      <script src="app/core/directives/ms-sidenav-helper/ms-sidenav-helper.directive.js"></script>
+      <script src="app/core/directives/ms-splash-screen/ms-splash-screen.directive.js"></script>
+      <script src="app/core/directives/ms-stepper/ms-stepper.directive.js"></script>
+      <script src="app/core/directives/ms-timeline/ms-timeline.js"></script>
+      <script src="app/core/directives/ms-widget/ms-widget.directive.js"></script>
+      <script src="app/core/filters/altDate.filter.js"></script>
+      <script src="app/core/filters/basic.filter.js"></script>
+      <script src="app/core/filters/filterByIds.filter.js"></script>
+      <script src="app/core/filters/filterByPropIds.filter.js"></script>
+      <script src="app/core/filters/tag.filter.js"></script>
+      <script src="app/core/services/api-resolver.service.js"></script>
+      <script src="app/core/services/ms-api.provider.js"></script>
+      <script src="app/core/services/ms-utils.service.js"></script>
+      <script src="app/core/theme-options/theme-options.directive.js"></script>
+      <script src="app/core/theming/fuse-generator.service.js"></script>
+      <script src="app/core/theming/fuse-palettes.constant.js"></script>
+      <script src="app/core/theming/fuse-themes.constant.js"></script>
+      <script src="app/core/theming/fuse-theming.config.js"></script>
+      <script src="app/core/theming/fuse-theming.service.js"></script>
       <script src="app/main/main.controller.js"></script>
-      <script src="app/main/main.js"></script>
-      <script src="components/auth/auth.service.js"></script>
-      <script src="components/auth/interceptor.service.js"></script>
-      <script src="components/auth/router.decorator.js"></script>
-      <script src="components/auth/user.service.js"></script>
-      <script src="components/footer/footer.directive.js"></script>
-      <script src="components/modal/modal.service.js"></script>
-      <script src="components/mongoose-error/mongoose-error.directive.js"></script>
-      <script src="components/navbar/navbar.controller.js"></script>
-      <script src="components/navbar/navbar.directive.js"></script>
-      <script src="components/socket/socket.service.js"></script>
-      <script src="components/util/util.service.js"></script>
+      <script src="app/main/sample/sample.controller.js"></script>
+      <script src="app/navigation/navigation.controller.js"></script>
+      <script src="app/quick-panel/quick-panel.controller.js"></script>
+      <script src="app/quick-panel/tabs/chat/chat-tab.controller.js"></script>
+      <script src="app/toolbar/toolbar.controller.js"></script>
       <!-- endinjector -->
     <!-- endbuild -->
   </body>

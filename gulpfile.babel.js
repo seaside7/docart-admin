@@ -30,7 +30,14 @@ const paths = {
             `${clientPath}/**/!(*.spec|*.mock).js`,
             `!${clientPath}/bower_components/**/*`
         ],
-        styles: [`${clientPath}/{app,components}/**/*.scss`],
+        //styles: [`${clientPath}/{app,components}/**/*.scss`],
+        styles: [
+            `${clientPath}/app/core/scss/**/*.scss`,
+            `${clientPath}/app/core/**/*.scss`,
+            `${clientPath}/app/**/*.scss`,
+            `!${clientPath}/app/main/components/material-docs/demo-partials/**/*.scss`,
+            `!${clientPath}/app/core/scss/partials/**/*.scss`
+        ],
         mainStyle: `${clientPath}/app/app.scss`,
         views: `${clientPath}/{app,components}/**/*.html`,
         mainView: `${clientPath}/index.html`,
@@ -220,12 +227,11 @@ gulp.task('inject:js', () => {
 gulp.task('inject:css', () => {
     return gulp.src(paths.client.mainView)
         .pipe(plugins.inject(
-            gulp.src(`${clientPath}/{app,components}/**/*.css`, {read: false})
-                .pipe(plugins.sort()),
+            gulp.src(`${clientPath}/{app,components}/**/*.css`, {read: false}),
             {
                 starttag: '<!-- injector:css -->',
                 endtag: '<!-- endinjector -->',
-                transform: (filepath) => '<link rel="stylesheet" href="' + filepath.replace(`/${clientPath}/`, '').replace('/.tmp/', '') + '">'
+                transform: (filepath) => '<link rel="stylesheet" href="' + filepath.replace(`/${clientPath}/`, '').replace('/.tmp/', '') + '">' + filepath + "????"
             }))
         .pipe(gulp.dest(clientPath));
 });
@@ -233,8 +239,7 @@ gulp.task('inject:css', () => {
 gulp.task('inject:scss', () => {
     return gulp.src(paths.client.mainStyle)
         .pipe(plugins.inject(
-            gulp.src(_.union(paths.client.styles, ['!' + paths.client.mainStyle]), {read: false})
-                .pipe(plugins.sort()),
+            gulp.src(_.union(paths.client.styles, ['!' + paths.client.mainStyle]), {read: false}),
             {
                 transform: (filepath) => {
                     let newPath = filepath
@@ -243,7 +248,10 @@ gulp.task('inject:scss', () => {
                         .replace(/_(.*).scss/, (match, p1, offset, string) => p1)
                         .replace('.scss', '');
                     return `@import '${newPath}';`;
-                }
+                },
+                starttag    : '// injector',
+                endtag      : '// endinjector',
+                addRootSlash: false
             }))
         .pipe(gulp.dest(`${clientPath}/app`));
 });
