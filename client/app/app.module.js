@@ -30,6 +30,9 @@
             'app.products',
 
             // Suppliers
-            'app.suppliers'
+            'app.suppliers',
+
+            // Orders
+            'app.orders'
         ]);
 })();

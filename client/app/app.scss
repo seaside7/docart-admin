@@ -11,8 +11,8 @@
  */
 // injector
 @import 'client/app/core/scss/global';
-@import 'client/app/core/directives/ms-card/templates/template-10/template-10';
 @import 'client/app/core/directives/ms-card/templates/template-1/template-1';
+@import 'client/app/core/directives/ms-card/templates/template-10/template-10';
 @import 'client/app/core/directives/ms-card/templates/template-2/template-2';
 @import 'client/app/core/directives/ms-card/templates/template-3/template-3';
 @import 'client/app/core/directives/ms-card/templates/template-4/template-4';
@@ -42,10 +42,11 @@
 @import 'client/app/quick-panel/quick-panel';
 @import 'client/app/toolbar/toolbar';
 @import 'client/app/main/catalogs/catalogs';
+@import 'client/app/main/orders/orders';
 @import 'client/app/main/products/products';
 @import 'client/app/main/suppliers/suppliers';
-@import 'client/app/navigation/layouts/horizontal-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation/navigation';
+@import 'client/app/navigation/layouts/horizontal-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';
 @import 'client/app/quick-panel/tabs/activity/activity-tab';
 @import 'client/app/quick-panel/tabs/chat/chat-tab';
