@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('app.sample', [])
-        .config(config);
-
     /** @ngInject */
     function config($stateProvider, $translatePartialLoaderProvider, msApiProvider, msNavigationServiceProvider)
     {
@@ -51,4 +47,9 @@
             weight   : 1
         });
     }
+
+    angular
+        .module('app.sample', [])
+        .config(config);
+    
 })();

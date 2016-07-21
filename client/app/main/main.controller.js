@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('fuse')
-        .controller('MainController', MainController);
-
     /** @ngInject */
     function MainController($scope, $rootScope)
     {
@@ -22,4 +18,9 @@
             }
         });
     }
+
+    angular
+        .module('fuse')
+        .controller('MainController', MainController);
+    
 })();

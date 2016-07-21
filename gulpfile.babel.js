@@ -20,6 +20,7 @@ import {Instrumenter} from 'isparta';
 var plugins = gulpLoadPlugins();
 var config;
 
+const useLint = false;
 const clientPath = require('./bower.json').appPath || 'client';
 const serverPath = 'server';
 const paths = {
@@ -373,8 +374,9 @@ gulp.task('watch', () => {
 });
 
 gulp.task('serve', cb => {
+    var injects = useLint ? ['lint:scripts', 'inject'] : ['inject']; 
     runSequence(['clean:tmp', 'constant', 'env:all'],
-        ['lint:scripts', 'inject'],
+        injects,
         ['wiredep:client'],
         ['transpile:client', 'styles'],
         ['start:server', 'start:client'],
@@ -392,8 +394,9 @@ gulp.task('serve:dist', cb => {
 });
 
 gulp.task('serve:debug', cb => {
+    var injects = useLint ? ['lint:scripts', 'inject'] : ['inject'];
     runSequence(['clean:tmp', 'constant'],
-        ['lint:scripts', 'inject'],
+        injects,
         ['wiredep:client'],
         ['transpile:client', 'styles'],
         'start:inspector',

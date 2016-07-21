@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('app.core')
-        .config(config);
-
     /** @ngInject */
     function config($ariaProvider, $logProvider, msScrollConfigProvider, $translateProvider, fuseConfigProvider)
     {
@@ -40,4 +36,8 @@
 
         /*eslint-enable */
     }
+
+    angular
+        .module('app.core')
+        .config(config);
 })();

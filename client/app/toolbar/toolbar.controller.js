@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('app.toolbar')
-        .controller('ToolbarController', ToolbarController);
-
     /** @ngInject */
     function ToolbarController($rootScope, $q, $state, $timeout, $mdSidenav, $translate, $mdToast, msNavigationService)
     {
@@ -242,5 +238,10 @@
             }
         }
     }
+
+    angular
+        .module('app.toolbar')
+        .controller('ToolbarController', ToolbarController);
+
 
 })();

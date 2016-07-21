@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('app.core')
-        .run(runBlock);
-
     /** @ngInject */
     function runBlock(msUtils, fuseGenerator, fuseConfig)
     {
@@ -43,4 +39,9 @@
             angular.element('html').addClass(htmlClass);
         }
     }
+
+    angular
+        .module('app.core')
+        .run(runBlock);
+    
 })();

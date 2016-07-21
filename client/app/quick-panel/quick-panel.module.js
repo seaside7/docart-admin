@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('app.quick-panel', [])
-        .config(config);
-
     /** @ngInject */
     function config($translatePartialLoaderProvider, msApiProvider)
     {
@@ -18,4 +14,9 @@
         msApiProvider.register('quickPanel.events', ['app/data/quick-panel/events.json']);
         msApiProvider.register('quickPanel.notes', ['app/data/quick-panel/notes.json']);
     }
+    
+    angular
+        .module('app.quick-panel', [])
+        .config(config);
+    
 })();

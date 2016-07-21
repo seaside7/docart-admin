@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('fuse')
-        .run(runBlock);
-
     /** @ngInject */
     function runBlock($rootScope, $timeout, $state)
     {
@@ -34,4 +30,9 @@
             stateChangeSuccessEvent();
         });
     }
+
+    angular
+        .module('fuse')
+        .run(runBlock);
+
 })();

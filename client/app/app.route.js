@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('fuse')
-        .config(routeConfig);
-
     /** @ngInject */
     function routeConfig($stateProvider, $urlRouterProvider, $locationProvider)
     {
@@ -93,5 +89,9 @@
                 }
             });
     }
+
+    angular
+        .module('fuse')
+        .config(routeConfig);
 
 })();

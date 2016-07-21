@@ -2,10 +2,6 @@
 {
     'use strict';
 
-    angular
-        .module('app.navigation')
-        .controller('NavigationController', NavigationController);
-
     /** @ngInject */
     function NavigationController($scope)
     {
@@ -37,5 +33,9 @@
             vm.bodyEl.removeClass('ms-navigation-horizontal-mobile-menu-active');
         });
     }
+
+    angular
+        .module('app.navigation')
+        .controller('NavigationController', NavigationController);
 
 })();
