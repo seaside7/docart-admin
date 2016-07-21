@@ -16,16 +16,17 @@
 
             .logo-image {
                 display: block;
-                background: material-color('light-blue', '600');
-                width: 32px;
-                min-width: 32px;
+                background: material-color('light-blue', '50');
+                width: 36px;
+                min-width: 36px;
                 height: 32px;
-                line-height: 32px;
+                line-height: 36px;
                 text-align: center;
                 font-size: 16px;
                 font-weight: 500;
                 color: #FFFFFF;
                 border-radius: 2px;
+                padding-top: 3px;
             }
 
             .logo-text {
