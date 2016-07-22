@@ -1,0 +1,144 @@
+<div id="e-commerce-products" class="page-layout carded fullwidth" layout="row">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg md-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <!-- CONTENT HEADER -->
+        <div class="header" layout="row" layout-align="space-between center">
+            <div class="white-fg" layout="column" layout-align="start start">
+                <div class="h1" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-cube-outline"></md-icon>
+                    <span translate="EC.PRODUCTS">Products</span>
+                </div>
+                <div class="product-count secondary-text">
+                    <span translate="EC.TOTAL_PRODUCTS">Total products:</span>
+                    <span>{{vm.products.length}}</span>
+                </div>
+            </div>
+
+            <div class="search" layout="row" layout-align="start center" flex>
+                <md-icon md-font-icon="icon-magnify" class="white-text icon search-icon"></md-icon>
+                <input id="e-commerce-products-search" class="search-input" type="text" placeholder="Search"
+                       translate translate-attr-placeholder="EC.SEARCH" flex>
+            </div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        
+        <div class="content-card" layout="column" flex>
+
+            <!-- CONTENT TOOLBAR -->
+
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->            
+            <div class="content fullpage-datatable" layout="column" flex>
+<!--
+                <mdt-table >
+                    <mdt-header-row>
+                        <mdt-column>No</mdt-column>
+                        <mdt-column>Image</mdt-column>
+                        <mdt-column>Name</mdt-column>
+                        <mdt-column>Category</mdt-column>
+                        <mdt-column>Price</mdt-column>
+                        <mdt-column>Quantity</mdt-column>
+                        <mdt-column>Active</mdt-column>
+                        <mdt-column>Actions</mdt-column>
+                    </mdt-header-row>
+                    <mdt-row ng-repeat="product in ::vm.products">
+                        <mdt-cell>{{$index+1}}</mdt-cell>
+                        <mdt-cell><img class="product-image" ng-src="{{product.image}}"></mdt-cell>
+                        <mdt-cell>{{product.name}}</mdt-cell>
+                        <mdt-cell>{{product.category}}</mdt-cell>
+                        <mdt-cell>{{product.price}}</mdt-cell>
+                        <mdt-cell>{{product.quantity}}</mdt-cell>
+                        <mdt-cell>{{product.active}}</mdt-cell>
+                        <mdt-cell>asd
+                            <md-button class="edit-button md-icon-button" ng-click="vm.gotoProductDetail(product.id)" aria-label="Product details"
+                                        translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
+                                <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
+                            </md-button>
+                        </mdt-cell>
+                    </mdt-row>
+                </mdt-table>
+                -->
+
+                <table class="dataTable row-border hover" datatable="ng" dt-instance="vm.dtInstance"
+                       dt-options="vm.dtOptions">
+                    <thead>
+                        <tr>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">ID</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Image</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Name</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Category</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Price</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Quantity</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Active</span>
+                                </div>
+                            </th>
+                            <th class="secondary-text">
+                                <div class="table-header">
+                                    <span class="column-title">Actions</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="product in ::vm.products">
+                            <td>{{product.id}}</td>
+                            <td><img class="product-image" ng-src="{{product.image}}"></td>
+                            <td>{{product.name}}</td>
+                            <td>{{product.category}}</td>
+                            <td>{{product.price}}</td>
+                            <td>{{product.quantity}}</td>
+                            <td>{{product.active}}</td>
+                            <td>
+                                <md-button class="edit-button md-icon-button" ng-click="vm.gotoProductDetail(product.id)" aria-label="Product details"
+                                           translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
+                                    <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
+                                </md-button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

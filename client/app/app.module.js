@@ -8,6 +8,9 @@
     angular
         .module('fuse', [
 
+            // mdDataTable,
+            'mdDataTable',
+            
             // Core
             'app.core',
 
