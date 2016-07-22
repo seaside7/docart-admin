@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/things              ->  index
- * POST    /api/things              ->  create
- * GET     /api/things/:id          ->  show
- * PUT     /api/things/:id          ->  update
- * DELETE  /api/things/:id          ->  destroy
+ * GET     /api/categories              ->  index
+ * POST    /api/categories              ->  create
+ * GET     /api/categories/:id          ->  show
+ * PUT     /api/categories/:id          ->  update
+ * DELETE  /api/categories/:id          ->  destroy
  */
 
 'use strict';
 
 import _ from 'lodash';
-import Thing from './thing.model';
+import Category from './category.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -59,43 +59,47 @@ function handleError(res, statusCode) {
   };
 }
 
-// Gets a list of Things
+// Gets a list of Categories
 export function index(req, res) {
-  return Thing.find().exec()
+  return Category.find({ancestors: []})
+    .populate({path: 'children ancestors', populate: {path: 'children ancestors'}})
+    .exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Gets a single Thing from the DB
+// Gets a single Categories from the DB
 export function show(req, res) {
-  return Thing.findById(req.params.id).exec()
+  return Category.find({ancestors: []})
+    .populate({path: 'children ancestors', populate: {path: 'children ancestors'}})
+    .exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Creates a new Thing in the DB
+// Creates a new Categories in the DB
 export function create(req, res) {
-  return Thing.create(req.body)
+  return Category.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Updates an existing Thing in the DB
+// Updates an existing Categories in the DB
 export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  return Thing.findById(req.params.id).exec()
+  return Category.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Deletes a Thing from the DB
+// Deletes a Categories from the DB
 export function destroy(req, res) {
-  return Thing.findById(req.params.id).exec()
+  return Category.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

@@ -6,7 +6,7 @@ module.exports = {
 
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/docartadmin-dev'
+    uri: 'mongodb://localhost/docart-dev'
   },
 
   // Seed database on startup
