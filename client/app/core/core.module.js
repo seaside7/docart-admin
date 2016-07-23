@@ -25,6 +25,7 @@
                 'ui.sortable',
                 'ng-sortable',
                 'xeditable',
-                'moment-picker'
+                'moment-picker',
+                'mdDataTable'
             ]);
 })();

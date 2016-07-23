@@ -22,7 +22,7 @@
     msApiProvider.register('ecommerce.products', ['app/data/products/products.json']);
 
     $translatePartialLoaderProvider.addPart('app/main/ecommerce/products');
-    msNavigationServiceProvider.saveItem('commerce.products', {
+    msNavigationServiceProvider.saveItem('ecommerce.products', {
             title    : 'Products',
             icon     : 'icon-basket',
             state    : 'app.products',

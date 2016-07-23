@@ -78,6 +78,15 @@
         "css/perfect-scrollbar.css",
         "js/perfect-scrollbar.js"
       ]
+    },
+    "Sortable": {
+      "main": [
+        "Sortable.js",
+        "ng-sortable.js"
+      ]
+    },
+    "font-awesome": {
+      "main": []
     }
   }
 }

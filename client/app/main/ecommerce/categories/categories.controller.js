@@ -2,14 +2,14 @@
 
     'use strict';
 
-    function ProductsController($state, Products) {
+    function CategoriesController() {
         var vm = this;
 
         // Data
-        vm.products = Products.data;
+        //vm.categories = Categories;
 
-        console.log(vm.products);
-
+        //console.log(vm.categories);
+/*
         vm.dtInstance = {};
         vm.dtOptions = {
             dom: 'rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
@@ -21,33 +21,14 @@
                 },
                 {
                     // Target the image column
-                    targets: 1,
+                    targets: 2,
                     filterable: false,
                     sortable: false,
                     width: '80px'
                 },
                 {
-                    // Target the quantity column
-                    targets: 5,
-                    render: function (data, type) {
-                        if (type === 'display') {
-                            if (parseInt(data) <= 5) {
-                                return '<div class="quantity-indicator md-red-500-bg"></div><div>' + data + '</div>';
-                            }
-                            else if (parseInt(data) > 5 && parseInt(data) <= 25) {
-                                return '<div class="quantity-indicator md-amber-500-bg"></div><div>' + data + '</div>';
-                            }
-                            else {
-                                return '<div class="quantity-indicator md-green-600-bg"></div><div>' + data + '</div>';
-                            }
-                        }
-
-                        return data;
-                    }
-                },
-                {
                     // Target the status column
-                    targets: 6,
+                    targets: 3,
                     filterable: false,
                     render: function (data, type) {
                         if (type === 'display') {
@@ -55,7 +36,7 @@
                                 return '<i class="icon-checkbox-marked-circle green-500-fg"></i>';
                             }
 
-                            return '<i class="icon-cancel red-500-fg"></i>';
+                            return '<i class="icon-cancel red-400-fg"></i>';
                         }
 
                         if (type === 'filter') {
@@ -71,7 +52,7 @@
                 },
                 {
                     // Target the actions column
-                    targets: 7,
+                    targets: 4,
                     responsivePriority: 1,
                     filterable: false,
                     sortable: false
@@ -88,30 +69,21 @@
                     });
                 }
             },
-            pagingType: 'simple',
+            pagingType: 'full_numbers', 
             lengthMenu: [10, 20, 30, 50, 100],
             pageLength: 20,
             scrollY: 'auto',
-            responsive: true
+            responsive: true,
+            serverSide: true,
+            dataProp: 'data'
         };
-
+*/
         // Methods
-        vm.gotoProductDetail = gotoProductDetail;
-
-        //////////
-
-        /**
-         * Go to product detail
-         *
-         * @param id
-         */
-        function gotoProductDetail(id) {
-            $state.go('app.e-commerce.products.detail', { id: id });
-        }
+        
     }
 
     angular
-        .module('app.products')
-        .controller('ProductsController', ProductsController);
+        .module('app.categories')
+        .controller('CategoriesController', CategoriesController);
 
 })();

@@ -1,0 +1,18 @@
+{
+    "CATEGORIES": {
+        "CATEGORIES_NAV": "Categories"
+    },
+    "EC": {
+        "ADD_CATEGORY": "Add Categiry",
+        "TOTAL_CATEGORY": "Total Categories:",
+        "CATEGORIES": "Categories",
+        "SEARCH": "Search",
+        "GO_TO_CATEGORIES": "Go to categories",
+        "EDIT": "Edit",
+        "SAVE": "Save",
+        "CATEGORY_NAME": "Category Name",
+        "CATEGORY_DELETE": "Delete Category",
+        "TAGS": "Tags",
+        "STATUS": "Status"
+    }
+}

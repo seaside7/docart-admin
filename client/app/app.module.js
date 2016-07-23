@@ -8,9 +8,6 @@
     angular
         .module('fuse', [
 
-            // mdDataTable,
-            'mdDataTable',
-            
             // Core
             'app.core',
 
@@ -27,7 +24,7 @@
             'app.dashboard',
 
             // Catalogs,
-            'app.catalogs',
+            'app.categories',
 
             // Products,
             'app.products',

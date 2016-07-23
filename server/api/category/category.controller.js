@@ -61,9 +61,11 @@ function handleError(res, statusCode) {
 
 // Gets a list of Categories
 export function index(req, res) {
-  return Category.find({ancestors: []})
-    .populate({path: 'children ancestors', populate: {path: 'children ancestors'}})
-    .exec()
+  var query = req.params.search ? { $text: { $search: req.params.search || '' } } : {};
+  var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
+  options.populate = {path: 'children ancestors', populate: {path: 'children ancestors'}}
+
+  return Category.paginate(query, options)
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

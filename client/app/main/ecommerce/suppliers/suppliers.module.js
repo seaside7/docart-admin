@@ -16,13 +16,13 @@
     $translatePartialLoaderProvider.addPart('app/main/ecommerce/suppliers');
 
     // Navigation
-    msNavigationServiceProvider.saveItem('commerce', {
-            title : 'Commerce',
+    msNavigationServiceProvider.saveItem('ecommerce', {
+            title : 'eCommerce',
             group : true,
             weight: 1
         });
 
-    msNavigationServiceProvider.saveItem('commerce.suppliers', {
+    msNavigationServiceProvider.saveItem('ecommerce.suppliers', {
             title    : 'Suppliers',
             icon     : 'icon-truck',
             state    : 'app.suppliers',
