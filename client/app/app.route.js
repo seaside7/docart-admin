@@ -7,7 +7,12 @@
     {
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/dashboard');
+        $urlRouterProvider.otherwise('/suppliers');
+        /*$urlRouterProvider.otherwise(function($injector, $location) {
+            var $state = $injector.get("$state");
+            console.log($state);
+            $state.go("app.dashboard");
+        });*/
 
         /**
          * Layout Style Switcher

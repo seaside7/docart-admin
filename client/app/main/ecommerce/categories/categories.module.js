@@ -11,7 +11,8 @@
                 controller : 'CategoriesController',
                 controllerAs: 'vm'
             }
-        }
+        },
+        authenticate: true,
     });
 
     $translatePartialLoaderProvider.addPart('app/main/ecommerce/categories');

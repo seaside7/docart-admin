@@ -36,11 +36,21 @@
                     </div>
                 </md-input-container>
 
+                <div ng-show="vm.loading" layout="row" layout-sm="column" layout-align="space-around">
+                    <md-progress-circular class="md-accent md-hue-1" md-mode="indeterminate" md-diameter="30px"></md-progress-circular>
+                </div>
+
+                <div ng-show="vm.failed" layout="row" layout-align="center center">
+                    <span class="h6 red-fg">Authentication failed, please try again!</span>
+                </div>
+                
+
                 <md-button type="submit" class="md-raised md-accent submit-button" aria-label="LOG IN"
                            ng-disabled="loginForm.$invalid || loginForm.$pristine"
                            translate="LOGIN.LOG_IN" translate-attr-aria-label="LOGIN.LOG_IN">
                     LOG IN
                 </md-button>
+
             </form>
 
         </div>

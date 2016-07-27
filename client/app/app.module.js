@@ -20,6 +20,9 @@
             // Quick panel
             'app.quick-panel',
 
+            // Auth
+            'app.auth',
+
             // Login
             'app.login',
 

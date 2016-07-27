@@ -3,5 +3,13 @@
     'use strict';
 
     angular
-        .module('fuse');
+        .module('fuse')
+        .constant("appConfig", {
+            "userRoles": [
+                "guest",
+                "user",
+                "admin"
+            ]
+        });
+        
 })();

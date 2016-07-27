@@ -10,7 +10,8 @@
                 templateUrl: 'app/main/ecommerce/dashboard/dashboard.html',
                 controller : 'DashboardController as vm'
             }
-        }
+        },
+        authenticate: true,
     });
 
     $translatePartialLoaderProvider.addPart('app/main/ecommerce/dashboard');

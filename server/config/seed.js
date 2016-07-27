@@ -104,14 +104,14 @@ User.find({}).remove()
     User.create({
       provider: 'local',
       name: 'Test User',
-      email: 'test@example.com',
-      password: 'test'
+      email: 'test@docart.com',
+      password: 'test123'
     }, {
         provider: 'local',
         role: 'admin',
         name: 'Admin',
-        email: 'admin@example.com',
-        password: 'admin'
+        email: 'admin@docart.com',
+        password: 'admin123'
       })
       .then(() => {
         console.log('finished populating users');
