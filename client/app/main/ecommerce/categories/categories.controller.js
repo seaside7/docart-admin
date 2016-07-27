@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function CategoriesController($http) {
+    function CategoriesController($http, $mdDialog) {
         var vm = this;
         var started = false;
     
@@ -69,7 +69,19 @@
          * @param {Category} data
          */
         function deleteData(data) {
-            console.log(data);
+            var confirm = $mdDialog.confirm()
+                .title('Delete')
+                .textContent('Are you sure you want to delete the category?')
+                .ariaLabel('Lucky day')
+                .ok('Yes')
+                .cancel('No');
+
+            $mdDialog.show(confirm).then(function() {
+                $http.delete("/api/categories/" + data._id)
+                    .then(function() {
+                        reloadData();
+                    })
+            });
         }
 
 

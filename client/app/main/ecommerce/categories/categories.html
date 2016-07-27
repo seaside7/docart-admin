@@ -16,7 +16,13 @@
                 </div>
             </div>
 
+            <div layout="row" layout-align="start start">
+                <md-button class="md-fab md-warn md-red-bg" aria-label="Create Category">
+                    <md-icon md-font-icon="icon-plus"></md-icon>
+                </md-button>
+            </div>
         </div>
+        
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
@@ -24,12 +30,13 @@
         <div class="content-card" layout="column" flex>
 
             <!-- CONTENT TOOLBAR -->
-            
+
             <div class="toolbar" layout="row" layout-align="end center">
-                
+
                 <div class="search" layout="row" layout-align="start center">
                     <md-icon md-font-icon="icon-magnify" class="icon search-icon"></md-icon>
-                    <input id="e-commerce-categories-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="EC.SEARCH" flex>
+                    <input id="e-commerce-categories-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="EC.SEARCH"
+                        flex>
                 </div>
             </div>
 
@@ -38,48 +45,42 @@
             <!-- CONTENT -->
             <div class="content fullpage-datatable table-responsive" layout="column" flex>
 
-                <md-content layout="column" flex>
-                    
-                    <md-table-container>
-                        <table md-table>
-                            <thead md-head md-order="vm.query.order" md-on-reorder="vm.onReorder">
-                                <tr md-row>
-                                    <th md-column><span>No</span></th>
-                                    <th md-column md-order-by="name"><span>Name</span></th>
-                                    <th md-column md-numeric><span>Sub Categories</span></th>
-                                    <th md-column><span>Image</span></th>
-                                    <th md-column><span>Active</span></th>
-                                    <th md-column class="text-center"><span>Actions</span></th>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody md-body>
-                                <tr md-row ng-repeat="category in vm.categories">
-                                    <td md-cell>{{$index+1}}</td>
-                                    <td md-cell>{{category.name}}</td>
-                                    <td md-cell>{{category.children ? category.children.length : 0}}</td>
-                                    <td md-cell><img class="product-image" ng-src="{{category.image}}"></td>
-                                    <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"><i class="icon-cancel red-500-fg" ng-show="!category.active"></i></td>
-                                    <td md-cell>
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(category)" aria-label="Category details"
-                                           translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
-                                            <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
-                                        </md-button>
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(category)" aria-label="Delete category"
-                                                translate translate-attr-aria-label="EC.PRODUCT_DELETE">
-                                            <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
-                                        </md-button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </md-table-container>
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head md-order="vm.query.order" md-on-reorder="vm.onReorder">
+                            <tr md-row>
+                                <th md-column><span>No</span></th>
+                                <th md-column md-order-by="name"><span>Name</span></th>
+                                <th md-column md-numeric><span>Sub Categories</span></th>
+                                <th md-column><span>Image</span></th>
+                                <th md-column><span>Active</span></th>
+                                <th md-column class="text-center"><span>Actions</span></th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row ng-repeat="category in vm.categories">
+                                <td md-cell>{{$index+1}}</td>
+                                <td md-cell>{{category.name}}</td>
+                                <td md-cell>{{category.children ? category.children.length : 0}}</td>
+                                <td md-cell><img class="product-image" ng-src="{{category.image}}"></td>
+                                <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"><i class="icon-cancel red-500-fg" ng-show="!category.active"></i></td>
+                                <td md-cell>
+                                    <md-button class="edit-button md-icon-button" ng-click="vm.editData(category)" aria-label="Category details" translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
+                                        <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
+                                    </md-button>
+                                    <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(category)" aria-label="Delete category" translate translate-attr-aria-label="EC.PRODUCT_DELETE">
+                                        <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
+                                    </md-button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
 
-                    
-                    <md-table-pagination md-limit="vm.query.limit" md-limit-options="vm.limitOptions" md-page="vm.query.page" md-total="{{vm.totalData}}"
-                        md-page-select="true" md-boundary-links="true" md-on-paginate="vm.onPaginate"></md-table-pagination>
 
-                </md-content>
+                <md-table-pagination md-limit="vm.query.limit" md-limit-options="vm.limitOptions" md-page="vm.query.page" md-total="{{vm.totalData}}"
+                    md-page-select="true" md-boundary-links="true" md-on-paginate="vm.onPaginate"></md-table-pagination>
 
             </div>
             <!-- / CONTENT -->
