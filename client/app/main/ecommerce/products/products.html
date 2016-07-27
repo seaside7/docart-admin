@@ -38,36 +38,7 @@
 
             <!-- CONTENT -->            
             <div class="content fullpage-datatable" layout="column" flex>
-<!--
-                <mdt-table >
-                    <mdt-header-row>
-                        <mdt-column>No</mdt-column>
-                        <mdt-column>Image</mdt-column>
-                        <mdt-column>Name</mdt-column>
-                        <mdt-column>Category</mdt-column>
-                        <mdt-column>Price</mdt-column>
-                        <mdt-column>Quantity</mdt-column>
-                        <mdt-column>Active</mdt-column>
-                        <mdt-column>Actions</mdt-column>
-                    </mdt-header-row>
-                    <mdt-row ng-repeat="product in ::vm.products">
-                        <mdt-cell>{{$index+1}}</mdt-cell>
-                        <mdt-cell><img class="product-image" ng-src="{{product.image}}"></mdt-cell>
-                        <mdt-cell>{{product.name}}</mdt-cell>
-                        <mdt-cell>{{product.category}}</mdt-cell>
-                        <mdt-cell>{{product.price}}</mdt-cell>
-                        <mdt-cell>{{product.quantity}}</mdt-cell>
-                        <mdt-cell>{{product.active}}</mdt-cell>
-                        <mdt-cell>asd
-                            <md-button class="edit-button md-icon-button" ng-click="vm.gotoProductDetail(product.id)" aria-label="Product details"
-                                        translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
-                                <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
-                            </md-button>
-                        </mdt-cell>
-                    </mdt-row>
-                </mdt-table>
-                -->
-
+                
                 <table class="dataTable row-border hover" datatable="ng" dt-instance="vm.dtInstance"
                        dt-options="vm.dtOptions">
                     <thead>

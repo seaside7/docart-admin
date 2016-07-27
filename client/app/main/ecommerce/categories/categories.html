@@ -1,4 +1,4 @@
-<div id="e-commerce-products" class="page-layout carded fullwidth" layout="row">
+<div id="e-commerce-categories" class="page-layout carded fullwidth" layout="row">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg md-accent-bg"></div>
@@ -16,103 +16,71 @@
                 </div>
             </div>
 
-            <div class="search" layout="row" layout-align="start center" flex>
-                <md-icon md-font-icon="icon-magnify" class="white-text icon search-icon"></md-icon>
-                <input id="e-commerce-products-search" class="search-input" type="text" placeholder="Search"
-                       translate translate-attr-placeholder="EC.SEARCH" flex>
-            </div>
         </div>
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
-        
+
         <div class="content-card" layout="column" flex>
 
             <!-- CONTENT TOOLBAR -->
+            
+            <div class="toolbar" layout="row" layout-align="end center">
+                
+                <div class="search" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-magnify" class="icon search-icon"></md-icon>
+                    <input id="e-commerce-categories-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="EC.SEARCH" flex>
+                </div>
+            </div>
 
             <!-- / CONTENT TOOLBAR -->
 
-            <!-- CONTENT -->            
-            <div class="content fullpage-datatable" layout="column" flex>
+            <!-- CONTENT -->
+            <div class="content fullpage-datatable table-responsive" layout="column" flex>
 
-                <mdt-table >
-                    <mdt-header-row>
-                        <mdt-column>Number</mdt-column>
-                        <mdt-column>Image</mdt-column>
-                        <mdt-column>Name</mdt-column>
-                        <mdt-column>Active</mdt-column>
-                        <mdt-column>Actions</mdt-column>
-                    </mdt-header-row>
-                    <mdt-row ng-repeat="cat in ::vm.categories">
-                        <mdt-cell>{{$index+1}}</mdt-cell>
-                        <mdt-cell><img class="product-image" ng-src="{{product.image}}"></mdt-cell>
-                        <mdt-cell>{{cat.name}}</mdt-cell>
-                        <mdt-cell>{{product.category}}</mdt-cell>
-                        <mdt-cell>{{product.price}}</mdt-cell>
-                        <mdt-cell>{{product.quantity}}</mdt-cell>
-                        <mdt-cell>{{product.active}}</mdt-cell>
-                        <mdt-cell>asd
-                            <md-button class="edit-button md-icon-button" ng-click="vm.gotoProductDetail(product.id)" aria-label="Product details"
-                                        translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
-                                <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
-                            </md-button>
-                        </mdt-cell>
-                    </mdt-row>
-                </mdt-table>
-
-<!--
-                <table class="dataTable row-border hover" dt-instance="vm.dtInstance"
-                       dt-options="vm.dtOptions">
-                    <thead>
-                        <tr>
-                            <th class="secondary-text">
-                                <div class="table-header">
-                                    <span class="column-title">No</span>
-                                </div>
-                            </th>
-                            <th class="secondary-text">
-                                <div class="table-header">
-                                    <span class="column-title">Name</span>
-                                </div>
-                            </th>
-                            <th class="secondary-text">
-                                <div class="table-header">
-                                    <span class="column-title">Image</span>
-                                </div>
-                            </th>
-                            <th class="secondary-text">
-                                <div class="table-header">
-                                    <span class="column-title">Active</span>
-                                </div>
-                            </th>
-                            <th class="secondary-text">
-                                <div class="table-header">
-                                    <span class="column-title">Actions</span>
-                                </div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="category in ::vm.categories">
-                            <td>{{$index+1}}</td>
-                            <td>{{category.name}}</td>
-                            <td><img class="product-image" ng-src="{{category.image}}"></td>
-                            <td>{{product.active}}</td>
-                            <td>
-                                <md-button class="edit-button md-icon-button" ng-click="vm.gotoProductDetail(product.id)" aria-label="Category details"
+                <md-content layout="column" flex>
+                    
+                    <md-table-container>
+                        <table md-table>
+                            <thead md-head md-order="vm.query.order" md-on-reorder="vm.onReorder">
+                                <tr md-row>
+                                    <th md-column><span>No</span></th>
+                                    <th md-column md-order-by="name"><span>Name</span></th>
+                                    <th md-column md-numeric><span>Sub Categories</span></th>
+                                    <th md-column><span>Image</span></th>
+                                    <th md-column><span>Active</span></th>
+                                    <th md-column class="text-center"><span>Actions</span></th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody md-body>
+                                <tr md-row ng-repeat="category in vm.categories">
+                                    <td md-cell>{{$index+1}}</td>
+                                    <td md-cell>{{category.name}}</td>
+                                    <td md-cell>{{category.children ? category.children.length : 0}}</td>
+                                    <td md-cell><img class="product-image" ng-src="{{category.image}}"></td>
+                                    <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"><i class="icon-cancel red-500-fg" ng-show="!category.active"></i></td>
+                                    <td md-cell>
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(category)" aria-label="Category details"
                                            translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
-                                    <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
-                                </md-button>
-                                <md-button class="edit-button md-icon-button" ng-click="vm.gotoProductDetail(product.id)" aria-label="Delete category"
-                                           translate translate-attr-aria-label="EC.PRODUCT_DELETE">
-                                    <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
-                                </md-button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                            <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
+                                        </md-button>
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(category)" aria-label="Delete category"
+                                                translate translate-attr-aria-label="EC.PRODUCT_DELETE">
+                                            <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
+                                        </md-button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
 
-                -->
+                    
+                    <md-table-pagination md-limit="vm.query.limit" md-limit-options="vm.limitOptions" md-page="vm.query.page" md-total="{{vm.totalData}}"
+                        md-page-select="true" md-boundary-links="true" md-on-paginate="vm.onPaginate"></md-table-pagination>
+
+                </md-content>
+
             </div>
             <!-- / CONTENT -->
 

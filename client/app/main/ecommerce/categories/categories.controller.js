@@ -2,84 +2,99 @@
 
     'use strict';
 
-    function CategoriesController() {
+    function CategoriesController($http) {
         var vm = this;
-
+        var started = false;
+    
         // Data
-        //vm.categories = Categories;
-
-        //console.log(vm.categories);
-/*
-        vm.dtInstance = {};
-        vm.dtOptions = {
-            dom: 'rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-            columnDefs: [
-                {
-                    // Target the id column
-                    targets: 0,
-                    width: '72px'
-                },
-                {
-                    // Target the image column
-                    targets: 2,
-                    filterable: false,
-                    sortable: false,
-                    width: '80px'
-                },
-                {
-                    // Target the status column
-                    targets: 3,
-                    filterable: false,
-                    render: function (data, type) {
-                        if (type === 'display') {
-                            if (data === 'true') {
-                                return '<i class="icon-checkbox-marked-circle green-500-fg"></i>';
-                            }
-
-                            return '<i class="icon-cancel red-400-fg"></i>';
-                        }
-
-                        if (type === 'filter') {
-                            if (data) {
-                                return '1';
-                            }
-
-                            return '0';
-                        }
-
-                        return data;
-                    }
-                },
-                {
-                    // Target the actions column
-                    targets: 4,
-                    responsivePriority: 1,
-                    filterable: false,
-                    sortable: false
-                }
-            ],
-            initComplete: function () {
-                var api = this.api(),
-                    searchBox = angular.element('body').find('#e-commerce-products-search');
-
-                // Bind an external input as a table wide search box
-                if (searchBox.length > 0) {
-                    searchBox.on('keyup', function (event) {
-                        api.search(event.target.value).draw();
-                    });
-                }
-            },
-            pagingType: 'full_numbers', 
-            lengthMenu: [10, 20, 30, 50, 100],
-            pageLength: 20,
-            scrollY: 'auto',
-            responsive: true,
-            serverSide: true,
-            dataProp: 'data'
+        vm.limitOptions = [5, 10, 25, 50, 100];
+        vm.totalData = 0;
+        vm.query = {
+            order: 'name', limit: 25, page: 1, search: '', sort: ''
         };
-*/
+
         // Methods
+        vm.reloadData = reloadData;
+        vm.editData = editData;
+        vm.deleteData = deleteData;
+        vm.onPaginate = onPaginate;
+        vm.onReorder = onReorder;
         
+        // reload at startup
+        reloadData();
+        
+        var searchBox = angular.element('body').find('#e-commerce-categories-search');
+
+        // Bind an external input as a table wide search box
+        if (searchBox.length > 0) {
+            searchBox.on('keyup', function (event) {
+                var term = event.target.value.trim();
+                if (vm.query.search !== term) {
+                    vm.query.search = term;
+                    vm.reloadData();
+                }
+            });
+        }
+
+        /**
+         * reloadData
+         */
+        function reloadData() {
+            $http({
+                method: 'GET', 
+                url: '/api/categories', 
+                params: { offset: (vm.query.page - 1) * vm.query.limit, limit: vm.query.limit, search: vm.query.search, sort: vm.query.sort }
+            })
+                .then(function(response) {
+                    console.log(response.data);
+
+                    vm.categories = response.data.docs;
+                    vm.totalData = response.data.total;
+                })
+        }
+
+        
+        /**
+         * editData
+         * 
+         * @param {Category} data
+         */
+        function editData(data) {
+            console.log(data);
+        }
+
+        /**
+         * Delete data
+         * 
+         * @param {Category} data
+         */
+        function deleteData(data) {
+            console.log(data);
+        }
+
+
+        /**
+         * Fired when user change page
+         * 
+         * @param {number} page
+         * @param {number} limit
+         */
+        function onPaginate(page, limit) {
+            vm.query.page = page;
+            vm.query.limit = limit;
+            reloadData();
+        }
+
+        /**
+         * Fired when user re order column
+         * 
+         * @param {any} order
+         */
+        function onReorder(order) {
+            console.log(order);
+            vm.query.sort = order;
+            reloadData();
+        }
     }
 
     angular

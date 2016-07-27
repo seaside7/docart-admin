@@ -11,8 +11,8 @@
  */
 // injector
 @import 'client/app/core/scss/global';
-@import 'client/app/core/directives/ms-card/templates/template-1/template-1';
 @import 'client/app/core/directives/ms-card/templates/template-10/template-10';
+@import 'client/app/core/directives/ms-card/templates/template-1/template-1';
 @import 'client/app/core/directives/ms-card/templates/template-2/template-2';
 @import 'client/app/core/directives/ms-card/templates/template-3/template-3';
 @import 'client/app/core/directives/ms-card/templates/template-4/template-4';
@@ -41,16 +41,16 @@
 @import 'client/app/core/directives/ms-widget/ms-widget';
 @import 'client/app/quick-panel/quick-panel';
 @import 'client/app/toolbar/toolbar';
-@import 'client/app/main/pages/coming-soon/coming-soon';
-@import 'client/app/main/pages/maintenance/maintenance';
-@import 'client/app/main/pages/profile/profile';
-@import 'client/app/main/pages/search/search';
-@import 'client/app/main/pages/timeline/timeline';
 @import 'client/app/main/ecommerce/categories/categories';
 @import 'client/app/main/ecommerce/dashboard/dashboard';
 @import 'client/app/main/ecommerce/orders/orders';
 @import 'client/app/main/ecommerce/products/products';
 @import 'client/app/main/ecommerce/suppliers/suppliers';
+@import 'client/app/main/pages/coming-soon/coming-soon';
+@import 'client/app/main/pages/maintenance/maintenance';
+@import 'client/app/main/pages/profile/profile';
+@import 'client/app/main/pages/search/search';
+@import 'client/app/main/pages/timeline/timeline';
 @import 'client/app/navigation/layouts/horizontal-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';

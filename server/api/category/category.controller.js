@@ -61,9 +61,10 @@ function handleError(res, statusCode) {
 
 // Gets a list of Categories
 export function index(req, res) {
-  var query = req.params.search ? { $text: { $search: req.params.search || '' } } : {};
+  var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") } } : {};
   var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
   options.populate = {path: 'children ancestors', populate: {path: 'children ancestors'}}
+  options.sort = req.query.sort;
 
   return Category.paginate(query, options)
     .then(respondWithResult(res))
@@ -73,6 +74,16 @@ export function index(req, res) {
 // Gets a single Categories from the DB
 export function show(req, res) {
   return Category.find({ancestors: []})
+    .populate({path: 'children ancestors', populate: {path: 'children ancestors'}})
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a sub Categories from the DB
+export function showChilds(req, res) {
+  return Category.find({parent: req.params.id})
     .populate({path: 'children ancestors', populate: {path: 'children ancestors'}})
     .exec()
     .then(handleEntityNotFound(res))

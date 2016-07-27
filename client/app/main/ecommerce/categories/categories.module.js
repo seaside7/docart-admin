@@ -1,24 +1,18 @@
 (function() {
   'use strict';
 
-  function config($stateProvider, msNavigationServiceProvider, msApiProvider, $translatePartialLoaderProvider) {
+  function config($stateProvider, msNavigationServiceProvider, $translatePartialLoaderProvider) {
     $stateProvider
       .state('app.categories', {
         url    : '/categories',
         views  : {
             'content@app': {
                 templateUrl: 'app/main/ecommerce/categories/categories.html',
-                controller : 'CategoriesController as vm'
-            }
-        },
-        resolve: {
-            Categories: function(msApi) {
-                return msApi.resolve('ecommerce.categories@query');
+                controller : 'CategoriesController',
+                controllerAs: 'vm'
             }
         }
     });
-
-    msApiProvider.register('ecommerce.categories', ['/api/categories']);
 
     $translatePartialLoaderProvider.addPart('app/main/ecommerce/categories');
 
