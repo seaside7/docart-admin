@@ -1,9 +1,11 @@
 (function(angular, undefined) {
-  angular.module("docartAdminApp.constants", [])
+  angular.module("fuse")
 
 .constant("appConfig", {
 	"userRoles": [
 		"guest",
+		"customer",
+		"supplier",
 		"user",
 		"admin"
 	]
