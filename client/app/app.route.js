@@ -7,7 +7,7 @@
     {
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/suppliers');
+        $urlRouterProvider.otherwise('/dashboard');
         /*$urlRouterProvider.otherwise(function($injector, $location) {
             var $state = $injector.get("$state");
             console.log($state);

@@ -8,7 +8,6 @@
         $rootScope.$on('$stateChangeStart', function (event, next) {
             
             if (!next.authenticate) {
-                console.log(next)
                 return;
             }
 

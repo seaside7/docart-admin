@@ -3,7 +3,7 @@
     'use strict';
 
     /** @ngInject */
-    function LoginController($state, $http)
+    function LoginController($state, $http, Auth)
     {
         var vm = this;
         
@@ -20,12 +20,11 @@
          * Login
          */
         function login(data) {
-            console.log(vm.form);
-            //$state.go("app.dashboard");
             vm.loading = true;
-            $http.post("/auth/local", vm.form)
-                .then(function(response) {
-                    console.log(response);
+            vm.failed = false;
+            Auth.login({ email: vm.form.email, password: vm.form.password })
+                .then((err, user) => {
+                    $state.go("app.dashboard");
                     vm.loading = false;
                     vm.failed = false;
                 })

@@ -10,7 +10,8 @@
                 templateUrl: 'app/main/ecommerce/orders/orders.html',
                 controller : 'OrdersController as vm'
             }
-        }
+        },
+        authenticate: true
     });
 
     $translatePartialLoaderProvider.addPart('app/main/ecommerce/orders');

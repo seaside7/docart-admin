@@ -3,7 +3,7 @@
     'use strict';
 
     /** @ngInject */
-    function NavigationController($scope)
+    function NavigationController($scope, Auth)
     {
         var vm = this;
 

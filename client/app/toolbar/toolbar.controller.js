@@ -3,7 +3,7 @@
     'use strict';
 
     /** @ngInject */
-    function ToolbarController($rootScope, $q, $state, $timeout, $mdSidenav, $translate, $mdToast, msNavigationService)
+    function ToolbarController($rootScope, $q, $state, $timeout, $mdSidenav, $translate, $mdToast, msNavigationService, Auth)
     {
         var vm = this;
 
@@ -12,6 +12,7 @@
             search: ''
         };
 
+        vm.user = {name: "Unknown User"};
         vm.bodyEl = angular.element('body');
         vm.userStatusOptions = [
             {
@@ -85,6 +86,10 @@
 
             // Get the selected language directly from angular-translate module setting
             vm.selectedLanguage = vm.languages[$translate.preferredLanguage()];
+
+            Auth.getCurrentUser((user) => {
+                vm.user = user;
+            });
         }
 
 
@@ -113,6 +118,7 @@
         function logout()
         {
             // Do logout here..
+            Auth.logout();
             $state.go('app.login');
         }
 

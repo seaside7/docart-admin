@@ -15,7 +15,8 @@
             Products: function(msApi) {
                 return msApi.resolve('ecommerce.products@get');
             }
-        }
+        },
+        authenticate: true
     });
 
     // API

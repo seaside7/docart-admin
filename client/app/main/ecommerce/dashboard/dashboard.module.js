@@ -11,7 +11,7 @@
                 controller : 'DashboardController as vm'
             }
         },
-        authenticate: true,
+        authenticate: true
     });
 
     $translatePartialLoaderProvider.addPart('app/main/ecommerce/dashboard');

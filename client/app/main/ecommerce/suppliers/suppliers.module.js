@@ -10,7 +10,8 @@
                 templateUrl: 'app/main/ecommerce/suppliers/suppliers.html',
                 controller : 'SuppliersController as vm'
             }
-        }
+        },
+        authenticate: true
     });
 
     $translatePartialLoaderProvider.addPart('app/main/ecommerce/suppliers');
