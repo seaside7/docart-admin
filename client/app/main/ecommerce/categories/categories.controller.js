@@ -15,6 +15,7 @@
 
         // Methods
         vm.reloadData = reloadData;
+        vm.createData = createData;
         vm.editData = editData;
         vm.deleteData = deleteData;
         vm.onPaginate = onPaginate;
@@ -53,6 +54,14 @@
                 })
         }
 
+
+        /**
+         * Create category
+         * 
+         */
+        function createData() {
+            console.log("create category");
+        }
         
         /**
          * editData

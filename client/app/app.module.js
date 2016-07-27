@@ -20,6 +20,9 @@
             // Quick panel
             'app.quick-panel',
 
+            // Login
+            'app.login',
+
             // Sample
             'app.dashboard',
 

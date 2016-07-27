@@ -113,6 +113,7 @@
         function logout()
         {
             // Do logout here..
+            $state.go('app.login');
         }
 
         /**
