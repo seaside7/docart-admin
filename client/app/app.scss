@@ -27,11 +27,11 @@
 @import 'client/app/core/directives/ms-card/ms-card';
 @import 'client/app/core/directives/ms-form-wizard/ms-form-wizard';
 @import 'client/app/core/directives/ms-info-bar/ms-info-bar';
-@import 'client/app/core/directives/ms-masonry/ms-masonry';
 @import 'client/app/core/directives/ms-material-color-picker/ms-material-color-picker';
 @import 'client/app/core/directives/ms-nav/ms-nav';
-@import 'client/app/core/directives/ms-navigation/ms-navigation';
+@import 'client/app/core/directives/ms-masonry/ms-masonry';
 @import 'client/app/core/directives/ms-responsive-table/ms-responsive-table';
+@import 'client/app/core/directives/ms-navigation/ms-navigation';
 @import 'client/app/core/directives/ms-scroll/ms-scroll';
 @import 'client/app/core/directives/ms-search-bar/ms-search-bar';
 @import 'client/app/core/directives/ms-shortcuts/ms-shortcuts';
@@ -78,7 +78,7 @@
 @import 'client/app/main/pages/profile/tabs/photos-videos/photos-videos';
 @import 'client/app/main/pages/profile/tabs/timeline/timeline';
 @import 'client/app/main/pages/search/tabs/classic/classic';
-@import 'client/app/main/pages/search/tabs/contacts/contacts';
 @import 'client/app/main/pages/search/tabs/emails/emails';
+@import 'client/app/main/pages/search/tabs/contacts/contacts';
 @import 'client/app/main/pages/search/tabs/users/users';
 // endinjector
