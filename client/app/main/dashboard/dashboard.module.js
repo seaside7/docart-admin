@@ -7,14 +7,14 @@
         url    : '/dashboard',
         views  : {
             'content@app': {
-                templateUrl: 'app/main/ecommerce/dashboard/dashboard.html',
+                templateUrl: 'app/main/dashboard/dashboard.html',
                 controller : 'DashboardController as vm'
             }
         },
         authenticate: true
     });
 
-    $translatePartialLoaderProvider.addPart('app/main/ecommerce/dashboard');
+    $translatePartialLoaderProvider.addPart('app/main/dashboard');
 
     // Navigation
     msNavigationServiceProvider.saveItem('docart', {

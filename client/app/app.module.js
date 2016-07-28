@@ -29,16 +29,10 @@
             // Sample
             'app.dashboard',
 
-            // Catalogs,
-            'app.categories',
+            // eCommerce,
+            'app.ecommerce',
 
-            // Products,
-            'app.products',
-
-            // Suppliers
-            'app.suppliers',
-
-            // Orders
-            'app.orders'
+            // Users
+            'app.users'
         ]);
 })();

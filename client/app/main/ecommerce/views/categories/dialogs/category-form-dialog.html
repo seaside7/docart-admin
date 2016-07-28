@@ -1,0 +1,43 @@
+<md-dialog class="event-form-dialog" aria-label="New Message">
+    <form name="eventForm" class="md-inline-form" novalidate>
+        <md-toolbar class="md-accent md-hue-2">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+                <span class="title">{{vm.dialogTitle}}</span>
+                <md-button class="md-icon-button" ng-click="vm.closeDialog()" aria-label="Close dialog" translate
+                           translate-attr-aria-label="EC.DIALOG.CLOSE">
+                    <md-icon md-font-icon="icon-close"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content ms-scroll>
+            <md-input-container class="md-block">
+                <label translate="EC.DIALOG.CATEGORY_NAME">Category Name</label>
+                <input name="name" ng-model="vm.data.name" required md-autofocus>
+                <div ng-messages="eventForm.name.$error" ng-show="eventForm.name.$touched" role="alert">
+                    <div ng-message="required">
+                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                    </div>
+                </div>
+            </md-input-container>
+
+            <md-list>
+                <md-list-item>
+                    <p translate="EC.DIALOG.ACTIVE">Active</p>
+                    <md-switch class="md-secondary" ng-model="vm.data.active" aria-label="Active" translate
+                               translate-attr-aria-label="EC.DIALOG.ACTIVE"></md-switch>
+                </md-list-item>
+            </md-list>
+            
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row" layout-align="space-between center">
+            <md-button ng-click="vm.saveData()" class="save-button md-accent md-raised" aria-label="SAVE"
+                       ng-disabled="eventForm.$invalid || eventForm.$pristine"
+                       translate="EC.DIALOG.SAVE"
+                       translate-attr-aria-label="EC.DIALOG.SAVE">
+                SAVE
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

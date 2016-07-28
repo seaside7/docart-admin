@@ -1,9 +1,10 @@
 'use strict';
 
-describe('Component: SuppliersComponent', function () {
+describe('Controller: UsersController', function () {
 
   // load the controller's module
-  beforeEach(module('app.suppliers'));
+  beforeEach(module('app.users'));
+
 
   it('should ...', function () {
     expect(1).to.equal(1);

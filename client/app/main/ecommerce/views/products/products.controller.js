@@ -111,7 +111,7 @@
     }
 
     angular
-        .module('app.products')
+        .module('app.ecommerce')
         .controller('ProductsController', ProductsController);
 
 })();

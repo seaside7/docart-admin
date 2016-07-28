@@ -7,7 +7,7 @@
   }
 
   angular
-      .module('app.suppliers')
+      .module('app.ecommerce')
       .controller('SuppliersController', SuppliersController);
 
 })();

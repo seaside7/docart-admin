@@ -2,9 +2,9 @@
 
     'use strict';
 
-    function CategoriesController($http, $mdDialog) {
+    function CategoriesController($http, $mdDialog, $document) {
         var vm = this;
-        var started = false;
+        var started = false; 
     
         // Data
         vm.limitOptions = [5, 10, 25, 50, 100];
@@ -21,20 +21,26 @@
         vm.onPaginate = onPaginate;
         vm.onReorder = onReorder;
         
-        // reload at startup
-        reloadData();
-        
-        var searchBox = angular.element('body').find('#e-commerce-categories-search');
+        //////////
 
-        // Bind an external input as a table wide search box
-        if (searchBox.length > 0) {
-            searchBox.on('keyup', function (event) {
-                var term = event.target.value.trim();
-                if (vm.query.search !== term) {
-                    vm.query.search = term;
-                    vm.reloadData();
-                }
-            });
+        init();
+
+        function init() {
+            // reload at startup
+            reloadData();
+
+            var searchBox = angular.element('body').find('#e-commerce-categories-search');
+
+            // Bind an external input as a table wide search box
+            if (searchBox.length > 0) {
+                searchBox.on('keyup', function (event) {
+                    var term = event.target.value.trim();
+                    if (vm.query.search !== term) {
+                        vm.query.search = term;
+                        vm.reloadData();
+                    }
+                });
+            }            
         }
 
         /**
@@ -59,8 +65,21 @@
          * Create category
          * 
          */
-        function createData() {
-            console.log("create category");
+        function createData(ev) {
+            $mdDialog.show({
+                controller:             'CategoryFormDialogController',
+                controllerAs:           'vm',
+                templateUrl:            'app/main/ecommerce/views/categories/dialogs/category-form-dialog.html',
+                parent:                 angular.element($document.body),
+                targetEvent:            ev,
+                clickOutsideToClose:    true,
+                locals:                 {
+
+                }
+            })
+                .then((response) => {
+                    console.log(response);
+                })
         }
         
         /**
@@ -119,7 +138,7 @@
     }
 
     angular
-        .module('app.categories')
+        .module('app.ecommerce')
         .controller('CategoriesController', CategoriesController);
 
 })();

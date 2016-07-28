@@ -1,6 +1,6 @@
 {
-    "CATEGORIES": {
-        "CATEGORIES_NAV": "Categories"
+    "USERS": {
+        "USERS_NAV": "Users"
     },
     "EC": {
         "ADD_CATEGORY": "Add Categiry",

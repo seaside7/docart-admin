@@ -1,0 +1,24 @@
+{
+    "EC": {
+        "NAV" : {
+            "CATEGORIES": "Categories",
+            "PRODUCTS": "Products",
+            "ORDERS": "Orders",
+            "SUPPLIERS": "Suppliers"
+        },
+        
+        "DIALOG" : {
+            "CLOSE": "Close",
+            "CATEGORY_NAME": "Category Name",
+            "ACTIVE": "Active",
+            "SAVE": "Save"
+        },
+        
+        "PRODUCTS": "Products",
+        "TOTAL_PRODUCTS": "Total Products",
+
+        "ERRORS": {
+            "REQUIRED": "Required"
+        }
+    }
+}

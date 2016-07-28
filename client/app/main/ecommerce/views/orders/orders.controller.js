@@ -7,7 +7,7 @@
   }
 
   angular
-      .module('app.orders')
+      .module('app.ecommerce')
       .controller('OrdersController', OrdersController);
 
 })();
