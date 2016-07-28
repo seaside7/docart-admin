@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function CategoriesController($http, $mdDialog, $document) {
+    function CategoriesController($http, $mdDialog, $document, toastr) {
         var vm = this;
         var started = false; 
     
@@ -80,8 +80,22 @@
                     }
                 }
             })
-                .then((response) => {
-                    console.log(response);
+                .then((data) => {
+                    console.log(data);
+                    if (data.active === undefined) {
+                        data.active = false;
+                    }
+
+                    $http.post("/api/categories", data)
+                        .then((response) => {
+                            console.log(response);
+                            reloadData();
+                            toastr.success('Category created', 'Success');
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                            toastr.error(err.data, 'Error');
+                        })
                 })
         }
         
@@ -104,8 +118,18 @@
                     }
                 }
             })
-                .then((response) => {
-                    console.log(response);
+                .then((data) => {
+                    console.log(data);
+                    $http.put('/api/categories/'+ data._id , data) 
+                        .then((response) => {
+                            console.log(response);
+                            reloadData();
+                            toastr.success('Category updated', 'Success');
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                            toastr.error(err.data, 'Error');
+                        });
                 })
         }
 
@@ -124,8 +148,13 @@
 
             $mdDialog.show(confirm).then(function() {
                 $http.delete("/api/categories/" + data._id)
-                    .then(function() {
+                    .then(() => {
                         reloadData();
+                        toastr.warning("Category deleted", 'Delete');
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        toastr.error(err.data, 'Error');
                     })
             });
         }

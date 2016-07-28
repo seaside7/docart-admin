@@ -27,6 +27,6 @@
                 'xeditable',
                 'moment-picker',
                 'md.data.table',
-                'smart-table'
+                'toastr'
             ]);
 })();

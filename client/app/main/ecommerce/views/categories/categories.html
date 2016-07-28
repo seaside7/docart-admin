@@ -64,7 +64,7 @@
                                 <td md-cell>{{category.name}}</td>
                                 <td md-cell>{{category.children ? category.children.length : 0}}</td>
                                 <td md-cell><img class="product-image" ng-src="{{category.image}}"></td>
-                                <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"><i class="icon-cancel red-500-fg" ng-show="!category.active"></i></td>
+                                <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"></i><i class="icon-cancel red-500-fg" ng-show="!category.active"></i></td>
                                 <td md-cell>
                                     <md-button class="edit-button md-icon-button" ng-click="vm.editData(category)" aria-label="Category details" translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
                                         <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>

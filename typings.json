@@ -1,0 +1,5 @@
+{
+  "globalDependencies": {
+    "angular-toastr": "registry:dt/angular-toastr#1.6.0+20160330162121"
+  }
+}
