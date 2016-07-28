@@ -112,6 +112,19 @@ export function create(req, res) {
     .catch(handleError(res));
 }
 
+// Creates a new sub Categories in the DB
+export function createChild(req, res) {
+  return Category.findById(req.params.id).exec()
+    .then(handleEntityNotFound(res))
+    .then(function(parent) {
+      return parent.addChild(req.body)
+          .then(respondWithResult(res, 201))
+          .catch(handleError(res));
+
+    })
+    .catch(handleError(res));
+}
+
 // Updates an existing Categories in the DB
 export function update(req, res) {
   if (req.body._id) {

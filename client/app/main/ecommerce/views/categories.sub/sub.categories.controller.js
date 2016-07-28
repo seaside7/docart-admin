@@ -78,7 +78,7 @@
          */
         function createData() {
             $mdDialog.show({
-                controller:             'CategoryFormDialogController',
+                controller:             'SubCategoryFormDialogController',
                 controllerAs:           'vm',
                 templateUrl:            'app/main/ecommerce/views/categories/dialogs/category-form-dialog.html',
                 parent:                 angular.element($document.body),
@@ -86,6 +86,7 @@
                 locals:                 {
                     dialogData: {
                         type:           "create",
+                        categoryId:     vm.productId,
                         data:           {}
                     }
                 }
@@ -96,7 +97,7 @@
                         data.active = false;
                     }
 
-                    $http.post("/api/categories", data)
+                    $http.post("/api/categories/subs/" + vm.productId, data) 
                         .then((response) => {
                             console.log(response);
                             reloadData();

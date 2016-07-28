@@ -12,6 +12,7 @@ router.get('/subs/:id', controller.showChilds);
 
 router.get('/:id', controller.show);
 router.post('/', controller.create);
+router.post('/subs/:id', controller.createChild);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);

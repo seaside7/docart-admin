@@ -10,7 +10,7 @@
         vm.limitOptions = [5, 10, 25, 50, 100];
         vm.totalData = 0;
         vm.query = {
-            order: 'name', limit: 25, page: 1, search: '', sort: ''
+            order: 'name', limit: 25, page: 1, search: '', sort: 'name'
         };
 
         // Methods
