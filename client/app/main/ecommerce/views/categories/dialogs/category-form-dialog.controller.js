@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function CategoryFormDialogController($http, $mdDialog, $document) {
+    function CategoryFormDialogController($http, $mdDialog, $document, dialogData) {
         var vm = this;
     
         // Data
@@ -10,6 +10,7 @@
         // Methods
         vm.closeDialog = closeDialog;
         vm.saveData = saveData;
+        vm.data = dialogData.data;
 
         //////////
 
@@ -19,7 +20,7 @@
          * Startup
          */
         function init() {
-            vm.dialogTitle = "Create Category";
+            vm.dialogTitle = dialogData.type == "create" ? "Create Category" : "Edit Category";
         }
 
         /**

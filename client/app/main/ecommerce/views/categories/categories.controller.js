@@ -63,18 +63,21 @@
 
         /**
          * Create category
-         * 
+         *
+         * @param {any} ev 
          */
-        function createData(ev) {
+        function createData() {
             $mdDialog.show({
                 controller:             'CategoryFormDialogController',
                 controllerAs:           'vm',
                 templateUrl:            'app/main/ecommerce/views/categories/dialogs/category-form-dialog.html',
                 parent:                 angular.element($document.body),
-                targetEvent:            ev,
                 clickOutsideToClose:    true,
                 locals:                 {
-
+                    dialogData: {
+                        type:           "create",
+                        data:           {}
+                    }
                 }
             })
                 .then((response) => {
@@ -88,7 +91,22 @@
          * @param {Category} data
          */
         function editData(data) {
-            console.log(data);
+            $mdDialog.show({
+                controller:             'CategoryFormDialogController',
+                controllerAs:           'vm',
+                templateUrl:            'app/main/ecommerce/views/categories/dialogs/category-form-dialog.html',
+                parent:                 angular.element($document.body),
+                clickOutsideToClose:    true,
+                locals:                 {
+                    dialogData: {
+                        type:           "edit",
+                        data:           angular.copy(data)
+                    }
+                }
+            })
+                .then((response) => {
+                    console.log(response);
+                })
         }
 
         /**
