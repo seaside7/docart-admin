@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function CategoriesController($http, $state, $mdDialog, $document, toastr) {
+    function SubCategoriesController($http, $mdDialog, $state, $stateParams, $document, toastr) {
         var vm = this;
         var started = false; 
     
@@ -12,6 +12,7 @@
         vm.query = {
             order: 'name', limit: 25, page: 1, search: '', sort: ''
         };
+        vm.productId = $stateParams.id;
 
         // Methods
         vm.reloadData = reloadData;
@@ -20,18 +21,16 @@
         vm.deleteData = deleteData;
         vm.onPaginate = onPaginate;
         vm.onReorder = onReorder;
-        vm.gotoSubCategories = gotoSubCategories;
-        
+        vm.gotoCategories = gotoCategories;
+
         //////////
 
         init();
 
         function init() {
             // reload at startup
-            reloadData();
-
-            var searchBox = angular.element('body').find('#e-commerce-categories-search');
-
+            
+            var searchBox = angular.element('body').find('#e-commerce-subcategories-search');
             // Bind an external input as a table wide search box
             if (searchBox.length > 0) {
                 searchBox.on('keyup', function (event) {
@@ -41,7 +40,17 @@
                         vm.reloadData();
                     }
                 });
-            }            
+            }  
+
+            $http.get('/api/categories/' + vm.productId)
+                .then((response) => {
+                    console.log(response); 
+                    vm.product = response.data;
+                    reloadData();          
+                })
+                .catch((err) => {
+                    toastr.warning("Sub categories not found", 'Warning'); 
+                });
         }
 
         /**
@@ -50,7 +59,7 @@
         function reloadData() {
             $http({
                 method: 'GET', 
-                url: '/api/categories/main', 
+                url: '/api/categories/subs/' + vm.productId, 
                 params: { offset: (vm.query.page - 1) * vm.query.limit, limit: vm.query.limit, search: vm.query.search, sort: vm.query.sort }
             })
                 .then(function(response) {
@@ -160,16 +169,6 @@
             });
         }
 
-        /**
-         * Got to sub categories page
-         * 
-         * @param {Category} category
-         */
-        function gotoSubCategories(category) {
-            console.log("goto sub category");
-            $state.go('app.subcategories', { id: category._id });
-        } 
-
 
         /**
          * Fired when user change page
@@ -193,10 +192,14 @@
             vm.query.sort = order;
             reloadData();
         }
+
+        function gotoCategories() {
+            $state.go('app.categories');
+        }
     }
 
     angular
         .module('app.ecommerce')
-        .controller('CategoriesController', CategoriesController);
+        .controller('SubCategoriesController', SubCategoriesController);
 
 })();

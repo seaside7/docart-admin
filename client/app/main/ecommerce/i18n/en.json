@@ -17,6 +17,12 @@
         "PRODUCTS": "Products",
         "TOTAL_PRODUCTS": "Total Products",
 
+        "CATEGORY_EDIT": "Edit Category",
+        "CATEGORY_DETAILS": "Category Details",
+        "CATEGORY_DELETE": "Delete Category",
+        "SUB_CATEGORIES": "Sub Categories",
+        "GO_TO_CATEGORIES": "Go back to categories",
+
         "ERRORS": {
             "REQUIRED": "Required"
         }

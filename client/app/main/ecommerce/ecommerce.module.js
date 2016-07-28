@@ -31,6 +31,17 @@
                 },
                 authenticate: true,
             })
+            .state('app.subcategories', {
+                url: '/categories/sub/:id',
+                views: {
+                    'content@app': {
+                        templateUrl: 'app/main/ecommerce/views/categories.sub/sub.categories.html',
+                        controller: 'SubCategoriesController',
+                        controllerAs: 'vm'
+                    }
+                },
+                authenticate: true,
+            })
             .state('app.orders', {
                 url: '/orders',
                 views: {

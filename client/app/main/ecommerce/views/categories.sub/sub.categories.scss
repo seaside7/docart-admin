@@ -1,4 +1,4 @@
-#e-commerce-categories {
+#e-commerce-subcategories {
 
     .center {
 
@@ -8,13 +8,27 @@
             max-height: 136px !important;
             padding: 24px 0;
 
-            .h1 {
+            .goto-products-button {
+                margin-right: 16px;
+            }
 
-                md-icon {
-                    margin-right: 12px;
+            .product-image {
+                overflow: hidden;
+                width: 56px;
+                height: 56px;
+                margin-right: 16px;
+                border: 3px solid rgba(0, 0, 0, 0.12);
+
+                img {
+                    height: 100%;
+                    width: auto;
+                    max-width: none;
                 }
             }
 
+            .subtitle {
+                margin: 6px 0 0 0;
+            }
         }
 
         .content-card {
@@ -67,7 +81,7 @@
                     height: 52px;
                     border: 1px solid rgba(0, 0, 0, 0.12);
                 }
-
+                
                 .edit-button {
                     margin: 1;
                 }

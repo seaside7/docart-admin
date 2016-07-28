@@ -1,4 +1,4 @@
-<div id="e-commerce-categories" class="page-layout carded fullwidth" layout="row">
+<div id="e-commerce-subcategories" class="page-layout carded fullwidth" layout="row">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg md-accent-bg"></div>
@@ -9,10 +9,24 @@
 
         <!-- CONTENT HEADER -->
         <div class="header" layout="row" layout-align="space-between center">
-            <div class="white-fg" layout="column" layout-align="start start">
-                <div class="h1" layout="row" layout-align="start center">
-                    <md-icon md-font-icon="icon-tag-multiple"></md-icon>
-                    <span translate="EC.CATEGORIES">Categories</span>
+
+            <div class="white-fg" layout="row" layout-align="start center" flex>
+                <md-button class="goto-products-button md-icon-button" aria-label="Go back to categories" ng-click="vm.gotoCategories()" translate
+                    translate-attr-aria-label="EC.GO_TO_CATEGORIES">
+                    <md-icon md-font-icon="icon-arrow-left"></md-icon>
+                </md-button>
+
+                <div layout="row" layout-align="start center">
+                    <div class="product-image" hide-xs>
+                        <img ng-src="{{vm.product.imageUrl}}">
+                    </div>
+
+                    <div layout="column" layout-align="start start">
+                        <div class="h2">{{vm.product.name}}</div>
+                        <div class="subtitle secondary-text">
+                            <span translate="EC.SUB_CATEGORIES">Sub Categories</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -22,7 +36,7 @@
                 </md-button>
             </div>
         </div>
-        
+
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
@@ -35,7 +49,7 @@
 
                 <div class="search" layout="row" layout-align="start center">
                     <md-icon md-font-icon="icon-magnify" class="icon search-icon"></md-icon>
-                    <input id="e-commerce-categories-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="EC.SEARCH"
+                    <input id="e-commerce-subcategories-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="EC.SEARCH"
                         flex>
                 </div>
             </div>
@@ -51,10 +65,11 @@
                             <tr md-row>
                                 <th md-column><span>No</span></th>
                                 <th md-column md-order-by="name"><span flex>Name</span></th>
-                                <th md-column md-numeric><span>Sub Categories</span></th>
                                 <th md-column><span>Image</span></th>
                                 <th md-column><span>Active</span></th>
-                                <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
+                                <th md-column>
+                                    <div layout="row" layout-align="center center" flex>Actions</div>
+                                </th>
                                 </th>
                             </tr>
                         </thead>
@@ -62,15 +77,11 @@
                             <tr md-row ng-repeat="category in vm.categories">
                                 <td md-cell>{{$index+1}}</td>
                                 <td md-cell>{{category.name}}</td>
-                                <td md-cell>{{category.children ? category.children.length : 0}}</td>
                                 <td md-cell><img class="product-image" ng-src="{{category.image}}"></td>
-                                <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"></i><i class="icon-cancel red-500-fg" ng-show="!category.active"></i></td>
+                                <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"></i><i class="icon-cancel red-500-fg"
+                                        ng-show="!category.active"></i></td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.gotoSubCategories(category)" aria-label="Order details"
-                                            translate translate-attr-aria-label="EC.CATEGORY_DETAILS">
-                                            <md-icon md-font-icon="icon-dots-horizontal" class="s16"></md-icon>
-                                        </md-button>
                                         <md-button class="edit-button md-icon-button" ng-click="vm.editData(category)" aria-label="Category details" translate translate-attr-aria-label="EC.CATEGORY_EDIT">
                                             <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
                                         </md-button>
@@ -78,7 +89,7 @@
                                             <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
                                         </md-button>
                                     </div>
-                                    
+
                                 </td>
                             </tr>
                         </tbody>
