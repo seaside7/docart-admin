@@ -38,7 +38,7 @@
                         font-size: 14px;
                         line-height: 40px;
                         height: 40px;
-                        border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+                        border-bottom: 2px rgba(255, 255, 255, 0.3) solid;
                         transition: border-color 300ms ease;
 
                         &:focus {

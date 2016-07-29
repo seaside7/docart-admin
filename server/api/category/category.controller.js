@@ -11,6 +11,10 @@
 
 import _ from 'lodash';
 import Category from './category.model';
+import shared from './../../config/environment/shared';
+import path from 'path';
+import fs from 'fs-extra';
+
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -34,6 +38,13 @@ function saveUpdates(updates) {
 function removeEntity(res) {
   return function(entity) {
     if (entity) {
+      if (entity.imageUrl) {
+        var file = path.basename(entity.imageUrl);
+        var deletePath = shared.getRelativeUploadPath(file);
+        console.log("Deleting imageUrl: " + deletePath);
+        fs.remove(deletePath);
+      }
+
       return entity.remove()
         .then(() => {
           res.status(204).end();
@@ -107,7 +118,19 @@ export function show(req, res) {
 
 // Creates a new Categories in the DB
 export function create(req, res) {
-  return Category.create(req.body)
+  var body = {
+    name: req.body.name,
+    active: req.body.active
+  };
+  
+  if (req.files) {
+    var file = req.files.file;
+    if (file) {
+      body.imageUrl = shared.getUploadPath(path.basename(file.path));
+    }
+  }
+
+  return Category.create(body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
@@ -130,9 +153,22 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
+
+  var body = {
+    name: req.body.name,
+    active: req.body.active
+  };
+  
+  if (req.files) {
+    var file = req.files.file;
+    if (file) {
+      body.imageUrl = shared.getUploadPath(path.basename(file.path));
+    }
+  }
+
   return Category.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
-    .then(saveUpdates(req.body))
+    .then(saveUpdates(body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

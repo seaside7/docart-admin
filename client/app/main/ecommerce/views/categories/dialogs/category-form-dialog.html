@@ -21,6 +21,25 @@
                 </div>
             </md-input-container>
 
+            <div class="upload" layout="row" layout-align="space-between end">
+                <label ng-show="vm.data.file" flex>{{vm.data.file.name}}</label>
+                <label ng-show="!vm.data.file" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
+                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.file" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Image</md-button>
+            </div>
+                
+                <!--<div ngf-select="upload($file)" ngf-drop="upload($file)" class="drop-box" ng-model="file" ngf-dragover-class="dragover" ngf-multiple="false" ngf-pattern="'image/*'" ngf-maxsize="15MB" accept="'image/*'" ngf-allow-dir="false">
+                    Drop Images here or click to upload
+                </div>
+                <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                <button class="button" ng-model="file" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload on file select</button>
+                -->
+                 
+                
+                <!--<div class="preview" ng-show="vm.data.file">
+                    <img ngf-src="vm.data.file" width="170px">
+                    <div ng-show="vm.data.file">{{vm.data.file.name}} {{vm.data.file.error}} {{vm.data.file.$errorParam}}</div>
+                </div>-->
+
             <md-list>
                 <md-list-item>
                     <p translate="EC.DIALOG.ACTIVE">Active</p>

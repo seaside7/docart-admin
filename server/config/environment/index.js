@@ -18,6 +18,8 @@ var all = {
   // Root path of server
   root: path.normalize(__dirname + '/../../..'),
 
+  uploadsPath: './client/assets/uploads',
+
   // Server port
   port: process.env.PORT || 9000,
 

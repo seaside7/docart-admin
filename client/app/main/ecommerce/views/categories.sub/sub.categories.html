@@ -77,7 +77,7 @@
                             <tr md-row ng-repeat="category in vm.categories">
                                 <td md-cell>{{$index+1}}</td>
                                 <td md-cell>{{category.name}}</td>
-                                <td md-cell><img class="product-image" ng-src="{{category.image}}"></td>
+                                <td md-cell><img class="product-image" ng-src="{{category.imageUrl}}"></td>
                                 <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"></i><i class="icon-cancel red-500-fg"
                                         ng-show="!category.active"></i></td>
                                 <td md-cell>

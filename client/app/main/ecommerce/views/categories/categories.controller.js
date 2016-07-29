@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function CategoriesController($http, $state, $mdDialog, $document, toastr) {
+    function CategoriesController($http, $state, $mdDialog, $document, toastr, Upload) {
         var vm = this;
         var started = false; 
     
@@ -87,7 +87,10 @@
                         data.active = false;
                     }
 
-                    $http.post("/api/categories", data)
+                    Upload.upload({
+                        url: '/api/categories',
+                        data: data
+                    })
                         .then((response) => {
                             console.log(response);
                             reloadData();
@@ -121,16 +124,20 @@
             })
                 .then((data) => {
                     console.log(data);
-                    $http.put('/api/categories/'+ data._id , data) 
+                    Upload.upload({
+                        url: '/api/categories/' + data._id,
+                        data: data,
+                        method: 'PUT'
+                    })
                         .then((response) => {
                             console.log(response);
                             reloadData();
-                            toastr.success('Category updated', 'Success');
+                            toastr.success('Category created', 'Success');
                         })
                         .catch((err) => {
                             console.error(err);
                             toastr.error(err.data, 'Error');
-                        });
+                        })
                 })
         }
 
@@ -140,24 +147,34 @@
          * @param {Category} data
          */
         function deleteData(data) {
-            var confirm = $mdDialog.confirm()
-                .title('Delete')
-                .textContent('Are you sure you want to delete the category?')
-                .ariaLabel('Lucky day')
-                .ok('Yes')
-                .cancel('No');
+            if (data.children.length > 0) {
+                $mdDialog.show($mdDialog.alert()
+                    .title(`Warning`)
+                    .clickOutsideToClose(true)
+                    .textContent(`You can only delete blank category`)
+                    .ariaLabel('Warning')
+                    .ok('OK'));
+            }
+            else {
+                var confirm = $mdDialog.confirm()
+                    .title('Delete')
+                    .textContent('Are you sure you want to delete category ' + data.name + '?')
+                    .ariaLabel('Delete')
+                    .ok('Yes')
+                    .cancel('No');
 
-            $mdDialog.show(confirm).then(function() {
-                $http.delete("/api/categories/" + data._id)
-                    .then(() => {
-                        reloadData();
-                        toastr.warning("Category deleted", 'Delete');
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                        toastr.error(err.data, 'Error');
-                    })
-            });
+                $mdDialog.show(confirm).then(function() {
+                    $http.delete("/api/categories/" + data._id)
+                        .then(() => {
+                            reloadData();
+                            toastr.success("Category deleted", 'Delete');
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                            toastr.error(err.data, 'Error');
+                        })
+                });
+            }
         }
 
         /**

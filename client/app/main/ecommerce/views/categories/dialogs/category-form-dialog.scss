@@ -7,6 +7,24 @@ md-dialog {
         md-dialog-content {
             display: block;
             position: relative;
+
+            .upload {
+                margin: 0 0 0 5px;
+                background: none;
+                font-size: 14px;
+                line-height: 40px;
+                height: 40px;
+                border-bottom: 1px material-color('light-blue') solid;
+                transition: border-color 300ms ease;
+
+                &:focus {
+                    border-color: #03A9F4;
+                }
+
+                &::-webkit-input-placeholder {
+                    color: rgba(10, 10, 10, 0.5);
+                }
+            }
         }
 
         form {
@@ -16,21 +34,6 @@ md-dialog {
 
                 .title {
                     font-size: 17px;
-                }
-            }
-
-            .date-row {
-
-                md-datepicker {
-                    margin-right: 24px;
-                }
-            }
-
-            .notifications {
-                padding: 16px 0;
-
-                > .md-button {
-                    margin: 0;
                 }
             }
         }
