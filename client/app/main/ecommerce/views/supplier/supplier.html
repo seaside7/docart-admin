@@ -1,0 +1,124 @@
+<div id="e-commerce-product" class="page-layout simple tabbed" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="start center">
+        <div class="white-fg" layout="row" layout-align="start center" flex>
+            <md-button class="goto-products-button md-icon-button" aria-label="Go to suppliers"
+                       ng-click="vm.gotoSuppliers()"
+                       translate translate-attr-aria-label="EC.GO_TO_SUPPLIERS">
+                <md-icon md-font-icon="icon-arrow-left"></md-icon>
+            </md-button>
+
+            <div layout="row" layout-align="start center">
+                <div layout="column" layout-align="start start">
+                    <div class="h2">
+                        {{vm.supplierTitle}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <md-button class="md-raised md-background">
+                <span translate="EC.SAVE">SAVE</span>
+            </md-button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <md-tabs md-dynamic-height>
+
+            <md-tab>
+                <md-tab-label>
+                    <span translate="EC.BASIC_INFO">Basic Info</span>
+                </md-tab-label>
+
+                <md-tab-body>
+                    <div class="product-detail-form-container md-background-bg md-whiteframe-1dp">
+                        <form>
+                            <md-input-container class="md-block">
+                                <label translate="EC.PRODUCT_NAME">Product Name</label>
+                                <input type="text" ng-model="vm.product.name">
+                            </md-input-container>
+
+                            <h3 class="secondary-text" translate="EC.PRODUCT_DESCRIPTION">Product Description</h3>
+                            <text-angular ta-toolbar="vm.taToolbar" ng-model="vm.product.description" class="pb-32"></text-angular>
+
+                            <md-input-container class="md-block">
+                                <label translate="EC.CATEGORIES">Categories</label>
+                                <md-select ng-model="vm.product.categories"
+                                           md-on-open="vm.onCategoriesSelectorOpen()"
+                                           md-on-close="vm.onCategoriesSelectorClose()" multiple>
+                                    <md-select-header>
+                                        <input type="search" class="md-text"
+                                               ng-model="vm.categoriesSelectFilter" placeholder="Search for a category">
+                                    </md-select-header>
+                                    <md-optgroup>
+                                        <md-option ng-value="category"
+                                                   ng-repeat="category in vm.product.categories | filter:vm.categoriesSelectFilter">
+                                            {{category}}
+                                        </md-option>
+                                    </md-optgroup>
+                                </md-select>
+                            </md-input-container>
+
+                            <h3 class="tags secondary-text" translate="EC.TAGS">Tags</h3>
+                            <md-chips ng-model="vm.product.tags"
+                                      placeholder="Enter a tag"
+                                      delete-button-label="Remove Tag"
+                                      delete-hint="Press delete to remove tag"
+                                      secondary-placeholder="+Tag">
+                            </md-chips>
+                        </form>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+
+            <md-tab>
+                <md-tab-label>
+                    <span translate="EC.ADDRESS">Address</span>
+                </md-tab-label>
+
+                <md-tab-body>
+                    <div class="product-detail-form-container md-background-bg md-whiteframe-1dp">
+                        <form>
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.WIDTH">Width</label>
+                                    <input type="text" ng-model="vm.product.width">
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.HEIGHT">Height</label>
+                                    <input type="text" ng-model="vm.product.height">
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.DEPTH">Depth</label>
+                                    <input type="text" ng-model="vm.product.depth">
+                                </md-input-container>
+                            </div>
+
+                            <md-input-container class="md-block">
+                                <label translate="EC.WEIGHT">Weight</label>
+                                <input type="text" ng-model="vm.product.weight">
+                            </md-input-container>
+
+                            <md-input-container class="md-block md-icon-float">
+                                <label translate="EC.EXTRA_SHIPPING_FEE">Extra Shipping Fee</label>
+                                <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
+                                <input type="text" ng-model="vm.product.extraShippingFee">
+                            </md-input-container>
+                        </form>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

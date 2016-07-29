@@ -4,6 +4,7 @@ import crypto from 'crypto';
 import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import {Schema} from 'mongoose';
+var mongoosePaginate = require('mongoose-paginate');
 
 var UserSchema = new Schema({
   name: String,
@@ -21,8 +22,12 @@ var UserSchema = new Schema({
     required: true
   },
   provider: String,
-  salt: String
+  salt: String,
+  imageUrl: String,
+  supplier: { type: Schema.Types.ObjectId, ref: 'Supplier' }
 });
+
+
 
 /**
  * Virtuals
@@ -219,7 +224,24 @@ UserSchema.methods = {
         callback(null, key.toString('base64'));
       }
     });
+  },
+
+  /*
+   * Add Supplier to a user and alter user's role into supplier
+   */ 
+  addSupplier: function(supplier) {
+    var that = this;
+    this.role = 'supplier';
+    return this.model('Supplier').create(supplier, function(err, data) { 
+      that.supplier = data._id;
+      that.save();
+    });
   }
+
+
+
 };
+
+UserSchema.plugin(mongoosePaginate);
 
 export default mongoose.model('User', UserSchema);

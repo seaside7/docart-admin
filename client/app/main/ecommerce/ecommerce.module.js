@@ -20,6 +20,16 @@
                 },
                 authenticate: true
             })
+            .state('app.supplier', {
+                url: '/supplier/:id',
+                views: {
+                    'content@app': {
+                        templateUrl: 'app/main/ecommerce/views/supplier/supplier.html',
+                        controller: 'SupplierController as vm'
+                    }
+                },
+                authenticate: true
+            })
             .state('app.categories', {
                 url: '/categories',
                 views: {
