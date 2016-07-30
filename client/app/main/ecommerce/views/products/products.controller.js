@@ -2,111 +2,129 @@
 
     'use strict';
 
-    function ProductsController($state, Products) {
+    function ProductsController($state, $http, $mdDialog, toastr, Auth) {
         var vm = this;
 
         // Data
-        vm.products = Products.data;
-
-        console.log(vm.products);
-
-        vm.dtInstance = {};
-        vm.dtOptions = {
-            dom: 'rt<"bottom"<"left"<"length"l>><"right"<"info"i><"pagination"p>>>',
-            columnDefs: [
-                {
-                    // Target the id column
-                    targets: 0,
-                    width: '72px'
-                },
-                {
-                    // Target the image column
-                    targets: 1,
-                    filterable: false,
-                    sortable: false,
-                    width: '80px'
-                },
-                {
-                    // Target the quantity column
-                    targets: 5,
-                    render: function (data, type) {
-                        if (type === 'display') {
-                            if (parseInt(data) <= 5) {
-                                return '<div class="quantity-indicator md-red-500-bg"></div><div>' + data + '</div>';
-                            }
-                            else if (parseInt(data) > 5 && parseInt(data) <= 25) {
-                                return '<div class="quantity-indicator md-amber-500-bg"></div><div>' + data + '</div>';
-                            }
-                            else {
-                                return '<div class="quantity-indicator md-green-600-bg"></div><div>' + data + '</div>';
-                            }
-                        }
-
-                        return data;
-                    }
-                },
-                {
-                    // Target the status column
-                    targets: 6,
-                    filterable: false,
-                    render: function (data, type) {
-                        if (type === 'display') {
-                            if (data === 'true') {
-                                return '<i class="icon-checkbox-marked-circle green-500-fg"></i>';
-                            }
-
-                            return '<i class="icon-cancel red-500-fg"></i>';
-                        }
-
-                        if (type === 'filter') {
-                            if (data) {
-                                return '1';
-                            }
-
-                            return '0';
-                        }
-
-                        return data;
-                    }
-                },
-                {
-                    // Target the actions column
-                    targets: 7,
-                    responsivePriority: 1,
-                    filterable: false,
-                    sortable: false
-                }
-            ],
-            initComplete: function () {
-                var api = this.api(),
-                    searchBox = angular.element('body').find('#e-commerce-products-search');
-
-                // Bind an external input as a table wide search box
-                if (searchBox.length > 0) {
-                    searchBox.on('keyup', function (event) {
-                        api.search(event.target.value).draw();
-                    });
-                }
-            },
-            pagingType: 'simple',
-            lengthMenu: [10, 20, 30, 50, 100],
-            pageLength: 20,
-            scrollY: 'auto',
-            responsive: true
-        };
+        vm.limitOptions = [5, 10, 25, 50, 100];
+        vm.totalData = 0;
+        vm.query = {
+            order: 'name', limit: 25, page: 1, search: '', sort: 'name'
+        }; 
 
         // Methods
-        vm.gotoProductDetail = gotoProductDetail;
+        vm.reloadData = reloadData;
+        vm.createData = createData;
+        vm.editData = editData;
+        vm.deleteData = deleteData;
+        vm.onPaginate = onPaginate;
+        vm.onReorder = onReorder;
 
         //////////
 
+        init();
+
+        function init() {
+            // reload at startup
+            reloadData();
+
+            var searchBox = angular.element('body').find('#e-commerce-search');
+
+            // Bind an external input as a table wide search box
+            if (searchBox.length > 0) {
+                searchBox.on('keyup', function (event) {
+                    var term = event.target.value.trim();
+                    if (vm.query.search !== term) {
+                        vm.query.search = term;
+                        vm.reloadData();
+                    }
+                });
+            }
+        }
+
         /**
-         * Go to product detail
-         *
-         * @param id
+         * reloadData
          */
-        function gotoProductDetail(id) {
-            $state.go('app.e-commerce.products.detail', { id: id });
+        function reloadData() {
+            $http({
+                method: 'GET',
+                url: '/api/products',
+                params: { offset: (vm.query.page - 1) * vm.query.limit, limit: vm.query.limit, search: vm.query.search, 
+                    sort: vm.query.sort }
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    vm.products = response.data.docs;
+                    vm.totalData = response.data.total;
+                })
+        }
+
+        /**
+         * Create Supplier
+         *
+         */
+        function createData() {
+            $state.go('app.product');
+        }
+
+        /**
+         * editData
+         * 
+         * @param {Supplier} data
+         */
+        function editData(data) {
+            $state.go('app.product', {id: data._id});
+        }
+
+        /**
+         * Delete data
+         * 
+         * @param {Supplier} data
+         */
+        function deleteData(data) {
+            var confirm = $mdDialog.confirm()
+                    .title('Delete')
+                    .textContent('Are you sure you want to delete ' + data.name + '?')
+                    .ariaLabel('Delete')
+                    .ok('Yes')
+                    .cancel('No');
+
+            $mdDialog.show(confirm).then(function () {
+                
+                $http.delete('/api/products/' + data._id)
+                    .then((response) => {
+                        console.log(response);
+                        toastr.success('Product deleted', 'Success');
+                        reloadData();
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        toastr.error(err.data, 'Error');
+                    });
+            });
+        }
+
+        /**
+         * Fired when user change page
+         * 
+         * @param {number} page
+         * @param {number} limit
+         */
+        function onPaginate(page, limit) {
+            vm.query.page = page;
+            vm.query.limit = limit;
+            reloadData();
+        }
+
+        /**
+         * Fired when user re order column
+         * 
+         * @param {any} order
+         */
+        function onReorder(order) {
+            console.log(order);
+            vm.query.sort = order;
+            reloadData();
         }
     }
 

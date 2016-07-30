@@ -15,6 +15,9 @@
         },
         
         "PRODUCTS": "Products",
+        "PRODUCT_NAME": "Product Name",
+        "PRODUCT_DESCRIPTION": "Product Description",
+        "PRODUCT_IMAGES": "Product Images",
         "TOTAL_PRODUCTS": "Total Products: ",
         "TOTAL_SUPPLIERS": "Total Suppliers: ",
 
@@ -40,7 +43,7 @@
         "PHONE": "Phone",
         "ZIP": "Zip",
         "CITY": "City",
-
+        "PUBLISHED": "Published",
 
         "ERRORS": {
             "REQUIRED": "Required"

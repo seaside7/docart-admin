@@ -72,9 +72,14 @@
                         controller: 'ProductsController as vm'
                     }
                 },
-                resolve: {
-                    Products: function (msApi) {
-                        return msApi.resolve('ecommerce.products@get');
+                authenticate: true
+            })
+            .state('app.product', {
+                url: '/products/edit/:id',
+                views: {
+                    'content@app': {
+                        templateUrl: 'app/main/ecommerce/views/product/product.html',
+                        controller: 'ProductController as vm'
                     }
                 },
                 authenticate: true

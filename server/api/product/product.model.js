@@ -6,6 +6,7 @@ mongoose.Promise = require('bluebird');
 import {
     Schema
 } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate';
 
 var ProductSchema = new Schema({
     name: {
@@ -43,5 +44,7 @@ var ProductSchema = new Schema({
     'description': 'text',
     'tags': 'text'
 });
+
+ProductSchema.plugin(mongoosePaginate);
 
 export default mongoose.model('Product', ProductSchema);

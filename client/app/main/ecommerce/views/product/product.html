@@ -1,0 +1,193 @@
+<div id="e-commerce" class="page-layout simple tabbed" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="start center">
+        <div class="white-fg" layout="row" layout-align="start center" flex>
+            <md-button class="goto-products-button md-icon-button" aria-label="Go to products" ng-click="vm.goBack()" translate translate-attr-aria-label="EC.GO_TO_PRODUCTS">
+                <md-icon md-font-icon="icon-arrow-left"></md-icon>
+            </md-button>
+
+            <div layout="row" layout-align="start center">
+                <div layout="column" layout-align="start start">
+                    <div class="h2">
+                        {{vm.productTitle}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) && (dataForm2.$invalid || dataForm2.$pristine)">
+                <span translate="EC.SAVE">SAVE</span>
+            </md-button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <md-tabs md-dynamic-height>
+
+            <md-tab>
+                <md-tab-label>
+                    <span translate="EC.BASIC_INFO">Basic Info</span>
+                </md-tab-label>
+
+                <md-tab-body>
+                    <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+                        <form name="dataForm">
+                            <md-input-container class="md-block">
+                                <label translate="EC.PRODUCT_NAME">Product Name</label>
+                                <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
+                                <div ng-messages="dataForm.name.$error" ng-show="dataForm.name.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label translate="EC.PRODUCT_DESCRIPTION">Product Description</label>
+
+                                <input type="description" ng-model="vm.data.description" name="description" required>
+
+                                <div ng-messages="dataForm.description.$error" ng-show="dataForm.description.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label translate="EC.CATEGORIES">Categories</label>
+                                <input type="text" ng-model="vm.data.categories" name="categories">
+                                <div ng-messages="dataForm.categories.$error" ng-show="dataForm.categories.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label translate="EC.TAGS">Tags</label>
+                                <input type="text" ng-model="vm.data.tags" name="tags">
+                                <div ng-messages="dataForm.tags.$error" ng-show="dataForm.tags.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <div layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
+                                <label translate="EC.PUBLISHED">Published</label>
+                                <md-switch style="padding: 15px" ng-model="vm.data.published" aria-label="Active" translate translate-attr-aria-label="EC.DIALOG.ACTIVE"></md-switch>
+                            </div>
+                        </form>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+
+            <md-tab>
+                <md-tab-label>
+                    <span translate="EC.PRODUCT_IMAGES">Product Images</span>
+                </md-tab-label>
+
+                <md-tab-body>
+                    <div class="product-detail-form-container md-background-bg md-whiteframe-1dp">
+                        <div id="product-image-uploader" flow-init="vm.ngFlowOptions" flow-name="vm.ngFlow.flow" flow-files-submitted="vm.upload()"
+                            flow-file-added="vm.fileAdded($file)" flow-file-success="vm.fileSuccess($file, $message)" flow-complete="vm.uploadComplete()"
+                            flow-drop flow-drag-enter="vm.dropping=true" flow-drag-leave="vm.dropping=false" ng-class="{'dropping':vm.dropping}">
+
+                            <div class="drop-text hint-text" layout="row" layout-align="center center">
+                                <span translate="EC.DROP_TO_UPLOAD">Drop to upload</span>
+                            </div>
+
+                            <div class="upload-button" layout="column" layout-align="center center">
+                                <md-button class="md-accent md-raised" flow-btn>
+                                    Upload
+                                </md-button>
+                                <span class="secondary-text mt-8">You can also drop images here to upload. Only PNG, JPG - Max. 8MB</span>
+                            </div>
+
+                            <div layout="row" layout-align="start start" layout-wrap>
+                                <div ng-repeat="image in vm.product.images" ng-switch="image.type">
+                                    <div class="product-image uploading" ng-switch-when="uploading" layout="row" layout-align="center center">
+                                        <div class="overlay" layout="column" layout-align="center center">
+                                            <md-progress-linear md-mode="determinate" value="{{image.file.progress() * 100}}">
+                                            </md-progress-linear>
+                                        </div>
+                                        <img class="media" flow-img="image.file">
+                                    </div>
+
+                                    <div class="product-image" ng-switch-when="image" layout="row" layout-align="center center">
+                                        <img class="media" ng-src="{{image.url}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+
+            <md-tab>
+                <md-tab-label>
+                    <span translate="EC.SUPPLIER_INFO">Supplier Info</span>
+                </md-tab-label>
+
+                <md-tab-body>
+                    <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+                        <form name="dataForm2">
+                            <div layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
+                                <label translate="EC.DIALOG.ACTIVE">Active</label>
+                                <md-switch style="padding: 15px" ng-model="vm.data.active" aria-label="Active" translate translate-attr-aria-label="EC.DIALOG.ACTIVE"></md-switch>
+                            </div>
+
+                            <div class="upload" layout="row" layout-align="space-between end" style="margin-top: 30px;">
+                                <div class="preview" ng-show="vm.data.logo">
+                                    <img ngf-src="vm.data.logo" width="100px" height="100px">
+                                </div>
+                                <label ng-show="vm.data.logo" flex>{{vm.data.logo.name}}</label>
+                                <label ng-show="!vm.data.logo" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
+                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.logo" accept="'image/*'" ngf-maxsize="15MB"
+                                    type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Logo</md-button>
+                            </div>
+
+                            <md-input-container class="md-block md-icon-float">
+                                <label translate="EC.ADDRESS">Address</label>
+                                <input type="text" ng-model="vm.data.address">
+                            </md-input-container>
+
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.PHONE">Phone</label>
+                                    <input type="text" ng-model="vm.data.phone">
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.ZIP">Zip</label>
+                                    <input type="text" ng-model="vm.data.zip">
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.CITY">City</label>
+                                    <input type="text" ng-model="vm.data.city">
+                                </md-input-container>
+
+                            </div>
+
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <h3 class="secondary-text" translate="EC.SUPPLIER_DESCRIPTION">Supplier Description</h3>
+                                <textarea aria-label="Description" style="height: auto;" rows="3" name="description" ng-model="vm.data.description">
+                            </md-input-container>
+                            
+                        </form>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+        </md-tabs>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

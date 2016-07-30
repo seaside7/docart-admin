@@ -45,18 +45,19 @@
             weight: 1
         });
 
-        if (userProfile.role == 'admin') {
-            /*
-            * Suppliers
-            */
-            msNavigationService.saveItem('ecommerce.suppliers', {
-                title: 'Suppliers',
-                icon: 'icon-truck',
-                state: 'app.suppliers',
-                translate: 'EC.NAV.SUPPLIERS',
-                weight: 1
-            });
-        }
+        /*
+         * Suppliers
+         */
+        msNavigationService.saveItem('ecommerce.suppliers', {
+            title: 'Suppliers',
+            icon: 'icon-truck',
+            state: 'app.suppliers',
+            translate: 'EC.NAV.SUPPLIERS',
+            weight: 1,
+            hidden: function() {
+                return !Auth.isAdmin();
+            }
+        });
     }
 
     angular.module('app.ecommerce')

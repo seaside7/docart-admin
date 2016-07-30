@@ -21,7 +21,7 @@
     msNavigationServiceProvider.saveItem('admin', {
         title : 'Administrator',
         group : true,
-        weight: 1
+        weight: 2
     });
 
     msNavigationServiceProvider.saveItem('admin.users', {
@@ -29,7 +29,7 @@
         icon     : 'icon-tag-multiple',
         state    : 'app.users',
         translate: 'USERS.USERS_NAV',
-        weight   : 1
+        weight   : 2
     }); 
   }
 

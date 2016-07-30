@@ -10,9 +10,11 @@
 'use strict';
 
 import _ from 'lodash';
-import path from 'path';
 import Product from './product.model';
 import Category from './../category/category.model';
+import shared from './../../config/environment/shared';
+import path from 'path';
+import fs from 'fs-extra';
 
 function saveFile(res, file) {
     return function(entity) {
@@ -87,8 +89,13 @@ export function uploads(req, res) {
 
 // Gets a list of Products
 export function index(req, res) {
-    console.info("Index");
-    return Product.find().exec()
+    var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") } } : { };
+    var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
+    options.select = '_id name email role imageUrl supplier customer';
+    options.populate = 'supplier';
+    options.sort = req.query.sort;
+
+    return Product.paginate(query, options)
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
