@@ -74,6 +74,7 @@
          * @param {Supplier} data
          */
         function editData(data) {
+            $state.go('app.supplier', {id: data._id});
         }
 
         /**
@@ -82,34 +83,26 @@
          * @param {Supplier} data
          */
         function deleteData(data) {
-            if (data.children.length > 0) {
-                $mdDialog.show($mdDialog.alert()
-                    .title(`Warning`)
-                    .clickOutsideToClose(true)
-                    .textContent(`You can only delete blank category`)
-                    .ariaLabel('Warning')
-                    .ok('OK'));
-            }
-            else {
-                var confirm = $mdDialog.confirm()
+            var confirm = $mdDialog.confirm()
                     .title('Delete')
-                    .textContent('Are you sure you want to delete category ' + data.name + '?')
+                    .textContent('Are you sure you want to delete supplier ' + data.name + '?')
                     .ariaLabel('Delete')
                     .ok('Yes')
                     .cancel('No');
 
-                $mdDialog.show(confirm).then(function () {
-                    $http.delete("/api/categories/" + data._id)
-                        .then(() => {
-                            reloadData();
-                            toastr.success("Category deleted", 'Delete');
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                            toastr.error(err.data, 'Error');
-                        })
-                });
-            }
+            $mdDialog.show(confirm).then(function () {
+                
+                $http.delete('/api/suppliers/' + data._id)
+                    .then((response) => {
+                        console.log(response);
+                        toastr.success('Supplier deleted', 'Success');
+                        reloadData();
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        toastr.error(err.data, 'Error');
+                    });
+            });
         }
 
         /**

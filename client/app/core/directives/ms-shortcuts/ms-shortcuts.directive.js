@@ -203,14 +203,14 @@
             {
                 shortcuts = [
                     {
-                        'title'      : 'Sample',
+                        'title'      : 'Dashboard',
                         'icon'       : 'icon-tile-four',
-                        'state'      : 'app.sample',
+                        'state'      : 'app.dashboard',
                         'weight'     : 1,
                         'children'   : [],
-                        '_id'        : 'sample',
-                        '_path'      : 'apps.sample',
-                        'uisref'     : 'app.sample',
+                        '_id'        : 'dashboard',
+                        '_path'      : 'apps.dashboard',
+                        'uisref'     : 'app.dashboard',
                         'hasShortcut': true
                     }
                 ];

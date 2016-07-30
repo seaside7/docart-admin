@@ -1,3 +1,22 @@
+input:-webkit-autofill { -webkit-box-shadow:0 0 0 500px white inset; }
+.upload {
+    margin: 0 0 35px 5px;
+    background: none;
+    font-size: 14px;
+    line-height: 40px;
+    height: 40px;
+    border-bottom: 1px material-color('light-blue') solid;
+    transition: border-color 300ms ease;
+
+    &:focus {
+        border-color: #03A9F4;
+    }
+
+    &::-webkit-input-placeholder {
+        color: rgba(10, 10, 10, 0.5);
+    }
+}
+
 #e-commerce {
 
     .center {
@@ -76,6 +95,68 @@
                     margin: 1;
                 }
                 
+            }
+        }
+    }
+
+    .detail-form-container2 {
+        padding: 40px 24px 24px 24px;
+    }
+    
+    .detail-form-container {
+        padding: 24px;
+
+        #image-uploader {
+            position: relative;
+
+            &.dropping {
+
+                .drop-text {
+                    display: flex;
+                }
+            }
+
+            .drop-text {
+                display: none;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                padding: 16px;
+                text-align: center;
+                border: 2px dashed rgba(0, 0, 0, 0.12);
+                background: #FFFFFF;
+                font-size: 20px;
+                z-index: 100;
+            }
+
+            .upload-button {
+                margin-bottom: 16px;
+            }
+
+            .product-image {
+                position: relative;
+                width: 200px;
+                height: 200px;
+                border: 1px solid rgba(0, 0, 0, 0.12);
+                margin: 8px;
+
+                &.uploading {
+
+                    .overlay {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        background: rgba(0, 0, 0, 0.87);
+                    }
+                }
+
+                .media {
+                    max-height: 100%;
+                }
             }
         }
     }

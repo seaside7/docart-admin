@@ -54,6 +54,7 @@
                         <thead md-head md-order="vm.query.order" md-on-reorder="vm.onReorder">
                             <tr md-row>
                                 <th md-column><span>No</span></th>
+                                <th md-column><span>Profile Photo</span></th>
                                 <th md-column><span>Logo</span></th>
                                 <th md-column md-order-by="name"><span>Name</span></th>
                                 <th md-column><span>Active</span></th>
@@ -64,19 +65,17 @@
                         <tbody md-body>
                             <tr md-row ng-repeat="supplier in vm.suppliers">
                                 <td md-cell>{{$index+1}}</td>
+                                <td md-cell><img class="product-image" ng-src="{{supplier.imageUrl}}"></td>
                                 <td md-cell><img class="product-image" ng-src="{{supplier.supplier.logoUrl}}"></td>
                                 <td md-cell>{{supplier.name}}</td>
                                 <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="supplier.supplier.active"></i><i class="icon-cancel red-500-fg" ng-show="!supplier.supplier.active"></i></td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.gotoSubCategories(category)" aria-label="Order details"
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(supplier)" aria-label="Order details"
                                             translate translate-attr-aria-label="EC.CATEGORY_DETAILS">
                                             <md-icon md-font-icon="icon-dots-horizontal" class="s16"></md-icon>
                                         </md-button>
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(category)" aria-label="Category details" translate translate-attr-aria-label="EC.CATEGORY_EDIT">
-                                            <md-icon md-font-icon="icon-pencil" class="s16"></md-icon>
-                                        </md-button>
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(category)" aria-label="Delete category" translate translate-attr-aria-label="EC.CATEGORY_DELETE">
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(supplier)" aria-label="Delete category" translate translate-attr-aria-label="EC.CATEGORY_DELETE">
                                             <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
                                         </md-button>
                                     </div>

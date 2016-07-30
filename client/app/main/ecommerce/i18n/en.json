@@ -27,10 +27,20 @@
 
         "SUPPLIER_NAME": "Supplier Name",
         "SUPPLIER_DESCRIPTION": "Supplier Description",
+        "SUPPLIER_INFO": "Supplier Info",
 
+        "PROFILE": "Profile",
         "BASIC_INFO": "Basic Info",
         "ADDRESS": "Address",
         "LOGO": "Logo",
+        "NAME": "Name",
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "PROFILE_IMAGE": "Profile Image",
+        "PHONE": "Phone",
+        "ZIP": "Zip",
+        "CITY": "City",
+
 
         "ERRORS": {
             "REQUIRED": "Required"
