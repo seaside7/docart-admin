@@ -8,7 +8,7 @@ import {
 } from 'mongoose';
 
 var ProductSchema = new Schema({
-    title: {
+    name: {
         type: String,
         required: true,
         trim: true
@@ -34,6 +34,7 @@ var ProductSchema = new Schema({
         contentType: String
     },
     imageUrl: String,
+    featured: Boolean,
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', index: true }],
     publisher: { type: Schema.Types.ObjectId, ref: 'Supplier' },
     tags: String

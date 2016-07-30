@@ -8,7 +8,9 @@
      * @param {any} msNavigationServiceProvider
      * @param {any} $translatePartialLoaderProvider
      */
-    function config($stateProvider, msApiProvider, msNavigationServiceProvider, $translatePartialLoaderProvider) {
+    function config($stateProvider, msApiProvider, $translatePartialLoaderProvider) {
+        $translatePartialLoaderProvider.addPart('app/main/ecommerce');
+
         $stateProvider
             .state('app.suppliers', {
                 url: '/suppliers',
@@ -77,60 +79,6 @@
                 },
                 authenticate: true
             });
-
-        $translatePartialLoaderProvider.addPart('app/main/ecommerce');
-
-        // Navigation
-        msNavigationServiceProvider.saveItem('ecommerce', {
-            title: 'eCommerce',
-            group: true,
-            weight: 1
-        });
-
-        /*
-         * Categories
-         */
-        msNavigationServiceProvider.saveItem('ecommerce.categories', {
-            title: 'Categories',
-            icon: 'icon-tag-multiple',
-            state: 'app.categories',
-            translate: 'EC.NAV.CATEGORIES',
-            weight: 1
-        });
-
-        /*
-         * Products
-         */ 
-        msApiProvider.register('ecommerce.products', ['app/data/products/products.json']);
-        msNavigationServiceProvider.saveItem('ecommerce.products', {
-            title    : 'Products',
-            icon     : 'icon-basket',
-            state    : 'app.products',
-            translate: 'EC.NAV.PRODUCTS',
-            weight   : 1
-        });
-
-        /*
-         * Orders
-         */
-        msNavigationServiceProvider.saveItem('ecommerce.orders', {
-            title: 'Orders',
-            icon: 'icon-cart',
-            state: 'app.orders',
-            translate: 'EC.NAV.ORDERS',
-            weight: 1
-        });
-
-        /*
-         * Suppliers
-         */
-        msNavigationServiceProvider.saveItem('ecommerce.suppliers', {
-            title: 'Suppliers',
-            icon: 'icon-truck',
-            state: 'app.suppliers',
-            translate: 'EC.NAV.SUPPLIERS',
-            weight: 1
-        });
     }
 
     angular.module('app.ecommerce', [])

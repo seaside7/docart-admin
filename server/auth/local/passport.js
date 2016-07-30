@@ -4,7 +4,7 @@ import {Strategy as LocalStrategy} from 'passport-local';
 function localAuthenticate(User, email, password, done) {
   User.findOne({
     email: email.toLowerCase()
-  }).exec()
+  }).populate('supplier customer').exec()
     .then(user => {
       if (!user) {
         return done(null, false, {
@@ -18,7 +18,13 @@ function localAuthenticate(User, email, password, done) {
         if (!authenticated) {
           return done(null, false, { message: 'This password is not correct.' });
         } else {
-          return done(null, user);
+          return done(null, {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            supplier: user.supplier
+          });
         }
       });
     })

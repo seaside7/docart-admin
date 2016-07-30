@@ -66,6 +66,10 @@
                 })
                     .then(res => {
                         $cookies.put('token', res.data.token);
+                        $cookies.put('user.name', res.data.name);
+                        $cookies.put('user.email', res.data.email);
+                        $cookies.put('user.role', res.data.role);
+
                         currentUser = User.get();
                         return currentUser.$promise;
                     })
@@ -85,6 +89,9 @@
              */
             logout() {
                 $cookies.remove('token');
+                $cookies.remove('user.name');
+                $cookies.remove('user.email');
+                $cookies.remove('user.role');
                 currentUser = {};
             },
 
@@ -144,12 +151,31 @@
                 var value = currentUser.hasOwnProperty('$promise') ? currentUser.$promise : currentUser;
                 return $q.when(value)
                     .then(user => {
+                        // Update the user profile
+                        $cookies.put('user.name', user.name);
+                        $cookies.put('user.email', user.email);
+                        $cookies.put('user.role', user.role);
                         safeCb(callback)(user);
                         return user;
                     }, () => {
                         safeCb(callback)({});
                         return {};
                     });
+            },
+
+            /**
+             * Check if a user is logged in
+             *   (synchronous|asynchronous)
+             *
+             * @param  {Function|*} callback - optional, function(is)
+             * @return {Bool|Promise}
+             */
+            getCurrentUserProfile() {
+                return {
+                    name: $cookies.get('user.name'),
+                    email: $cookies.get('user.email'),
+                    role: $cookies.get('user.role')     
+                }
             },
 
             /**
