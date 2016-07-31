@@ -3,12 +3,13 @@
     'use strict';
 
     /** @ngInject */
-    function IndexController(fuseTheming)
+    function IndexController($rootScope, fuseTheming)
     {
         var vm = this;
 
         // Data
         vm.themes = fuseTheming.themes;
+        $rootScope.appTitle = "DoCart";
 
         //////////
     }

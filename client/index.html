@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="fuse">
+<html ng-app="fuse" ng-controller="IndexController as vm">
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <base href="/">
-    <title></title>
+    <title>DoCart</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -37,7 +37,7 @@
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
-    <!--<link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700italic,700,900,900italic' rel='stylesheet' type='text/css'>-->
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700italic,700,900,900italic' rel='stylesheet' type='text/css'>
   </head>
   
   <!--[if lt IE 10]>
@@ -45,7 +45,7 @@
         your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <body md-theme="{{vm.themes.active.name}}" md-theme-watch ng-controller="IndexController as vm"
+    <body md-theme="{{vm.themes.active.name}}" md-theme-watch 
           class="{{state.current.bodyClass || ''}}">
 
         <!-- SPLASH SCREEN -->
@@ -94,7 +94,6 @@
       <script src="bower_components/mobile-detect/mobile-detect.js"></script>
       <script src="bower_components/moment/moment.js"></script>
       <script src="bower_components/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
       <script src="bower_components/lodash/lodash.js"></script>
       <script src="bower_components/angular-socket-io/socket.js"></script>
       <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
@@ -225,6 +224,7 @@
       <script src="app/core/filters/filterByIds.filter.js"></script>
       <script src="app/core/filters/filterByPropIds.filter.js"></script>
       <script src="app/core/filters/tag.filter.js"></script>
+      <script src="app/core/products/products.controller.js"></script>
       <script src="app/core/services/api-resolver.service.js"></script>
       <script src="app/core/services/ms-api.provider.js"></script>
       <script src="app/core/services/ms-utils.service.js"></script>

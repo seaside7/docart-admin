@@ -44,6 +44,10 @@
         "ZIP": "Zip",
         "CITY": "City",
         "PUBLISHED": "Published",
+        "FEATURED": "Featured",
+        "PRICE": "Price",
+        "PRICE_INVENTORY": "Price &amp; Inventory",
+        "STOCK_QUANTITY": "Stock Quantity",
 
         "ERRORS": {
             "REQUIRED": "Required"
