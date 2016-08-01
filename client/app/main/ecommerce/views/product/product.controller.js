@@ -23,11 +23,10 @@
 
         //////////
 
+        loadCategories();
         init();
 
         function init() {
-            loadCategories();
-
             if (vm.productId) {
                 $http.get('/api/products/' + vm.productId)
                     .then((response) => {
@@ -121,6 +120,7 @@
             Upload.upload(query).then((response) => {
                 console.log(response);
                 toastr.success('Category created', 'Success');
+                init();
             })
             .catch((err) => {
                 console.error(err);

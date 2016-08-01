@@ -11,8 +11,8 @@
  */
 // injector
 @import 'client/app/core/scss/global';
-@import 'client/app/core/directives/ms-card/templates/template-10/template-10';
 @import 'client/app/core/directives/ms-card/templates/template-1/template-1';
+@import 'client/app/core/directives/ms-card/templates/template-10/template-10';
 @import 'client/app/core/directives/ms-card/templates/template-2/template-2';
 @import 'client/app/core/directives/ms-card/templates/template-3/template-3';
 @import 'client/app/core/directives/ms-card/templates/template-4/template-4';
@@ -38,8 +38,8 @@
 @import 'client/app/core/directives/ms-shortcuts/ms-shortcuts';
 @import 'client/app/core/directives/ms-splash-screen/ms-splash-screen';
 @import 'client/app/core/directives/ms-stepper/ms-stepper';
-@import 'client/app/core/directives/ms-widget/ms-widget';
 @import 'client/app/core/directives/ms-timeline/ms-timeline';
+@import 'client/app/core/directives/ms-widget/ms-widget';
 @import 'client/app/quick-panel/quick-panel';
 @import 'client/app/toolbar/toolbar';
 @import 'client/app/main/dashboard/dashboard';
@@ -49,12 +49,12 @@
 @import 'client/app/main/auth/lock/lock';
 @import 'client/app/main/auth/login/login';
 @import 'client/app/main/auth/login-v2/login-v2';
-@import 'client/app/main/auth/register-v2/register-v2';
 @import 'client/app/main/auth/register/register';
+@import 'client/app/main/auth/register-v2/register-v2';
 @import 'client/app/main/auth/reset-password/reset-password';
 @import 'client/app/main/pages/coming-soon/coming-soon';
-@import 'client/app/main/pages/maintenance/maintenance';
 @import 'client/app/main/pages/profile/profile';
+@import 'client/app/main/pages/maintenance/maintenance';
 @import 'client/app/main/pages/search/search';
 @import 'client/app/main/pages/timeline/timeline';
 @import 'client/app/navigation/layouts/horizontal-navigation/navigation';
@@ -73,8 +73,8 @@
 @import 'client/app/main/pages/errors/404/error-404';
 @import 'client/app/main/pages/errors/500/error-500';
 @import 'client/app/main/ecommerce/views/categories/dialogs/category-form-dialog';
-@import 'client/app/main/pages/invoice/views/modern/modern';
 @import 'client/app/main/pages/invoice/views/compact/compact';
+@import 'client/app/main/pages/invoice/views/modern/modern';
 @import 'client/app/main/pages/profile/tabs/about/about';
 @import 'client/app/main/pages/profile/tabs/photos-videos/photos-videos';
 @import 'client/app/main/pages/profile/tabs/timeline/timeline';

@@ -95,6 +95,10 @@ export function index(req, res) {
     options.populate = 'supplier';
     options.sort = req.query.sort;
 
+    if (req.user.role !== 'admin') {
+        
+    }
+
     return Product.paginate(query, options)
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -124,8 +128,15 @@ export function update(req, res) {
         .then(handleEntityNotFound(res))
         .then((entity) => {
             var updated = _.merge(entity, req.body);
+            
             // Force update the categories
             entity.categories = req.body.categories;
+            
+            // Set owner of this product
+            console.log(req.user);
+            if (req.user.role !== 'admin') {
+                entity.owner = req.user; 
+            }
 
             // Force update the tags array
             entity.tags = [];
