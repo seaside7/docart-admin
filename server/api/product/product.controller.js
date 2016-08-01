@@ -102,35 +102,8 @@ export function index(req, res) {
 
 // Gets a single Product from the DB
 export function show(req, res) {
-    return Product.findById(req.params.id).exec()
+    return Product.findById(req.params.id).populate('categories').exec()
         .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-export function catalog(req, res) {
-    Category
-        .findOne({ slug: req.params.slug })
-        .then(function(category) {
-            var categoryIds = [category._id].concat(category.children);
-            return Product
-                    .find( {'categories': { $in: categoryIds } } )
-                    .populate('categories')
-                    .exec(); 
-        })
-        .then(function(products) {
-            console.info(products);
-            respondWithResult(res, 200)(products);
-        })
-        .then(null, function(err) {
-            handleError(res, err);
-        });
-}
- 
-export function search(req, res) {
-    return Product.find({ $text: { $search: req.params.term } })
-        .populate('categories')
-        .exec()
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
@@ -144,13 +117,29 @@ export function create(req, res) {
 
 // Updates an existing Product in the DB
 export function update(req, res) {
-    console.info(req.body);
     if (req.body._id) {
         delete req.body._id;
     }
     return Product.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
-        .then(saveUpdates(req.body))
+        .then((entity) => {
+            var updated = _.merge(entity, req.body);
+            // Force update the categories
+            entity.categories = req.body.categories;
+
+            // Force update the tags array
+            entity.tags = [];
+            if (req.body.tags) {
+                req.body.tags.forEach((tag) => {
+                    entity.tags.push(tag);
+                })
+            }
+            
+            return updated.save()
+            .then(updated => {
+                return updated;
+            });
+        })
         .then(respondWithResult(res))
         .catch(handleError(res));
 }

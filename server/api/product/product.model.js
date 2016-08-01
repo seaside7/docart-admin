@@ -38,11 +38,11 @@ var ProductSchema = new Schema({
     featured: Boolean,
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', index: true }],
     publisher: { type: Schema.Types.ObjectId, ref: 'Supplier' },
-    tags: String
+    tags: [String]
 }).index({
     'title': 'text',
     'description': 'text',
-    'tags': 'text'
+    'tags': ['text']
 });
 
 ProductSchema.plugin(mongoosePaginate);

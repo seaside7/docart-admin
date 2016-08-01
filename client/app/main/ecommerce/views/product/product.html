@@ -1,3 +1,4 @@
+<form name="dataForm">
 <div id="e-commerce" class="page-layout simple tabbed" layout="column">
 
     <!-- HEADER -->
@@ -17,7 +18,7 @@
         </div>
 
         <div>
-            <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) || (dataForm3.$invalid || dataForm3.$pristine)">
+            <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="!vm.productId && ((dataForm.$invalid || dataForm.$pristine) || (dataForm3.$invalid || dataForm3.$pristine))">
                 <span translate="EC.SAVE">SAVE</span>
             </md-button>
         </div>
@@ -36,7 +37,7 @@
 
                 <md-tab-body>
                     <div class="detail-form-container md-background-bg md-whiteframe-1dp">
-                        <form name="dataForm">
+                        
                             <md-input-container class="md-block">
                                 <label translate="EC.PRODUCT_NAME">Product Name</label>
                                 <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
@@ -48,22 +49,11 @@
                             </md-input-container>
 
                             <h3 class="secondary-text" translate="EC.PRODUCT_DESCRIPTION">Product Description</h3>
-                            <text-angular ta-toolbar="vm.taToolbar" ng-model="vm.product.description" class="pb-32"></text-angular>
-                            <!--<md-input-container class="md-block">
-                                <label translate="EC.PRODUCT_DESCRIPTION">Product Description</label>
-
-                                <input type="description" ng-model="vm.data.description" name="description" required>
-
-                                <div ng-messages="dataForm.description.$error" ng-show="dataForm.description.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
-                            </md-input-container>-->
+                            <text-angular ta-toolbar="vm.taToolbar" ng-model="vm.data.description" class="pb-32"></text-angular>
 
                             <md-input-container class="md-block">
                                 <label translate="EC.CATEGORIES">Categories</label>
-                                <md-select ng-model="vm.product.categories"
+                                <md-select ng-model="vm.data.categories" ng-model-options="{trackBy: '$value._id'}"
                                            md-on-open="vm.onCategoriesSelectorOpen()"
                                            md-on-close="vm.onCategoriesSelectorClose()" multiple>
                                     <md-select-header>
@@ -72,32 +62,20 @@
                                     </md-select-header>
                                     <md-optgroup>
                                         <md-option ng-value="category"
-                                                   ng-repeat="category in vm.product.categories | filter:vm.categoriesSelectFilter">
-                                            {{category}}
+                                                   ng-repeat="category in vm.categories | filter: {name: vm.categoriesSelectFilter}">
+                                            {{category.parent ? 'M: ' + category.name : 'S: ' + category.name}}
                                         </md-option>
                                     </md-optgroup>
                                 </md-select>
                             </md-input-container>
 
-                            <!--<md-input-container class="md-block">
-                                <label translate="EC.CATEGORIES">Categories</label>
-                                <input type="text" ng-model="vm.data.categories" name="categories" required>
-                                <div ng-messages="dataForm.categories.$error" ng-show="dataForm.categories.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
-                            </md-input-container>-->
-
-                            <md-input-container class="md-block">
-                                <label translate="EC.TAGS">Tags</label>
-                                <input type="text" ng-model="vm.data.tags" name="tags">
-                                <div ng-messages="dataForm.tags.$error" ng-show="dataForm.tags.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
-                            </md-input-container>
+                            <h3 class="tags secondary-text" translate="EC.TAGS">Tags</h3>
+                            <md-chips ng-model="vm.data.tags"
+                                      placeholder="Enter a tag"
+                                      delete-button-label="Remove Tag"
+                                      delete-hint="Press delete to remove tag"
+                                      secondary-placeholder="+Tag">
+                            </md-chips>
 
                             <div layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
 
@@ -111,7 +89,7 @@
                             <div layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
                             </div>
 
-                        </form>
+                        
                     </div>
                 </md-tab-body>
             </md-tab>
@@ -165,7 +143,7 @@
 
                 <md-tab-body>
                     <div class="detail-form-container md-background-bg md-whiteframe-1dp">
-                        <form name="dataForm3">
+                        
                             <md-input-container class="md-block md-icon-float">
                                 <label translate="EC.PRICE">Price</label>
                                 <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
@@ -187,7 +165,7 @@
                                 </div>
                             </md-input-container>
                             
-                        </form>
+                        
                     </div>
                 </md-tab-body>
             </md-tab>
@@ -197,3 +175,4 @@
     <!-- / CONTENT -->
 
 </div>
+</form>

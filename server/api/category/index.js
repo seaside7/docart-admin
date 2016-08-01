@@ -7,6 +7,7 @@ var auth = require('./../../auth/auth.service');
 var router = express.Router();
 
 router.get('/', controller.index);
+router.get('/all', controller.indexAll);
 router.get('/main', controller.mainIndex);
 router.get('/subs/:id', controller.showChilds); 
 

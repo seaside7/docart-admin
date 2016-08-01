@@ -48,6 +48,7 @@
         "PRICE": "Price",
         "PRICE_INVENTORY": "Price &amp; Inventory",
         "STOCK_QUANTITY": "Stock Quantity",
+        "TAGS": "TAGS",
 
         "ERRORS": {
             "REQUIRED": "Required"

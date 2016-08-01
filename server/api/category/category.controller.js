@@ -83,6 +83,13 @@ export function index(req, res) {
 }
 
 // Gets a list of Categories
+export function indexAll(req, res) {
+  return Category.find({parent: null}).populate('children').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a list of Categories
 export function mainIndex(req, res) {
   var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") }, parent: null } : { parent: null };
   var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
