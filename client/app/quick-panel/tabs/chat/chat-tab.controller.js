@@ -15,14 +15,15 @@
         vm.chat = {};
         vm.chatActive = false;
         vm.replyMessage = '';
-
+        
+        /*
         msApi.request('quickPanel.contacts@get', {},
             // Success
             function (response)
             {
                 vm.contacts = response.data;
             }
-        );
+        );*/
 
         // Methods
         vm.toggleChat = toggleChat;

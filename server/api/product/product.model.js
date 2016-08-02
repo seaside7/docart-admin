@@ -19,7 +19,17 @@ var ProductSchema = new Schema({
         required: true,
         min: 0
     },
+    finalPrice: {
+        type: Number,
+        required: true,
+        min: 0
+    },
     stock: {
+        type: Number,
+        min: 0,
+        default: 0
+    },
+    discount: {
         type: Number,
         min: 0,
         default: 0

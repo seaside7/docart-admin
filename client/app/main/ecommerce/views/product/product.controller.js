@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function ProductController($state, $stateParams, $http, $document, toastr, Upload) {
+    function ProductController($scope, $state, $stateParams, $http, $document, toastr, Upload) {
         var vm = this;
 
         // Data
@@ -35,13 +35,20 @@
                     })
                     .catch((err) => {
                         toastr.error(err.data, 'ERROR');
-                    })
+                    }) 
             }
 
             // Set the tags other than undefined so we dont have a md-chips complaint
             if (!vm.data.tags) {
                 vm.data.tags = [];
-            }
+            } 
+
+            // Update finalPrice upon discount and price changes
+            $scope.$watchGroup(['vm.data.price', 'vm.data.discount'], () => {
+                var price = +vm.data.price;
+                var disc = +vm.data.discount;
+                vm.data.finalPrice = price - ((price * disc) / 100);
+            });
         }
 
         function loadCategories() {

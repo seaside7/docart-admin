@@ -17,7 +17,7 @@
         "PRODUCTS": "Products",
         "PRODUCT_NAME": "Product Name",
         "PRODUCT_DESCRIPTION": "Product Description",
-        "PRODUCT_IMAGES": "Product Images",
+        "PRODUCT_IMAGES": "Product Image",
         "TOTAL_PRODUCTS": "Total Products: ",
         "TOTAL_SUPPLIERS": "Total Suppliers: ",
 
@@ -46,6 +46,8 @@
         "PUBLISHED": "Published",
         "FEATURED": "Featured",
         "PRICE": "Price",
+        "FINAL_PRICE": "Final Price",
+        "DISCOUNT": "Discount",
         "PRICE_INVENTORY": "Price &amp; Inventory",
         "STOCK_QUANTITY": "Stock Quantity",
         "TAGS": "TAGS",

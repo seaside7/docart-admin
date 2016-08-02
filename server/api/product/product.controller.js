@@ -155,6 +155,32 @@ export function update(req, res) {
         .catch(handleError(res));
 }
 
+// Updates an existing images Product in the DB
+export function update(req, res) {
+    if (req.body._id) {
+        delete req.body._id;
+    }
+    return Product.findById(req.params.id).exec()
+        .then(handleEntityNotFound(res))
+        .then((entity) => {
+            // Force update the categories
+            entity.categories = req.body.categories;
+            
+            // Set owner of this product
+            console.log(req.user);
+            if (req.user.role !== 'admin') {
+                entity.owner = req.user; 
+            }
+            
+            return entity.save()
+                .then(updated => {
+                    return updated;
+                });
+        })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Deletes a Product from the DB
 export function destroy(req, res) {
     return Product.findById(req.params.id).exec()
