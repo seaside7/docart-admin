@@ -58,6 +58,9 @@
                                 <th md-column md-order-by="name"><span>Name</span></th>
                                 <th md-column md-order-by="category"><span>Category</span></th>
                                 <th md-column md-numeric><span>Price</span></th>
+                                <th md-column md-numeric><span>Discount</span></th>
+                                <th md-column md-numeric><span>Final Price</span></th>
+                                <th md-column >Owner</th>
                                 <th md-column md-numeric><span>Quantity</span></th>
                                 <th md-column><span layout="row" layout-align="center center">Published</span></th>
                                 <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
@@ -69,8 +72,15 @@
                                 <td md-cell>{{$index+1}}</td>
                                 <td md-cell><img class="product-image" ng-src="{{product.imageUrl}}"></td>
                                 <td md-cell>{{product.name}}</td>
-                                <td md-cell>{{product.category}}</td>
-                                <td md-cell>{{product.price | currency}}</td>
+                                <td md-cell>
+                                    <div ng-repeat="cat in product.categories">
+                                        {{cat.name + ($last ? '' : ', ')}}
+                                    </div>
+                                </td>
+                                <td md-cell>{{product.price | currency:'IDR '}}</td>
+                                <td md-cell>{{product.discount}} %</td>
+                                <td md-cell>{{product.finalPrice | currency:'IDR '}}</td>
+                                <td md-cell>{{product.owner.name}}</td>
                                 <td md-cell>{{product.stock}}</td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">

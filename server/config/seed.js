@@ -100,6 +100,7 @@ Category.find({}).remove()
     console.error('Error populating Products & categories: ', err);
   })
 */
+/*
 User.find({}).remove()
   .then(() => {
     User.create({
@@ -125,3 +126,4 @@ User.find({}).remove()
       });
   });
 
+*/

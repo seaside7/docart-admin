@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function ProductController($scope, $state, $stateParams, $http, $document, toastr, Upload) {
+    function ProductController($scope, $state, $stateParams, $http, $document, toastr, Upload, Auth) {
         var vm = this;
 
         // Data
@@ -13,7 +13,7 @@
             ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote', 'bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
             ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent', 'html', 'insertImage', 'insertLink', 'insertVideo', 'wordcount', 'charcount']
         ];
-
+        vm.Auth = Auth;
         
         // Methods
         vm.goBack = goBack;
@@ -126,7 +126,7 @@
 
             Upload.upload(query).then((response) => {
                 console.log(response);
-                toastr.success('Category created', 'Success');
+                toastr.success('Product saved', 'Success');
                 init();
             })
             .catch((err) => {

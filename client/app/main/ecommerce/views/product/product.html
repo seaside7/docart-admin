@@ -154,18 +154,18 @@
                     <md-tab-body>
                         <div class="detail-form-container md-background-bg md-whiteframe-1dp">
 
-                            <div ngf-drop ngf-select ng-model="vm.product.images" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false"
+                            <div ngf-drop ngf-select ng-model="vm.data.image" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false"
                                 ngf-allow-dir="true" accept="image/*" ngf-pattern="'image/*'">
 
                                 <div class="upload-button" layout="column" layout-align="center center">
-                                    <md-button class="md-accent md-raised" ngf-select ng-model="vm.product.image" ngf-multiple="false">
+                                    <md-button class="md-accent md-raised" ngf-select ng-model="vm.data.image" ngf-multiple="false">
                                         Upload
                                     </md-button>
                                     <span class="secondary-text mt-8">You can also drop image here to upload. Only PNG, JPG - Max. 8MB</span>
                                 </div>
                                 <div layout="row" layout-align="start start" layout-wrap>
                                     <!--<img class="media" ngf-src="vm.product.images">-->
-                                    <img class="media" ngf-src="vm.product.image">
+                                    <img class="media" ngf-src="vm.data.image">
                                     <div class="product-image" layout="row" layout-align="center center">
 
                                     </div>

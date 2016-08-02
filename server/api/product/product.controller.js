@@ -21,7 +21,6 @@ function saveFile(res, file) {
         var newPath = '/assets/uploads' + path.basename(file.path);
         entity.imageUrl = newPath;
         return entity.saveAsync().spread(function(updated) {
-            console.log("=> updated");
             return updated;
         });
     }
@@ -91,12 +90,12 @@ export function uploads(req, res) {
 export function index(req, res) {
     var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") } } : { };
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
-    options.select = '_id name email role imageUrl supplier customer';
-    options.populate = 'supplier';
+    options.select = '_id name categories price discount finalPrice stock published imageUrl owner';
+    options.populate = 'owner categories';
     options.sort = req.query.sort;
 
-    if (req.user.role !== 'admin') {
-        
+    if (req.user.role === 'supplier') {
+        query.owner = req.user._id;   
     }
 
     return Product.paginate(query, options)
@@ -114,6 +113,19 @@ export function show(req, res) {
 
 // Creates a new Product in the DB
 export function create(req, res) {
+    if (req.files) {
+        var image = req.files.image;
+        if (image) {
+            req.body.imageUrl = shared.getUploadPath(path.basename(image.path));
+        }
+        delete req.body.image;
+    }
+
+    // Set owner of this product        
+    if (req.user.role === 'supplier') {
+        req.body.owner = req.user; 
+    }
+
     return Product.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
@@ -124,20 +136,31 @@ export function update(req, res) {
     if (req.body._id) {
         delete req.body._id;
     }
+
+    if (req.files) {
+        var image = req.files.image;
+        if (image) {
+            req.body.imageUrl = shared.getUploadPath(path.basename(image.path));
+        }
+        delete req.body.image;
+    }
+
     return Product.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then((entity) => {
+
+            if (entity.imageUrl && req.body.imageUrl && entity.imageUrl !== req.body.imageUrl) {
+                var image = path.basename(entity.imageUrl);
+                var deleteImagePath = shared.getRelativeUploadPath(image);
+                console.log("Deleting imageUrl: " + deleteImagePath);
+                fs.remove(deleteImagePath);
+            }
+
             var updated = _.merge(entity, req.body);
             
             // Force update the categories
             entity.categories = req.body.categories;
             
-            // Set owner of this product
-            console.log(req.user);
-            if (req.user.role !== 'admin') {
-                entity.owner = req.user; 
-            }
-
             // Force update the tags array
             entity.tags = [];
             if (req.body.tags) {
@@ -155,36 +178,18 @@ export function update(req, res) {
         .catch(handleError(res));
 }
 
-// Updates an existing images Product in the DB
-export function update(req, res) {
-    if (req.body._id) {
-        delete req.body._id;
-    }
-    return Product.findById(req.params.id).exec()
-        .then(handleEntityNotFound(res))
-        .then((entity) => {
-            // Force update the categories
-            entity.categories = req.body.categories;
-            
-            // Set owner of this product
-            console.log(req.user);
-            if (req.user.role !== 'admin') {
-                entity.owner = req.user; 
-            }
-            
-            return entity.save()
-                .then(updated => {
-                    return updated;
-                });
-        })
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
 // Deletes a Product from the DB
 export function destroy(req, res) {
     return Product.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
+        .then((entity) => {
+            if (entity.imageUrl) {
+                var image = path.basename(entity.imageUrl);
+                var deleteImagePath = shared.getRelativeUploadPath(image);
+                console.log("Deleting imageUrl: " + deleteImagePath);
+                fs.remove(deleteImagePath);
+            }
+            return removeEntity(res)(entity);
+        })
         .catch(handleError(res));
 }
