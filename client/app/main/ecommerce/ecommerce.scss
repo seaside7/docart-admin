@@ -19,6 +19,21 @@ input:-webkit-autofill { -webkit-box-shadow:0 0 0 500px white inset; }
 
 #e-commerce {
 
+    .header {
+        .product-image {
+            overflow: hidden;
+            width: 56px;
+            height: 56px;
+            margin-right: 16px;
+            border: 3px solid rgba(0, 0, 0, 0.12);
+
+            img {
+                height: 100%;
+                width: auto;
+                max-width: none;
+            }
+        }
+    }
     .center {
 
         .header {

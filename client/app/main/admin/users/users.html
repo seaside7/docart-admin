@@ -1,1 +1,105 @@
-<div>This is the users view.</div>
+<div id="e-commerce" class="page-layout carded fullwidth" layout="row">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg md-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <!-- CONTENT HEADER -->
+        <div class="header" layout="row" layout-align="space-between center">
+            <div class="white-fg" layout="column" layout-align="start start">
+                <div class="h1" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-truck"></md-icon>
+                    <span translate="USERS.USERS_NAV">Users</span>
+                </div>
+                <div class="data-count secondary-text">
+                    <span translate="USERS.TOTAL_USERS">Total users: </span>
+                    <span>{{vm.totalData}}</span>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="start start">
+                <md-button class="md-fab md-red-bg" aria-label="Add Supplier" ng-click="vm.createData()">
+                    <md-icon md-font-icon="icon-plus"></md-icon>
+                </md-button>
+            </div>
+        </div>
+        
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+
+        <div class="content-card" layout="column" flex>
+
+            <!-- CONTENT TOOLBAR -->
+
+            <div class="toolbar" layout="row" layout-align="end center">
+
+                <div class="search" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-magnify" class="icon search-icon"></md-icon>
+                    <input id="e-commerce-categories-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="USERS.SEARCH"
+                        flex>
+                </div>
+            </div>
+
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            <div class="content fullpage-datatable table-responsive" layout="column" flex>
+
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head md-order="vm.query.order" md-on-reorder="vm.onReorder">
+                            <tr md-row>
+                                <th md-column><span>No</span></th>
+                                <th md-column><span>Profile Photo</span></th>
+                                <th md-column md-order-by="name"><span>Name</span></th>
+                                <th md-column md-order-by="email"><span>Email</span></th>
+                                <th md-column md-order-by="role"><span>Role</span></th>
+                                <th md-column><span>Active</span></th>
+                                <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row ng-repeat="user in vm.users">
+                                <td md-cell>{{$index+1}}</td>
+                                <td md-cell><img class="product-image" ng-src="{{user.imageUrl}}"></td>
+                                <td md-cell>{{user.name}}</td>
+                                <td md-cell>{{user.email}}</td>
+                                <td md-cell>{{user.role | uppercase}}</td>
+                                <td md-cell>
+                                    <i class="icon-checkbox-marked-circle green-500-fg" ng-show="supplier.supplier.active"></i>
+                                    <i class="icon-cancel grey-500-fg" ng-show="!category.active"></i>
+                                </td>
+                                <td md-cell>
+                                    <div layout="row" layout-align="center center">
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(user)" aria-label="Order details"
+                                            translate translate-attr-aria-label="USER.DETAILS">
+                                            <md-icon md-font-icon="icon-dots-horizontal" class="s16"></md-icon>
+                                        </md-button>
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(user)" aria-label="Delete category" translate translate-attr-aria-label="USER.DELETE">
+                                            <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
+                                        </md-button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+
+                <md-table-pagination md-limit="vm.query.limit" md-limit-options="vm.limitOptions" md-page="vm.query.page" md-total="{{vm.totalData}}"
+                    md-page-select="true" md-boundary-links="true" md-on-paginate="vm.onPaginate"></md-table-pagination>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

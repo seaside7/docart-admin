@@ -1,18 +1,22 @@
 {
     "USERS": {
-        "USERS_NAV": "Users"
+        "USERS_NAV": "Users",
+        "TOTAL_USERS": "Total users: ",
+        "SEARCH": "Search"
     },
-    "EC": {
-        "ADD_CATEGORY": "Add Categiry",
-        "TOTAL_CATEGORY": "Total Categories:",
-        "CATEGORIES": "Categories",
-        "SEARCH": "Search",
-        "GO_TO_CATEGORIES": "Go to categories",
-        "EDIT": "Edit",
+    "USER": {
+        "USER_NAME": "User Name",
+        "PASSWORD": "Password",
+        "OLD_PASSWORD": "Old Password",
+        "NEW_PASSWORD": "New Password",
+        "EMAIL": "Email",
+        "PROFILE": "User's Profile",
+        "GO_TO_USERS": "Go back to users",
         "SAVE": "Save",
-        "CATEGORY_NAME": "Category Name",
-        "CATEGORY_DELETE": "Delete Category",
-        "TAGS": "Tags",
-        "STATUS": "Status"
+        "DETAILS": "User details",
+        "DELETE": "Delete",
+        "ERRORS": {
+            "REQUIRED": "Required"
+        }
     }
 }
