@@ -1,1 +1,90 @@
-<div>This is the dashboard view.</div>
+<div id="dashboard" class="page-layout simple fullwidth doc-page">
+
+    <!-- HEADER -->
+    <!--
+    <div class="header md-accent-bg" layout="row" layout-align="space-between">
+        <div layout="column" layout-align="center start">
+            <div class="title">Welcome to DoCart</div>
+        </div>
+    </div> -->
+    <!-- / HEADER -->
+    
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <p class="h3 m-16">
+            Welcome to DoCart dashboard, here you can find summary informations of you store.
+        </p>
+
+
+        <!-- WIDGET GROUP -->
+        <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+            <!-- WIDGET 9 -->
+            <ms-widget class="h-300" layout="column" flex="100" flex-gt-xs="50"
+                       flex-gt-md="25">
+
+                <!-- Front -->
+                <ms-widget-front class="p-16 deep-orange-bg white-fg" layout="row" flex>
+                    <div layout="column" layout-align="center center" flex>
+                        <div class="md-display-3 pb-8">{{vm.customerCount}}</div>
+                        <div class="h3 font-weight-500">Customers</div>
+                    </div>
+
+                    <div class="background-image-center">
+                        <md-icon md-font-icon="icon-account-multiple" class="s256 faint-text"></md-icon>
+                    </div>
+                </ms-widget-front>
+                <!-- / Front -->
+
+            </ms-widget>
+            <!-- / WIDGET 9 -->
+
+            <!-- WIDGET 10 -->
+            <ms-widget class="h-300" layout="column" flex="100" flex-gt-xs="50"
+                       flex-gt-md="25">
+
+                <!-- Front -->
+                <ms-widget-front class="p-16 cyan-bg white-fg" layout="row" flex>
+                    <div layout="column" layout-align="center center" flex>
+                        <div class="md-display-3 pb-8">{{vm.supplierCount}}</div>
+                        <div class="h3 font-weight-500">Suppliers</div>
+                    </div>
+
+                    <div class="background-image-center">
+                        <md-icon md-font-icon="icon-truck" class="s256 faint-text"></md-icon>
+                    </div>
+                </ms-widget-front>
+                <!-- / Front -->
+
+            </ms-widget>
+            <!-- / WIDGET 10 -->
+
+            <!-- WIDGET 11 -->
+            <ms-widget class="h-300" layout="column" flex="100" flex-gt-md="50">
+
+                <!-- Front -->
+                <ms-widget-front class="p-16 teal-bg white-fg" layout="row" flex ui-sref="app.products">
+                    <div layout="column" layout-align="center center" flex>
+                        <div class="md-display-3 pb-8">{{vm.productCount}}</div>
+                        <div class="h3 font-weight-500">Products</div>
+                    </div>
+
+                    <div class="background-image-center">
+                        <md-icon md-font-icon="icon-basket" class="s256 faint-text"></md-icon>
+                    </div>
+                </ms-widget-front>
+                <!-- / Front -->
+
+            </ms-widget>
+            <!-- / WIDGET 11 -->
+
+        </div>
+        <!-- / WIDGET GROUP -->
+
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>
