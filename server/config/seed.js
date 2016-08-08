@@ -10,8 +10,22 @@ import Category from '../api/category/category.model';
 import Product from '../api/product/product.model';
 import Supplier from '../api/supplier/supplier.model';
 
-var ayam, daging;
+User.find({}).remove()
+  .then(() => {
+    User.create({
+      provider: 'local',
+      role: 'admin',
+      name: 'Admin',
+      email: 'admin@docart.com',
+      password: 'admin123'
+    })
+      .then((user) => {
+        console.log('seed: Finished populating users');
+      });
+  });
+
 /*
+var ayam, daging;
 Category.find({}).remove()
   .then(function () {
     return Category.create({ name: 'Ayam' })
@@ -99,31 +113,4 @@ Category.find({}).remove()
   .then(null, function (err) {
     console.error('Error populating Products & categories: ', err);
   })
-*/
-/*
-User.find({}).remove()
-  .then(() => {
-    User.create({
-      provider: 'local',
-      name: 'Test User',
-      email: 'test@docart.com',
-      password: 'test123'
-    }, {
-        provider: 'local',
-        role: 'admin',
-        name: 'Admin',
-        email: 'admin@docart.com',
-        password: 'admin123'
-      })
-      .then((user) => {
-        console.log('finished populating users');
-
-        Supplier.find({}).remove()
-          .then(() => {
-            user.addSupplier({active: true, address: 'manglayang'});
-          })
-        
-      });
-  });
-
 */

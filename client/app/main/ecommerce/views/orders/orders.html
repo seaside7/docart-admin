@@ -1,1 +1,97 @@
-<div>This is the orders view.</div>
+<div id="e-commerce" class="page-layout carded fullwidth" layout="row">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg md-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <!-- CONTENT HEADER -->
+        <div class="header" layout="row" layout-align="space-between center">
+            <div class="white-fg" layout="column" layout-align="start start">
+                <div class="h1" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-cart"></md-icon>
+                    <span translate="EC.NAV.ORDERS">Orders</span>
+                </div>
+                <div class="data-count secondary-text">
+                    <span translate="EC.TOTAL_ORDERS">Total orders:</span>
+                    <span>{{vm.totalData}}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+
+        <div class="content-card" layout="column" flex>
+
+            <!-- CONTENT TOOLBAR -->
+
+            <div class="toolbar" layout="row" layout-align="end center">
+
+                <div class="search" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-magnify" class="icon search-icon"></md-icon>
+                    <input id="e-commerce-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="EC.SEARCH"
+                        flex>
+                </div>
+            </div>
+
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            <div class="content fullpage-datatable table-responsive" layout="column" flex>
+
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head md-order="vm.query.order" md-on-reorder="vm.onReorder">
+                            <tr md-row>
+                                <th md-column><span>No</span></th>
+                                <th md-column><span>Customer</span></th>
+                                <th md-column><span>Customer Image</span></th>
+                                <th md-column md-numeric><span>Cart Items</span></th>
+                                <th md-column md-order-by="status"><span>Status</span></th>
+                                <th md-column md-order-by="created"><span>Created At</span></th>
+                                <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row ng-repeat="order in vm.orders">
+                                <td md-cell>{{$index+1}}</td>
+                                <td md-cell>{{order.customer.name}}</td>
+                                <td md-cell><img class="product-image" ng-src="{{order.customer.imageUrl}}"></td>
+                                <td md-cell>{{order.cart.length}}</td>
+                                <td md-cell>{{order.status}}</td>
+                                <td md-cell>{{order.created | date: 'DD-MM-YYYY HH:mm:ss'}}</td>
+                                <td md-cell>
+                                    <div layout="row" layout-align="center center">
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(order)" 
+                                            aria-label="Order details" translate translate-attr-aria-label="EC.ORDER_DETAILS">
+                                            <md-icon md-font-icon="icon-dots-horizontal" class="s16"></md-icon>
+                                        </md-button>
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(order)" 
+                                            aria-label="Delete order" translate translate-attr-aria-label="EC.ORDER_DELETE">
+                                            <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
+                                        </md-button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+
+                <md-table-pagination md-limit="vm.query.limit" md-limit-options="vm.limitOptions" md-page="vm.query.page" md-total="{{vm.totalData}}"
+                    md-page-select="true" md-boundary-links="true" md-on-paginate="vm.onPaginate"></md-table-pagination>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

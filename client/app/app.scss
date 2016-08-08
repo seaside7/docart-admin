@@ -15,10 +15,10 @@
 @import 'client/app/core/directives/ms-card/templates/template-10/template-10';
 @import 'client/app/core/directives/ms-card/templates/template-2/template-2';
 @import 'client/app/core/directives/ms-card/templates/template-3/template-3';
+@import 'client/app/core/directives/ms-card/templates/template-4/template-4';
 @import 'client/app/core/directives/ms-card/templates/template-5/template-5';
 @import 'client/app/core/directives/ms-card/templates/template-6/template-6';
 @import 'client/app/core/directives/ms-card/templates/template-7/template-7';
-@import 'client/app/core/directives/ms-card/templates/template-4/template-4';
 @import 'client/app/core/directives/ms-card/templates/template-8/template-8';
 @import 'client/app/core/directives/ms-card/templates/template-9/template-9';
 @import 'client/app/core/directives/ms-stepper/templates/horizontal/horizontal';
@@ -42,8 +42,8 @@
 @import 'client/app/core/directives/ms-widget/ms-widget';
 @import 'client/app/quick-panel/quick-panel';
 @import 'client/app/toolbar/toolbar';
-@import 'client/app/main/dashboard/dashboard';
 @import 'client/app/main/ecommerce/ecommerce';
+@import 'client/app/main/dashboard/dashboard';
 @import 'client/app/main/admin/users/users';
 @import 'client/app/main/auth/forgot-password/forgot-password';
 @import 'client/app/main/auth/lock/lock';
@@ -53,8 +53,8 @@
 @import 'client/app/main/auth/register-v2/register-v2';
 @import 'client/app/main/auth/reset-password/reset-password';
 @import 'client/app/navigation/layouts/horizontal-navigation/navigation';
-@import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation/navigation';
+@import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';
 @import 'client/app/quick-panel/tabs/activity/activity-tab';
 @import 'client/app/quick-panel/tabs/chat/chat-tab';
 @import 'client/app/quick-panel/tabs/today/today-tab';
@@ -63,7 +63,6 @@
 @import 'client/app/toolbar/layouts/vertical-navigation-fullwidth-toolbar-2/toolbar';
 @import 'client/app/main/ecommerce/views/categories/categories';
 @import 'client/app/main/ecommerce/views/categories.sub/sub.categories';
-@import 'client/app/main/ecommerce/views/orders/orders';
 @import 'client/app/main/ecommerce/views/products/products';
 @import 'client/app/main/ecommerce/views/categories/dialogs/category-form-dialog';
 // endinjector

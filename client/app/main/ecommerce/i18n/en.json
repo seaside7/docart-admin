@@ -20,6 +20,8 @@
         "PRODUCT_IMAGES": "Product Image",
         "TOTAL_PRODUCTS": "Total Products: ",
         "TOTAL_SUPPLIERS": "Total Suppliers: ",
+        "TOTAL_ORDERS": "Total Orders: ",
+        "SEARCH": "Search",
 
         "CATEGORY_EDIT": "Edit Category",
         "CATEGORY_DETAILS": "Category Details",

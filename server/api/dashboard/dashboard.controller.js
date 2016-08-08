@@ -12,7 +12,8 @@
 import _ from 'lodash';
 import User from './../user/user.model';
 import Product from './../product/product.model';
-
+import Order from './../order/order.model';
+import Category from './../category/category.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -62,22 +63,40 @@ function handleError(res, statusCode) {
 }
 
 function getProductCounts(callback) {
-    
+
 }
 
 // Gets a list of Dashboards
 export function index(req, res) {
-    return User.count({role: 'customer'}).exec()
+
+    // Customer count
+    return User.count({ role: 'customer' }).exec()
         .then(customerCount => {
-            return User.count({role: 'supplier'}).exec()
+
+            // Supplier count
+            return User.count({ role: 'supplier' }).exec()
                 .then(supplierCount => {
+
+                    // Product count
                     return Product.count({}).exec()
                         .then(productCount => {
-                            res.status(201).json({
-                                customerCount: customerCount,
-                                supplierCount: supplierCount,
-                                productCount: productCount
-                            });
+
+                            // Order count
+                            return Order.count({}).exec()
+                                .then(orderCount => {
+
+                                    // Main Categories
+                                    return Category.count({}).exec()
+                                        .then(categoryCount => {
+                                            res.status(201).json({
+                                                customerCount: customerCount,
+                                                supplierCount: supplierCount,
+                                                productCount: productCount,
+                                                orderCount: orderCount,
+                                                categoryCount: categoryCount
+                                            })
+                                        });
+                                })
                         })
                         .catch(handleError(res));
                 })
