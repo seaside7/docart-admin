@@ -27,21 +27,6 @@
             });
 
         $translatePartialLoaderProvider.addPart('app/main/admin/users');
-
-        // Navigation
-        msNavigationServiceProvider.saveItem('admin', {
-            title: 'Administrator',
-            group: true,
-            weight: 2
-        });
-
-        msNavigationServiceProvider.saveItem('admin.users', {
-            title: 'Users',
-            icon: 'icon-tag-multiple',
-            state: 'app.users',
-            translate: 'USERS.USERS_NAV',
-            weight: 2
-        });
     }
 
     angular.module('app.users', [])

@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function UsersController($http, $state, $mdDialog, $document, toastr, Upload) {
+    function UsersController($http, $state, $mdDialog, $document, toastr, Upload, msNavigationService, Auth) {
         var vm = this;
         var started = false;
 
@@ -11,7 +11,7 @@
         vm.totalData = 0;
         vm.query = {
             order: 'name', limit: 25, page: 1, search: '', sort: 'name'
-        }; 
+        };
 
         // Methods
         vm.reloadData = reloadData;
@@ -41,6 +41,25 @@
                     }
                 });
             }
+
+            // Navigation
+            msNavigationService.saveItem('admin', {
+                title: 'Administrator',
+                group: true,
+                weight: 2
+            });
+
+            msNavigationService.saveItem('admin.users', {
+                title: 'Users',
+                icon: 'icon-tag-multiple',
+                state: 'app.users',
+                translate: 'USERS.USERS_NAV',
+                weight: 2,
+                hidden: function () {
+                    return !Auth.isAdmin();
+                }
+            });
+
         }
 
         /**
@@ -50,7 +69,7 @@
             $http({
                 method: 'GET',
                 url: '/api/users',
-                params: { offset: (vm.query.page - 1) * vm.query.limit, limit: vm.query.limit, search: vm.query.search, sort: vm.query.sort}
+                params: { offset: (vm.query.page - 1) * vm.query.limit, limit: vm.query.limit, search: vm.query.search, sort: vm.query.sort }
             })
                 .then(function (response) {
                     console.log(response.data);
@@ -75,10 +94,10 @@
          */
         function editData(data) {
             if (data.role === 'supplier') {
-                $state.go('app.supplier', {id: data._id});
+                $state.go('app.supplier', { id: data._id });
             }
             else {
-                $state.go('app.user_profile', {id: data._id});
+                $state.go('app.user_profile', { id: data._id });
             }
         }
 
@@ -89,14 +108,14 @@
          */
         function deleteData(data) {
             var confirm = $mdDialog.confirm()
-                    .title('Delete')
-                    .textContent('Are you sure you want to delete user ' + data.name + '?')
-                    .ariaLabel('Delete')
-                    .ok('Yes')
-                    .cancel('No');
+                .title('Delete')
+                .textContent('Are you sure you want to delete user ' + data.name + '?')
+                .ariaLabel('Delete')
+                .ok('Yes')
+                .cancel('No');
 
             $mdDialog.show(confirm).then(function () {
-                
+
                 $http.delete('/api/users/' + data._id)
                     .then((response) => {
                         console.log(response);

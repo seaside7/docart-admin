@@ -19,7 +19,10 @@
             icon: 'icon-tag-multiple',
             state: 'app.categories',
             translate: 'EC.NAV.CATEGORIES',
-            weight: 1
+            weight: 1,
+            hidden: function() {
+                return !Auth.isAdmin();
+            }
         });
 
         /*

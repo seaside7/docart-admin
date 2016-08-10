@@ -28,7 +28,7 @@ var OrderSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['delivered', 'not delivered', 'cancelled', 'on process'],
+    enum: ['delivered', 'not delivered', 'cancelled', 'on process', 'paid'],
     default: 'on process'
   },
   created: { type: Date, default: Date.now }

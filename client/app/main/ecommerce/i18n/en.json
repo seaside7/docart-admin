@@ -53,6 +53,8 @@
         "PRICE_INVENTORY": "Price &amp; Inventory",
         "STOCK_QUANTITY": "Stock Quantity",
         "TAGS": "TAGS",
+        "SAVE": "Save",
+        "CATEGORIES": "Categories",
 
         "ERRORS": {
             "REQUIRED": "Required"
