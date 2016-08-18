@@ -29,7 +29,36 @@
         $translatePartialLoaderProvider.addPart('app/main/admin/users');
     }
 
+    function usersRun(msNavigationService, Auth) {
+
+        console.log('=----------------------RUN-------------------------');
+        console.log(Auth.isAdmin());
+
+        // Navigation
+        msNavigationService.saveItem('admin', {
+            title: 'Administrator',
+            group: true,
+            weight: 2,
+            hidden: function () {
+                return !Auth.isAdmin();
+            }
+        });
+
+        msNavigationService.saveItem('admin.users', {
+            title: 'Users',
+            icon: 'icon-tag-multiple',
+            state: 'app.users',
+            translate: 'USERS.USERS_NAV',
+            weight: 2,
+            hidden: function () {
+                return !Auth.isAdmin();
+            }
+        });
+
+    }
+
     angular.module('app.users', [])
-        .config(config);
+        .config(config)
+        .run(usersRun);
 
 })()
