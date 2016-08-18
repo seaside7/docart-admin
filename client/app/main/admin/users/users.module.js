@@ -30,10 +30,6 @@
     }
 
     function usersRun(msNavigationService, Auth) {
-
-        console.log('=----------------------RUN-------------------------');
-        console.log(Auth.isAdmin());
-
         // Navigation
         msNavigationService.saveItem('admin', {
             title: 'Administrator',
