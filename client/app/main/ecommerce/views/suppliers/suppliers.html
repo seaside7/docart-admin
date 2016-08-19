@@ -58,6 +58,7 @@
                                 <th md-column><span>Logo</span></th>
                                 <th md-column md-order-by="name"><span>Name</span></th>
                                 <th md-column><span>Active</span></th>
+                                <th md-column><span>Premium</span></th>
                                 <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
                                 </th>
                             </tr>
@@ -71,6 +72,10 @@
                                 <td md-cell>
                                     <i class="icon-checkbox-marked-circle green-500-fg" ng-show="supplier.supplier.active"></i>
                                     <i class="icon-cancel grey-500-fg" ng-show="!supplier.supplier.active"></i>
+                                </td>
+                                <td md-cell>
+                                    <i class="icon-checkbox-marked-circle green-500-fg" ng-show="supplier.supplier.premium"></i>
+                                    <i class="icon-cancel grey-500-fg" ng-show="!supplier.supplier.premium"></i>
                                 </td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">

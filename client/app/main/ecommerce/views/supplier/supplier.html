@@ -88,9 +88,18 @@
                     <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                         <form name="dataForm2">
                             <div layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
-                                <label translate="EC.DIALOG.ACTIVE">Active</label>
-                                <md-switch style="padding: 15px" ng-model="vm.data.active" aria-label="Active" translate
-                                            translate-attr-aria-label="EC.DIALOG.ACTIVE"></md-switch>                               
+                                <div >
+                                    <label translate="EC.DIALOG.ACTIVE">Active</label>
+                                    <md-switch style="padding: 15px" ng-model="vm.data.active" aria-label="Active" translate
+                                            translate-attr-aria-label="EC.DIALOG.ACTIVE"></md-switch>
+                                </div>
+                                <div>
+                                    <label translate="EC.DIALOG.PREMIUM">Active</label>
+                                    <md-switch style="padding: 15px" ng-model="vm.data.premium" aria-label="Premium" translate
+                                            translate-attr-aria-label="EC.DIALOG.PREMIUM"></md-switch>
+                                </div>
+                                
+                                            
                             </div>
 
                             <div class="upload" layout="row" layout-align="space-between end" style="margin-top: 30px;">

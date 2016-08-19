@@ -6,7 +6,7 @@
 
         // Navigation
         msNavigationService.saveItem('ecommerce', {
-            title: 'eCommerce',
+            title: 'e-Commerce',
             group: true,
             weight: 1
         });

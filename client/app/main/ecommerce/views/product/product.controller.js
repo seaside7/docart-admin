@@ -32,6 +32,7 @@
                     .then((response) => {
                         console.log(response);
                         vm.data = response.data;
+                        vm.productTitle = vm.data.name.toUpperCase();
                     })
                     .catch((err) => {
                         toastr.error(err.data, 'ERROR');

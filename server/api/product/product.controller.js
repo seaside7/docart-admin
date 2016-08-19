@@ -90,7 +90,7 @@ export function uploads(req, res) {
 export function index(req, res) {
     var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") } } : { };
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
-    options.select = '_id name categories price discount finalPrice stock published imageUrl owner';
+    options.select = '_id name categories price discount finalPrice stock unit published imageUrl owner';
     options.populate = 'owner categories';
     options.sort = req.query.sort;
 

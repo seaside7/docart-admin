@@ -11,7 +11,8 @@
             "CLOSE": "Close",
             "CATEGORY_NAME": "Category Name",
             "ACTIVE": "Active",
-            "SAVE": "Save"
+            "SAVE": "Save",
+            "PREMIUM": "Premium"
         },
         
         "PRODUCTS": "Products",
@@ -52,6 +53,7 @@
         "DISCOUNT": "Discount",
         "PRICE_INVENTORY": "Price &amp; Inventory",
         "STOCK_QUANTITY": "Stock Quantity",
+        "UNIT": "Unit",
         "TAGS": "TAGS",
         "SAVE": "Save",
         "CATEGORIES": "Categories",

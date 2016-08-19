@@ -140,6 +140,15 @@
                                 </div>
                             </md-input-container>
 
+                            <md-input-container class="md-block md-icon-float">
+                                <label translate="EC.UNIT">Stock Unit</label>
+                                <input type="text" name="unit" ng-model="vm.data.unit" required>
+                                <div ng-messages="dataForm3.unit.$error" ng-show="dataForm3.unit.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
 
                         </div>
                     </md-tab-body>
