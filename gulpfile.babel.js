@@ -26,6 +26,7 @@ const serverPath = 'server';
 const paths = {
     client: {
         assets: `${clientPath}/assets/**/*`,
+        il8n: `${clientPath}/**/*.json`,
         images: `${clientPath}/assets/images/**/*`,
         scripts: [
             `${clientPath}/**/!(*.spec|*.mock).js`,
@@ -490,6 +491,7 @@ gulp.task('build', cb => {
             'copy:fonts',
             'copy:assets',
             'copy:server',
+            'copy:il8n',
             'build:client'
         ],
         cb);
@@ -566,6 +568,22 @@ gulp.task('build:images', () => {
         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
 });
 
+gulp.task('build:images', () => {
+    return gulp.src(paths.client.images)
+        .pipe(plugins.imagemin({
+            optimizationLevel: 5,
+            progressive: true,
+            interlaced: true
+        }))
+        .pipe(plugins.rev())
+        .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/images`))
+        .pipe(plugins.rev.manifest(`${paths.dist}/${clientPath}/assets/rev-manifest.json`, {
+            base: `${paths.dist}/${clientPath}/assets`,
+            merge: true
+        }))
+        .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
+});
+
 gulp.task('copy:extras', () => {
     return gulp.src([
         `${clientPath}/favicon.ico`,
@@ -583,6 +601,11 @@ gulp.task('copy:fonts', () => {
 gulp.task('copy:assets', () => {
     return gulp.src([paths.client.assets, '!' + paths.client.images])
         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
+});
+
+gulp.task('copy:il8n', () => {
+    return gulp.src([paths.client.il8n])
+        .pipe(gulp.dest(`${paths.dist}/${clientPath}`));
 });
 
 gulp.task('copy:server', () => {
