@@ -612,7 +612,8 @@ gulp.task('copy:server', () => {
     return gulp.src([
         'package.json',
         'bower.json',
-        '.bowerrc'
+        '.bowerrc',
+        'docart.json'
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });
