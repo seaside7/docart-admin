@@ -1,6 +1,6 @@
 {
   apps : [{
-    name        : "DoCartAdmin",
+    name        : "docart.admin",
     script      : "server/app.js",
     watch       : true,
     env: {
