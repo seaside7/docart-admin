@@ -1,4 +1,5 @@
 /// <reference path="globals/angular-toastr/index.d.ts" />
+/// <reference path="globals/app-root-path/index.d.ts" />
 /// <reference path="globals/fast-json-patch/index.d.ts" />
 /// <reference path="globals/fs-extra/index.d.ts" />
 /// <reference path="globals/multer/index.d.ts" />

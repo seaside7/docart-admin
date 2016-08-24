@@ -20,6 +20,8 @@ import session from 'express-session';
 import multiparty from 'connect-multiparty';
 import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
+import appRoot from 'app-root-path';
+
 var MongoStore = connectMongo(session);
 
 export default function(app) {
@@ -47,7 +49,7 @@ export default function(app) {
   app.use(cookieParser());
   app.use(passport.initialize());
   app.use(multiparty({
-    uploadDir: config.uploadsPath
+    uploadDir: appRoot.resolve(config.uploadsPath)
   }));
 
   // Persist sessions with MongoStore / sequelizeStore

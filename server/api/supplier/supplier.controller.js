@@ -99,6 +99,7 @@ export function create(req, res) {
     delete req.body.email;
     delete req.body.password;
 
+
     if (req.files) {
         var image = req.files.image;
         var logo = req.files.logo;
