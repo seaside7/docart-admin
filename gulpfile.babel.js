@@ -492,6 +492,7 @@ gulp.task('build', cb => {
             'copy:assets',
             'copy:server',
             'copy:il8n',
+            'copy:pm2app',
             'build:client'
         ],
         cb);
@@ -612,9 +613,13 @@ gulp.task('copy:server', () => {
     return gulp.src([
         'package.json',
         'bower.json',
-        '.bowerrc',
-        'docart.json'
+        '.bowerrc'
     ], {cwdbase: true})
+        .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('copy:pm2app', () => {
+    return gulp.src(`./${serverPath}/config/environment/*.json`)
         .pipe(gulp.dest(paths.dist));
 });
 

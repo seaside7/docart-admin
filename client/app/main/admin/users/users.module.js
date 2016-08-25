@@ -24,6 +24,17 @@
                     }
                 },
                 authenticate: true,
+            })
+            .state('app.new_user', {
+                url: '/user/new',
+                views: {
+                    'content@app': {
+                        templateUrl: 'app/main/admin/users/profile/new-user.html',
+                        controller: 'NewUserController',
+                        controllerAs: 'vm'
+                    }
+                },
+                authenticate: true,
             });
 
         $translatePartialLoaderProvider.addPart('app/main/admin/users');
@@ -41,9 +52,9 @@
         });
 
         msNavigationService.saveItem('admin.users', {
-            title: 'Users',
-            icon: 'icon-tag-multiple',
-            state: 'app.users',
+            title: 'Users s',
+            icon: 'icon-account-multiple',
+            state: 'app.users', 
             translate: 'USERS.USERS_NAV',
             weight: 2,
             hidden: function () {

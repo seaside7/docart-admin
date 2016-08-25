@@ -55,8 +55,20 @@ export function index(req, res) {
  */
 export function create(req, res, next) {
     var newUser = new User(req.body);
+
+    var imageUrl = null;
+
+    if (req.files) {
+        var image = req.files.image;
+        imageUrl = image ? shared.getUploadPath(path.basename(image.path)) : null;
+    }
+
+    if (imageUrl) {
+        newUser.imageUrl = imageUrl;
+    }
+
     newUser.provider = 'local';
-    newUser.role = 'user';
+    newUser.role = 'admin';
     newUser.save()
         .then(function (user) {
             var token = jwt.sign({ _id: user._id }, config.secrets.session, {

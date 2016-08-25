@@ -42,24 +42,6 @@
                 });
             }
 
-            // Navigation
-            msNavigationService.saveItem('admin', {
-                title: 'Administrator',
-                group: true,
-                weight: 2
-            });
-
-            msNavigationService.saveItem('admin.users', {
-                title: 'Users',
-                icon: 'icon-tag-multiple',
-                state: 'app.users',
-                translate: 'USERS.USERS_NAV',
-                weight: 2,
-                hidden: function () {
-                    return !Auth.isAdmin();
-                }
-            });
-
         }
 
         /**
@@ -84,7 +66,7 @@
          *
          */
         function createData() {
-            $state.go('app.user_profile');
+            $state.go('app.new_user');
         }
 
         /**

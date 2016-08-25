@@ -2,9 +2,9 @@
   apps : [{
     name        : "docart.admin",
     script      : "server/app.js",
-    watch       : true,
+    watch       : false,
     env: {
-      "NODE_ENV": "development",
+      "NODE_ENV": "test",
     }
   }]
 }

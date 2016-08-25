@@ -5,12 +5,14 @@
         "SEARCH": "Search"
     },
     "USER": {
+        "NEW" : "New User",
         "USER_NAME": "User Name",
         "PASSWORD": "Password",
         "OLD_PASSWORD": "Old Password",
         "NEW_PASSWORD": "New Password",
         "EMAIL": "Email",
         "PROFILE": "User's Profile",
+        "CREDENTIALS": "User's Credentials",
         "GO_TO_USERS": "Go back to users",
         "SAVE": "Save",
         "DETAILS": "User details",
