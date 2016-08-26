@@ -26,6 +26,7 @@ const serverPath = 'server';
 const paths = {
     client: {
         assets: `${clientPath}/assets/**/*`,
+        uploads: `${clientPath}/assets/uploads/`,
         il8n: `${clientPath}/**/*.json`,
         images: `${clientPath}/assets/images/**/*`,
         scripts: [
@@ -490,6 +491,7 @@ gulp.task('build', cb => {
             'copy:extras',
             'copy:fonts',
             'copy:assets',
+            'copy:uploads',
             'copy:server',
             'copy:il8n',
             'copy:pm2app',
@@ -602,6 +604,11 @@ gulp.task('copy:fonts', () => {
 gulp.task('copy:assets', () => {
     return gulp.src([paths.client.assets, '!' + paths.client.images])
         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
+});
+
+gulp.task('copy:uploads', () => {
+    return gulp.src([paths.client.uploads])
+        .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets/uploads`));
 });
 
 gulp.task('copy:il8n', () => {

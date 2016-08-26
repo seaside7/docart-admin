@@ -45,6 +45,7 @@
 @import 'client/app/main/dashboard/dashboard';
 @import 'client/app/main/ecommerce/ecommerce';
 @import 'client/app/main/admin/users/users';
+@import 'client/app/main/auth/forgot-password/forgot-password';
 @import 'client/app/main/auth/lock/lock';
 @import 'client/app/main/auth/login/login';
 @import 'client/app/main/auth/login-v2/login-v2';
@@ -54,7 +55,6 @@
 @import 'client/app/navigation/layouts/horizontal-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';
-@import 'client/app/main/auth/forgot-password/forgot-password';
 @import 'client/app/quick-panel/tabs/activity/activity-tab';
 @import 'client/app/quick-panel/tabs/chat/chat-tab';
 @import 'client/app/quick-panel/tabs/today/today-tab';

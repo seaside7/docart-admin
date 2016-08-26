@@ -111,7 +111,7 @@
                             <md-input-container class="md-block md-icon-float">
                                 <label translate="EC.DISCOUNT">Discount</label>
                                 <md-icon md-font-icon="icon icon-percent"></md-icon>
-                                <input type="number" name="discount" min="0" step="1" ng-model="vm.data.discount" required>
+                                <input type="number" name="discount" min="0" step="1" ng-init="vm.data.discount = 0" ng-model="vm.data.discount" required>
                                 <div ng-messages="dataForm3.discount.$error" ng-show="dataForm3.discount.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
