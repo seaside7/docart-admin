@@ -21,7 +21,7 @@ var all = {
   uploadsPath: './client/assets/uploads',
 
   // Server port
-  port: process.env.PORT || 9000,
+  port: process.env.PORT || 8080,
 
   // Server IP
   ip: process.env.IP || '0.0.0.0',
@@ -33,7 +33,7 @@ var all = {
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: 'docart-admin-secret'
+    session: 'suhendra-ahmad-kereeen'
   },
 
   // MongoDB connection options
