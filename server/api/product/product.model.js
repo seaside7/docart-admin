@@ -49,7 +49,8 @@ var ProductSchema = new Schema({
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', index: true }],
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     tags: [String],
-    unit: { type: String, default: '' }
+    unit: { type: String, default: '' },
+    rank: { type: Number, min: 0, default: 0 }
 }).index({
     'title': 'text',
     'description': 'text',

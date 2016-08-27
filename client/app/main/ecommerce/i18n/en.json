@@ -57,6 +57,7 @@
         "TAGS": "TAGS",
         "SAVE": "Save",
         "CATEGORIES": "Categories",
+        "RANK": "Rank",
 
         "ERRORS": {
             "REQUIRED": "Required"

@@ -57,6 +57,7 @@
                                 <th md-column><span>Profile Photo</span></th>
                                 <th md-column><span>Logo</span></th>
                                 <th md-column md-order-by="name"><span>Name</span></th>
+                                <th md-column md-numeric md-order-by="rank"><span>Rank</span></th>
                                 <th md-column><span>Active</span></th>
                                 <th md-column><span>Premium</span></th>
                                 <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
@@ -69,6 +70,7 @@
                                 <td md-cell><img class="product-image" ng-src="{{supplier.imageUrl}}"></td>
                                 <td md-cell><img class="product-image" ng-src="{{supplier.supplier.logoUrl}}"></td>
                                 <td md-cell>{{supplier.name}}</td>
+                                <td md-cell>{{supplier.supplier.rank}}</td>
                                 <td md-cell>
                                     <i class="icon-checkbox-marked-circle green-500-fg" ng-show="supplier.supplier.active"></i>
                                     <i class="icon-cancel grey-500-fg" ng-show="!supplier.supplier.active"></i>

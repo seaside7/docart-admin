@@ -112,6 +112,11 @@
                             </div>
 
                             <md-input-container class="md-block md-icon-float">
+                                <label translate="EC.RANK">Rank</label>
+                                <input type="number" step="1" min="0" name="rank" ng-model="vm.data.rank" ng-init="vm.data.rank = 0">
+                            </md-input-container>
+
+                            <md-input-container class="md-block md-icon-float">
                                 <label translate="EC.ADDRESS">Address</label>
                                 <input type="text" ng-model="vm.data.address">
                             </md-input-container>

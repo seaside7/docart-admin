@@ -12,7 +12,8 @@ var SupplierSchema = new mongoose.Schema({
   country: String,
   description: String,
   active: Boolean,
-  premium: { type: Boolean, default: false }
+  premium: { type: Boolean, default: false },
+  rank: { type: Number, min: 0, default: 0 }
 });
 
 SupplierSchema.plugin(mongoosePaginate);

@@ -97,6 +97,12 @@
                     <md-tab-body>
                         <div class="detail-form-container md-background-bg md-whiteframe-1dp">
 
+
+                            <md-input-container class="md-block md-icon-float">
+                                <label translate="EC.RANK">Rank</label>
+                                <input type="number" step="1" min="0" name="rank" ng-model="vm.data.rank" ng-init="vm.data.rank = 0">
+                            </md-input-container>
+
                             <md-input-container class="md-block md-icon-float">
                                 <label translate="EC.PRICE">Price</label>
                                 <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
