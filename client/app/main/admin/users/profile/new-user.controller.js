@@ -24,6 +24,7 @@
                     name: vm.data.name,
                     email: vm.data.email,
                     password: vm.data.password,
+                    passwordConfirm: vm.data.passwordConfirm,
                     image: vm.data.image    
                 },
                 method: 'POST'
@@ -31,14 +32,20 @@
                 .then(response => {
                     console.info(response.data);
                     toastr.success('User created', 'Success');
-                    vm.data.password = '';
+                    resetPassword();
+                    $state.go('app.users');
                 })
                 .catch(err => {
                     console.error(err);
                     toastr.error(err.data.message, 'ERROR');
-                    vm.data.password = '';
+                    resetPassword();
                 })
 
+        }
+
+        function resetPassword() {
+            vm.data.password = '';
+            vm.data.passwordConfirm = '';
         }
     }
 

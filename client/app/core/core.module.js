@@ -28,6 +28,7 @@
                 'moment-picker',
                 'md.data.table',
                 'toastr',
-                'ngFileUpload'
+                'ngFileUpload',
+                'validation.match'
             ]);
 })();

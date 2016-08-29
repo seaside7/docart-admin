@@ -10,6 +10,7 @@
         "PASSWORD": "Password",
         "OLD_PASSWORD": "Old Password",
         "NEW_PASSWORD": "New Password",
+        "NEW_PASSWORD_CONFIRMATION": "Password Confirm",
         "EMAIL": "Email",
         "PROFILE": "User's Profile",
         "CREDENTIALS": "User's Credentials",
@@ -18,7 +19,8 @@
         "DETAILS": "User details",
         "DELETE": "Delete",
         "ERRORS": {
-            "REQUIRED": "Required"
+            "REQUIRED": "Required",
+            "PASSWORD_MISMATCH": "Password not match"
         }
     }
 }

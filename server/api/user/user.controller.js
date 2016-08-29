@@ -56,6 +56,10 @@ export function index(req, res) {
 export function create(req, res, next) {
     var newUser = new User(req.body);
 
+    if (req.body.password !== req.body.passwordConfirm) {
+        return res.status(403).json({message: 'Password mismatch'});
+    }
+    
     var imageUrl = null;
 
     if (req.files) {

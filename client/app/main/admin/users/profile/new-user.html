@@ -55,6 +55,16 @@
                                 <input type="password" ng-model="vm.data.password" name="password" autocomplete="new-password">
                             </md-input-container>
 
+                            <md-input-container class="md-block">
+                                <label translate="USER.NEW_PASSWORD_CONFIRMATION">Password Confirm</label>
+                                <input type="password" ng-model="vm.data.passwordConfirm" name="passwordConfirm" autocomplete="new-password" match="vm.data.password">
+                                <div ng-messages="dataForm.passwordConfirm.$error" ng-show="dataForm.passwordConfirm.$error.match" role="alert">
+                                    <div ng-message="match">
+                                        <span translate="USER.ERRORS.PASSWORD_MISMATCH">Password mismatch</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
                             <div class="upload" layout="row" layout-align="space-between end" style="padding-top: 30px;">
                                 <div class="preview" ng-show="vm.data.image">
                                     <img ngf-src="vm.data.image" width="100px" height="100px">
