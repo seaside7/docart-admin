@@ -30,7 +30,6 @@
             Upload.upload({
                 url: '/api/users',
                 data: {
-                    name: vm.data.name,
                     oldPassword: vm.data.oldPassword,
                     newPassword: vm.data.newPassword,
                     image: vm.data.image    

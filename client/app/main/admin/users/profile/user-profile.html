@@ -43,16 +43,6 @@
                     <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                         <form name="dataForm">
                             <md-input-container class="md-block">
-                                <label translate="USER.USER_NAME">User Name</label>
-                                <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
-                                <div ng-messages="dataForm.name.$error" ng-show="dataForm.name.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
-                            </md-input-container>
-
-                            <md-input-container class="md-block">
                                 <label translate="USER.OLD_PASSWORD">Old Password</label>
                                 <input type="password" ng-model="vm.data.oldPassword" name="password" autocomplete="new-password">
                             </md-input-container>
