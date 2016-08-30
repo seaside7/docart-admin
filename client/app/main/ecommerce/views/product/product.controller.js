@@ -15,12 +15,11 @@
             ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent', 'html', 'insertImage', 'insertLink', 'insertVideo', 'wordcount', 'charcount']
         ];
         vm.Auth = Auth;
-        vm.saving = false;
+        vm.mainCategories = [];
+        vm.subCategories = [];
         
         // Methods
         vm.goBack = goBack;
-        vm.onCategoriesSelectorOpen = onCategoriesSelectorOpen;
-        vm.onCategoriesSelectorClose = onCategoriesSelectorClose;
         vm.saveData = saveData;
 
         //////////
@@ -32,9 +31,17 @@
             if (vm.productId) {
                 $http.get('/api/products/' + vm.productId)
                     .then((response) => {
-                        console.log(response);
                         vm.data = response.data;
                         vm.productTitle = vm.data.name.toUpperCase();
+                        console.log(vm.data);
+
+                        vm.mainCategories.forEach((mc) => {
+                            if (mc._id === vm.data.category.parent) {
+                                vm.subCategories = mc.children;
+                            }
+                        })
+                        vm.data.category = vm.data.category._id;
+
                     })
                     .catch((err) => {
                         toastr.error(err.data, 'ERROR');
@@ -57,57 +64,16 @@
         function loadCategories() {
             $http.get('/api/categories/all')
                 .then((response) => {
-                    console.log(response.data)
-                    var categories = response.data;
-                    
-                    // Sort out categories
-                    vm.categories = [];
-                    categories.forEach((cat) => {
-                        vm.categories.push(cat);
-                        cat.parent = true;
-                        if (cat.children.length > 0) {
-                            cat.children.forEach((child) => {
-                                vm.categories.push(child);
-                                child.parent = false;
-                                delete child.children;
-                            });
-                        }
-                        delete cat.children;
-                    });
+                    vm.mainCategories = response.data;
                 })            
                 .catch((err) => {
                     console.error(err);
+                    toastr.error('Can not load categories, please refresh', 'ERROR');
                 })
         }
 
-
         function goBack() {
             $state.go('app.products');
-        }
-
-        /**
-         * On categories selector open
-         */
-        function onCategoriesSelectorOpen()
-        {
-            // The md-select directive eats keydown events for some quick select
-            // logic. Since we have a search input here, we don't need that logic.
-            $document.find('md-select-header input[type="search"]').on('keydown', function (e)
-            {
-                e.stopPropagation();
-            });
-        }
-
-        /**
-         * On categories selector close
-         */
-        function onCategoriesSelectorClose()
-        {
-            // Clear the filter
-            vm.categoriesSelectFilter = '';
-
-            // Unbind the input event
-            $document.find('md-select-header input[type="search"]').unbind('keydown');
         }
 
         

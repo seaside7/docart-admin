@@ -74,11 +74,7 @@
                                 <td md-cell>{{$index+1}}</td>
                                 <td md-cell><img class="product-image" ng-src="{{product.imageUrl}}"></td>
                                 <td md-cell>{{product.name}}</td>
-                                <td md-cell>
-                                    <div ng-repeat="cat in product.categories">
-                                        {{cat.name + ($last ? '' : ', ')}}
-                                    </div>
-                                </td>
+                                <td md-cell>{{product.category.name}}</td>
                                 <td md-cell>{{product.price | currency:'IDR '}}</td>
                                 <td md-cell>{{product.discount}} %</td>
                                 <td md-cell>{{product.finalPrice | currency:'IDR '}}</td>

@@ -47,6 +47,7 @@ var ProductSchema = new Schema({
     imageUrl: String,
     featured: Boolean,
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', index: true }],
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     tags: [String],
     unit: { type: String, default: '' },

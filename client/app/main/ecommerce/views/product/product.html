@@ -18,7 +18,7 @@
             </div>
 
             <div>
-                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="!vm.productId && ((dataForm.$invalid || dataForm.$pristine) || (dataForm3.$invalid || dataForm3.$pristine))">
+                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine)">
                     <span translate="EC.SAVE">SAVE</span>
                 </md-button>
             </div>
@@ -38,6 +38,7 @@
                     <md-tab-body>
                         <div class="detail-form-container md-background-bg md-whiteframe-1dp">
 
+                            <!-- PRODUCT NAME -->
                             <md-input-container class="md-block">
                                 <label translate="EC.PRODUCT_NAME">Product Name</label>
                                 <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
@@ -47,30 +48,48 @@
                                     </div>
                                 </div>
                             </md-input-container>
+                            <!-- PRODUCT NAME -->
 
+                            <!-- DESCRIPTION -->
                             <h3 class="secondary-text" translate="EC.PRODUCT_DESCRIPTION">Product Description</h3>
                             <text-angular ta-toolbar="vm.taToolbar" ng-model="vm.data.description" class="pb-32"></text-angular>
+                            <!-- DESCRIPTION -->
 
+                            <!-- MAIN CATEGORIES -->
                             <md-input-container class="md-block">
-                                <label translate="EC.CATEGORIES">Categories</label>
-                                <md-select ng-model="vm.data.categories" ng-model-options="{trackBy: '$value._id'}" md-on-open="vm.onCategoriesSelectorOpen()"
-                                    md-on-close="vm.onCategoriesSelectorClose()" multiple>
-                                    <md-select-header>
-                                        <input type="search" class="md-text" ng-model="vm.categoriesSelectFilter" placeholder="Search for a category">
-                                    </md-select-header>
-                                    <md-optgroup>
-                                        <md-option ng-value="category" ng-repeat="category in vm.categories | filter: {name: vm.categoriesSelectFilter}">
-                                            {{category.parent ? 'M: ' + category.name : 'S: ' + category.name}}
-                                        </md-option>
-                                    </md-optgroup>
+                                <label translate="EC.MAIN_CATEGORIES">Main Categories</label>
+                                <md-select ng-model="vm.subCategories" >
+                                    <md-option ng-repeat="mc in vm.mainCategories" ng-value="mc.children" >
+                                    {{mc.name}}
+                                    </md-option>
                                 </md-select>
                             </md-input-container>
-
+                            <!-- MAIN CATEGORIES -->
+                            
+                            <!-- SUB CATEGORIES -->
+                            <md-input-container class="md-block">
+                                <label translate="EC.SUB_CATEGORIES">Sub Categories</label>
+                                <md-select ng-model="vm.data.category" name="subCategories" required>
+                                    <md-option ng-repeat="sc in vm.subCategories" ng-value="sc._id">
+                                    {{sc.name}}
+                                    </md-option>
+                                </md-select>
+                                <div class="errors" ng-messages="dataForm.subCategories.$error" ng-show="dataForm.subCategories.$touched">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <!-- SUB CATEGORIES -->
+                            
+                            <!-- TAGS -->
                             <h3 class="tags secondary-text" translate="EC.TAGS">Tags</h3>
                             <md-chips ng-model="vm.data.tags" placeholder="Enter a tag" delete-button-label="Remove Tag" delete-hint="Press delete to remove tag"
                                 secondary-placeholder="+Tag">
                             </md-chips>
+                            <!-- TAGS -->
 
+                            <!-- PUBLISHED & FEATURED -->
                             <div layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
 
                                 <label translate="EC.PUBLISHED">Published</label>
@@ -78,11 +97,8 @@
 
                                 <label translate="EC.FEATURED" ng-if="vm.Auth.isAdmin()">Featured</label>
                                 <md-switch style="padding: 15px" ng-if="vm.Auth.isAdmin()" ng-model="vm.data.featured" aria-label="Featured" translate translate-attr-aria-label="EC.FEATURED"></md-switch>
-
                             </div>
-                            <div layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
-                            </div>
-
+                            <!-- PUBLISHED & FEATURED -->
 
                         </div>
                     </md-tab-body>
@@ -106,7 +122,7 @@
                                 <label translate="EC.PRICE">Price</label>
                                 <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
                                 <input type="number" name="price" min="0" step="100" ng-model="vm.data.price" required>
-                                <div ng-messages="dataForm3.price.$error" ng-show="dataForm3.price.$touched" role="alert">
+                                <div ng-messages="dataForm.price.$error" ng-show="dataForm.price.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
                                     </div>
@@ -117,7 +133,7 @@
                                 <label translate="EC.DISCOUNT">Discount</label>
                                 <md-icon md-font-icon="icon icon-percent"></md-icon>
                                 <input type="number" name="discount" min="0" step="1" ng-init="vm.data.discount = 0" ng-model="vm.data.discount" required>
-                                <div ng-messages="dataForm3.discount.$error" ng-show="dataForm3.discount.$touched" role="alert">
+                                <div ng-messages="dataForm.discount.$error" ng-show="dataForm.discount.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
                                     </div>
@@ -128,22 +144,12 @@
                                 <label translate="EC.FINAL_PRICE">Final Price</label>
                                 <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
                                 <input type="number" name="finalPrice" min="0" step="1" ng-model="vm.data.finalPrice" required>
-                                <div ng-messages="dataForm3.finalPrice.$error" ng-show="dataForm3.finalPrice.$touched" role="alert">
+                                <div ng-messages="dataForm.finalPrice.$error" ng-show="dataForm.finalPrice.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
                                     </div>
                                 </div>
                             </md-input-container>
-
-                            <!--<md-input-container class="md-block md-icon-float">
-                                <label translate="EC.UNIT">Stock Unit</label>
-                                <input type="text" name="unit" ng-model="vm.data.unit" required>
-                                <div ng-messages="dataForm3.unit.$error" ng-show="dataForm3.unit.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
-                            </md-input-container>-->
 
                             <md-input-container class="md-block">
                                 <label translate="EC.UNIT">Stock Unit</label>
@@ -151,19 +157,18 @@
                                     <md-option ng-repeat="unit in vm.productUnits" ng-value="unit">
                                     {{unit}}
                                     </md-option>
-                                    <div ng-messages="dataForm3.unit.$error" ng-show="dataForm3.unit.$touched" role="alert">
+                                    <div ng-messages="dataForm.unit.$error" ng-show="dataForm.unit.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
                                     </div>
                                 </div>
                                 </md-select>
-                                
                             </md-input-container>
 
                             <md-input-container class="md-block md-icon-float">
                                 <label translate="EC.STOCK_QUANTITY">Stock Quantity</label>
                                 <input type="number" step="1" name="stock" ng-model="vm.data.stock" required>
-                                <div ng-messages="dataForm3.stock.$error" ng-show="dataForm3.stock.$touched" role="alert">
+                                <div ng-messages="dataForm.stock.$error" ng-show="dataForm.stock.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
                                     </div>
@@ -173,7 +178,7 @@
                             <md-input-container class="md-block md-icon-float">
                                 <label translate="EC.MINIMUM_ORDER">Minimum Order</label>
                                 <input type="number" step="1" name="minOrder" ng-model="vm.data.minOrder" ng-init="vm.data.minOrder = 1" required>
-                                <div ng-messages="dataForm3.minOrder.$error" ng-show="dataForm3.minOrder.$touched" role="alert">
+                                <div ng-messages="dataForm.minOrder.$error" ng-show="dataForm.minOrder.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
                                     </div>

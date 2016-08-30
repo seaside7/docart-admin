@@ -15,6 +15,7 @@ import Category from './../category/category.model';
 import shared from './../../config/environment/shared';
 import path from 'path';
 import fs from 'fs-extra';
+import mongoose from 'mongoose';
 
 function saveFile(res, file) {
     return function(entity) {
@@ -90,8 +91,8 @@ export function uploads(req, res) {
 export function index(req, res) {
     var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") } } : { };
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
-    options.select = '_id name categories price discount finalPrice stock unit rank published imageUrl owner minOrder';
-    options.populate = 'owner categories';
+    //options.select = '_id name categories price discount finalPrice stock unit rank published imageUrl owner minOrder';
+    options.populate = 'owner categories category';
     options.sort = req.query.sort;
 
     if (req.user.role === 'supplier') {
@@ -105,7 +106,7 @@ export function index(req, res) {
 
 // Gets a single Product from the DB
 export function show(req, res) {
-    return Product.findById(req.params.id).populate('categories').exec()
+    return Product.findById(req.params.id).populate('categories category').exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
@@ -157,7 +158,8 @@ export function update(req, res) {
             var updated = _.merge(entity, req.body);
             
             // Force update the categories
-            entity.categories = req.body.categories;
+            entity.category = req.body.category;
+            console.log(entity);
             
             // Force update the tags array
             entity.tags = [];
