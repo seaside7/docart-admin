@@ -89,6 +89,11 @@ export function show(req, res) {
 
 // Creates a new Supplier in the DB
 export function create(req, res) {
+    
+    if (req.body.password !== req.body.passwordConfirm) {
+        return res.status(403).json({message: 'Password mismatch'});
+    }
+
     var user = {
         provider: 'local',
         name: req.body.name,
@@ -126,6 +131,11 @@ export function create(req, res) {
 
 // Updates an existing Supplier in the DB
 export function update(req, res) {
+    
+    if (req.body.newPassword !== req.body.newPasswordConfirm) {
+        return res.status(403).json({message: 'Password mismatch'});
+    }
+
     if (req.body._id) {
         delete req.body._id;
     }
@@ -133,7 +143,7 @@ export function update(req, res) {
         provider: 'local',
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: req.body.newPassword,
         role: 'supplier'
     };
     delete req.body.name;
@@ -157,7 +167,26 @@ export function update(req, res) {
     return User.findById(req.params.id).populate('supplier').exec()
         .then(handleEntityNotFound(res))
         .then((userResult) => {
-            var updateUser = _.merge(userResult, user);
+            
+            if (userResult.authenticate(req.body.oldPassword)) {
+                var updatedUser = _.merge(userResult, user);
+                updatedUser.password = req.body.newPassword;
+
+                return updatedUser.save()
+                    .then((updatedUser) => {
+                        var supplier = _.merge(updatedUser.supplier, req.body);
+                        supplier.save()
+                            .then((updatedSupplier) => {
+                                updatedUser.supplier = updatedSupplier;
+                                return respondWithResult(res, 201)(userResult);
+                            })    
+                    })
+                    .catch(handleError(res));
+            } else {
+                return res.status(403).json({message: 'Authentication failed'});
+            }
+
+            /*var updateUser = _.merge(userResult, user);
             return updateUser.save()
                 .then((updatedUser) => {
                     var supplier = _.merge(updatedUser.supplier, req.body);
@@ -166,11 +195,59 @@ export function update(req, res) {
                             updatedUser.supplier = updatedSupplier;
                             return respondWithResult(res, 201)(updatedUser);
                         }) 
-                })
+                })*/
         })
         .catch(handleError(res));
 }
 
+/*var userId = req.user._id;
+    var name = req.body.name;
+    var newPass = req.body.newPassword;
+    var newPassConfirm = req.body.newPasswordConfirm;
+    var oldPass = req.body.oldPassword;
+    var imageUrl = null;
+
+    if (req.body.password !== req.body.passwordConfirm) {
+        return res.status(403).json({message: 'Password mismatch'});
+    }
+
+    if (req.files) {
+        var image = req.files.image;
+        imageUrl = image ? shared.getUploadPath(path.basename(image.path)) : null;
+    }
+
+    return User.findById(userId).exec()
+        .then(handleEntityNotFound(res))
+        .then( user => {
+            if (user.authenticate(oldPass)) {
+                user.password = newPass;
+                user.name = name;
+
+                // Delete old image
+                if (user.imageUrl && imageUrl && user.imageUrl !== imageUrl) {
+                    var image = path.basename(user.imageUrl);
+                    var deleteImagePath = shared.getRelativeUploadPath(image);
+                    console.log("Deleting imageUrl: " + deleteImagePath);
+                    fs.remove(deleteImagePath);
+                }
+
+                if (imageUrl) {
+                    user.imageUrl = imageUrl;
+                }
+
+                return user.save()
+                    .then(() => {
+                        res.status(204).end();
+                    })
+                    .catch(validationError(res));
+            } else {
+                return res.status(403).json({message: 'Authentication failed'});
+            }
+        })
+        .catch(handleError(res));
+}
+
+*/
 // Deletes a Supplier from the DB
 export function destroy(req, res) {
     return User.findById(req.params.id).populate('supplier').exec()

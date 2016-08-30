@@ -5,14 +5,19 @@
         <div class="white-fg" layout="row" layout-align="start center" flex>
             <md-button class="goto-products-button md-icon-button" aria-label="Go to suppliers"
                        ng-click="vm.gotoSuppliers()"
-                       translate translate-attr-aria-label="EC.GO_TO_SUPPLIERS">
+                       translate translate-attr-aria-label="EC.GO_TO_SUPPLIERS"
+                       ng-if="vm.Auth.isAdmin()">
                 <md-icon md-font-icon="icon-arrow-left"></md-icon>
             </md-button>
 
             <div layout="row" layout-align="start center">
+                <div class="product-image" hide-xs >
+                    <img ng-src="{{vm.data.imageUrl}}">
+                </div>
+
                 <div layout="column" layout-align="start start">
                     <div class="h2">
-                        {{vm.supplierTitle}}
+                        {{vm.supplierTitle.toUpperCase()}}
                     </div>
                 </div>
             </div>
@@ -49,22 +54,69 @@
                                 </div>
                             </md-input-container>
 
-                            <md-input-container class="md-block">
-                                <label translate="EC.EMAIL">Email</label>
-                                
-                                <input type="email" ng-model="vm.data.email" name="email" autocomplete="new-password" required>
-
+                            <md-input-container class="md-block" ng-if="vm.newData">
+                                <label translate="USER.EMAIL">Email</label>
+                                <input type="email" ng-model="vm.data.email" name="email" autocomplete="new-email" required>
                                 <div ng-messages="dataForm.email.$error" ng-show="dataForm.email.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            
+                            <!-- PASSWORD FOR UPDATE USER --> 
+                            <md-input-container class="md-block" ng-if="!vm.newData">
+                                <label translate="EC.OLD_PASSWORD">Old Password</label>
+                                <input type="password" ng-model="vm.data.oldPassword" name="oldPassword" autocomplete="new-password" required> 
+                                <div ng-messages="dataForm.oldPassword.$error" ng-show="dataForm.oldPassword.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
                                     </div>
                                 </div>
                             </md-input-container>
 
-                            <md-input-container class="md-block">
-                                <label translate="EC.PASSWORD">Password</label>
-                                <input type="password" ng-model="vm.data.password" name="password" autocomplete="new-password">
+                            <md-input-container class="md-block" ng-if="!vm.newData">
+                                <label translate="EC.NEW_PASSWORD">New Password</label>
+                                <input type="password" ng-model="vm.data.newPassword" name="newPassword" autocomplete="new-password" required>
+                                <div ng-messages="dataForm.newPassword.$error" ng-show="dataForm.newPassword.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
                             </md-input-container>
+
+                            <md-input-container class="md-block" ng-if="!vm.newData">
+                                <label translate="EC.NEW_PASSWORD_CONFIRMATION">New Password Confirmation</label>
+                                <input type="password" ng-model="vm.data.newPasswordConfirm" name="newPasswordConfirm" autocomplete="new-password" required>
+                                <div ng-messages="dataForm.newPasswordConfirm.$error" ng-show="dataForm.newPasswordConfirm.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <!-- PASSWORD FOR UPDATE USER -->
+
+                            <!-- PASSWORD FOR NEW USER -->
+                            <md-input-container class="md-block" ng-if="vm.newData">
+                                <label translate="EC.PASSWORD">Password</label>
+                                <input type="password" ng-model="vm.data.password" name="password" autocomplete="new-password" required>
+                                <div ng-messages="dataForm.password.$error" ng-show="dataForm.password.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block" ng-if="vm.newData">
+                                <label translate="EC.PASSWORD_CONFIRMATION">Password Confirmation</label>
+                                <input type="password" ng-model="vm.data.passwordConfirm" name="passwordConfirm" autocomplete="new-password" required>
+                                <div ng-messages="dataForm.passwordConfirm.$error" ng-show="dataForm.passwordConfirm.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                            <!-- PASSWORD FOR NEW USER -->
 
                             <div class="upload" layout="row" layout-align="space-between end" style="padding-top: 30px;">
                                 <div class="preview" ng-show="vm.data.image">

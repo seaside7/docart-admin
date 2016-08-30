@@ -36,7 +36,7 @@
                     <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                         <form name="dataForm">
                             <md-input-container class="md-block">
-                                <label translate="USER.USER_NAME">User Name</label>
+                                <label translate="USER.FULL_NAME">Full Name</label>
                                 <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
                                 <div ng-messages="dataForm.name.$error" ng-show="dataForm.name.$touched" role="alert">
                                     <div ng-message="required">
@@ -47,20 +47,33 @@
 
                             <md-input-container class="md-block">
                                 <label translate="USER.EMAIL">Email</label>
-                                <input type="email" ng-model="vm.data.email" name="email" autocomplete="new-email">
+                                <input type="email" ng-model="vm.data.email" name="email" autocomplete="new-email" required>
+                                <div ng-messages="dataForm.email.$error" ng-show="dataForm.email.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
                             </md-input-container>
 
                             <md-input-container class="md-block">
-                                <label translate="USER.NEW_PASSWORD">Password</label>
-                                <input type="password" ng-model="vm.data.password" name="password" autocomplete="new-password">
+                                <label translate="USER.PASSWORD">Password</label>
+                                <input type="password" ng-model="vm.data.password" name="password" autocomplete="new-password" required>
+                                <div ng-messages="dataForm.password.$error" ng-show="dataForm.password.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
                             </md-input-container>
 
                             <md-input-container class="md-block">
-                                <label translate="USER.NEW_PASSWORD_CONFIRMATION">Password Confirm</label>
-                                <input type="password" ng-model="vm.data.passwordConfirm" name="passwordConfirm" autocomplete="new-password" match="vm.data.password">
+                                <label translate="USER.PASSWORD_CONFIRMATION">Password Confirm</label>
+                                <input type="password" ng-model="vm.data.passwordConfirm" name="passwordConfirm" autocomplete="new-password" match="vm.data.password" required>
                                 <div ng-messages="dataForm.passwordConfirm.$error" ng-show="dataForm.passwordConfirm.$error.match" role="alert">
                                     <div ng-message="match">
                                         <span translate="USER.ERRORS.PASSWORD_MISMATCH">Password mismatch</span>
+                                    </div>
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
                                     </div>
                                 </div>
                             </md-input-container>

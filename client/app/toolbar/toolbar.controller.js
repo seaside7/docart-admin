@@ -71,6 +71,7 @@
         vm.toggleMsNavigationFolded = toggleMsNavigationFolded;
         vm.search = search;
         vm.searchResultClick = searchResultClick;
+        vm.viewProfile = viewProfile;
 
         //////////
 
@@ -242,6 +243,15 @@
                 {
                     $state.go(item.state);
                 }
+            }
+        }
+
+        function viewProfile() {
+            if (Auth.isAdmin()) {
+                $state.go('app.user_profile', {id: vm.user._id});
+            }
+            else {
+                $state.go('app.supplier', {id: vm.user._id});
             }
         }
     }

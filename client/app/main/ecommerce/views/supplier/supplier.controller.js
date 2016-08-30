@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function SupplierController($http, $state, $stateParams, $mdDialog, $document, toastr, Upload, _) {
+    function SupplierController($http, $state, $stateParams, $mdDialog, $document, toastr, Upload, Auth, _) {
         var vm = this;
         var started = false;
 
@@ -13,6 +13,8 @@
             ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote', 'bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
             ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent', 'html', 'insertImage', 'insertLink', 'insertVideo', 'wordcount', 'charcount']
         ];
+        vm.newData = vm.supplierId ? false : true;
+        vm.Auth = Auth;
 
         // Methods
         vm.saveData = saveData;
@@ -56,13 +58,18 @@
             Upload.upload(upload)
                 .then((response) => {
                     console.log(response);
-                    toastr.success('Supplier updated', 'Success');
-                    $state.go('app.suppliers');
+                    toastr.success('Profile updated', 'Success');
+                    
+                    if (Auth.isAdmin()) {
+                        $state.go('app.suppliers');
+                    }
+                    else {
+                        $state.go('app.dashboard');
+                    }
                 })
                 .catch((err) => {
                     console.error(err);
                     toastr.error(err.data, 'Error');
-                    $state.go('app.suppliers');
                 });    
         }
 
@@ -70,7 +77,12 @@
          * Go back to suppliers
          */
         function gotoSuppliers() {
-            $state.go('app.suppliers');
+            if (Auth.isAdmin()) {
+                $state.go('app.suppliers');
+            }
+            else {
+                $state.go('app.dashboard'); 
+            }
         }
 
     }

@@ -30,8 +30,10 @@
             Upload.upload({
                 url: '/api/users',
                 data: {
+                    name: vm.data.name,
                     oldPassword: vm.data.oldPassword,
                     newPassword: vm.data.newPassword,
+                    newPasswordConfirm: vm.data.newPasswordConfirm,
                     image: vm.data.image    
                 },
                 method: 'PUT'
@@ -39,18 +41,22 @@
                 .then(response => {
                     console.info(response.data);
                     toastr.success('User updated', 'Success');
-                    vm.data.oldPassword = '';
-                    vm.data.newPassword = '';
+                    resetPassword();
                 })
                 .catch(err => {
                     console.error(err);
                     toastr.error(err.data.message, 'ERROR');
-                    vm.data.oldPassword = '';
-                    vm.data.newPassword = '';
+                    resetPassword();
                 })
+        }
 
+        function resetPassword() {
+            vm.data.oldPassword = '';
+            vm.data.newPassword = '';
+            vm.data.newPasswordConfirm = '';
         }
     }
+    
 
     angular
         .module('app.ecommerce')

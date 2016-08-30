@@ -2,7 +2,6 @@
     'use strict';
 
     function eCommerceRunBlock(msApi, msNavigationService, Auth) {
-        var userProfile = Auth.getCurrentUserProfile();
 
         // Navigation
         msNavigationService.saveItem('ecommerce', {

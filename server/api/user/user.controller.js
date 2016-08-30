@@ -38,7 +38,7 @@ function handleEntityNotFound(res) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-    var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") } } : { };
+    var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") }, 'role': 'admin' } : { 'role': 'admin' };
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
     options.select = '_id name email role imageUrl';
     options.sort = req.query.sort;
@@ -138,8 +138,13 @@ export function update(req, res, next) {
     var userId = req.user._id;
     var name = req.body.name;
     var newPass = req.body.newPassword;
+    var newPassConfirm = req.body.newPasswordConfirm;
     var oldPass = req.body.oldPassword;
     var imageUrl = null;
+
+    if (req.body.password !== req.body.passwordConfirm) {
+        return res.status(403).json({message: 'Password mismatch'});
+    }
 
     if (req.files) {
         var image = req.files.image;

@@ -43,6 +43,16 @@
                     <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                         <form name="dataForm">
                             <md-input-container class="md-block">
+                                <label translate="USER.FULL_NAME">Full Name</label>
+                                <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
+                                <div ng-messages="dataForm.name.$error" ng-show="dataForm.name.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
                                 <label translate="USER.OLD_PASSWORD">Old Password</label>
                                 <input type="password" ng-model="vm.data.oldPassword" name="password" autocomplete="new-password">
                             </md-input-container>
@@ -51,6 +61,17 @@
                                 <label translate="USER.NEW_PASSWORD">New Password</label>
                                 <input type="password" ng-model="vm.data.newPassword" name="password" autocomplete="new-password">
                             </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label translate="USER.NEW_PASSWORD_CONFIRMATION">Password Confirmation</label>
+                                <input type="password" ng-model="vm.data.newPasswordConfirm" name="passwordConfirm" autocomplete="new-password" match="vm.data.newPassword">
+                                <div ng-messages="dataForm.passwordConfirm.$error" ng-show="dataForm.passwordConfirm.$error.match" role="alert">
+                                    <div ng-message="match">
+                                        <span translate="USER.ERRORS.PASSWORD_MISMATCH">Password mismatch</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
 
                             <div class="upload" layout="row" layout-align="space-between end" style="padding-top: 30px;">
                                 <div class="preview" ng-show="vm.data.image">
