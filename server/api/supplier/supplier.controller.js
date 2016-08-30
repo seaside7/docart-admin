@@ -12,6 +12,7 @@
 import _ from 'lodash'; 
 import Supplier from './supplier.model';
 import User from './../user/user.model';
+import Product from './../product/product.model';
 import shared from './../../config/environment/shared';
 import path from 'path';
 import fs from 'fs-extra';
@@ -178,15 +179,21 @@ export function destroy(req, res) {
             if (user.imageUrl) {
                 var image = path.basename(user.imageUrl);
                 var deleteImagePath = shared.getRelativeUploadPath(image);
-                console.log("Deleting imageUrl: " + deleteImagePath);
+                console.log("Deleting supplier imageUrl: " + deleteImagePath);
                 fs.remove(deleteImagePath);
             }
 
-            return user.remove()
-                .then((removedUser) => {
-                    return removeSupplier(res, removedUser.supplier._id);
+            // Remove all associated products
+            return Product.remove({owner: req.params.id}).exec()
+                .then(() => {
+                    return user.remove()
+                        .then((removedUser) => {
+                            return removeSupplier(res, removedUser.supplier._id);
+                        })
+                        .catch(handleError(res));
                 })
                 .catch(handleError(res));
+            
         })
         .catch(handleError(res));
 }
