@@ -18,7 +18,7 @@
         </p>
 
 
-        <!-- WIDGET GROUP -->
+        <!-- FIRST GROUP -->
         <div class="widget-group" layout="row" flex="100" layout-wrap>
 
             <!-- Order widget -->
@@ -61,6 +61,31 @@
 
         </div>
         <!-- / WIDGET GROUP -->
+
+        <!-- SECOND GROUP -->
+        <div class="widget-group" layout="row" flex="100" layout-wrap>
+
+            <!-- SUPPLIER RANK -->
+            <ms-widget class="h-300" layout="column" flex="100" flex-gt-md="100" ng-if="vm.Auth.isSupplier()">
+
+                <!-- Front -->
+                <ms-widget-front class="p-16 light-blue-bg white-fg" layout="row" flex ui-sref="app.products">
+                    <div layout="column" layout-align="center center" flex>
+                        <div class="h3 font-weight-500">Your rank today is</div>
+                        <div class="md-display-3 pb-8">{{vm.supplierRank}}</div>
+                    </div>
+
+                    <div class="background-image-center">
+                        <md-icon md-font-icon="icon-crown" class="s256 faint-text"></md-icon>
+                    </div>
+                </ms-widget-front>
+                <!-- / Front -->
+
+            </ms-widget>
+            <!-- SUPPLIER RANK -->
+
+        </div>
+        <!-- / SECOND GROUP -->
 
 
         <!-- / WIDGET GROUP ROW 2 -->

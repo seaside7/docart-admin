@@ -5,7 +5,7 @@
 module.exports = {
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/docart-test'
+    uri: 'mongodb://localhost/docart-dev'
   },
   sequelize: {
     uri: 'sqlite://',

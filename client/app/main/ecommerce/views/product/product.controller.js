@@ -35,13 +35,14 @@
                         vm.productTitle = vm.data.name.toUpperCase();
                         console.log(vm.data);
 
-                        vm.mainCategories.forEach((mc) => {
-                            if (mc._id === vm.data.category.parent) {
-                                vm.subCategories = mc.children;
-                            }
-                        })
-                        vm.data.category = vm.data.category._id;
-
+                        if (vm.data.category) {
+                            vm.mainCategories.forEach((mc) => {
+                                if (mc._id === vm.data.category.parent) {
+                                    vm.subCategories = mc.children;
+                                }
+                            })
+                            vm.data.category = vm.data.category._id;
+                        }
                     })
                     .catch((err) => {
                         toastr.error(err.data, 'ERROR');

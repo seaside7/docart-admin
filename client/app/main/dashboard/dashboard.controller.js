@@ -28,6 +28,7 @@
                     vm.productCount = dash.data.productCount;
                     vm.orderCount = dash.data.orderCount;
                     vm.categoryCount = dash.data.categoryCount;
+                    vm.supplierRank = dash.data.supplierRank;
                 })
                 .catch(err => {
                     toastr.error(err.data, 'ERROR');

@@ -14,6 +14,7 @@ import User from './../user/user.model';
 import Product from './../product/product.model';
 import Order from './../order/order.model';
 import Category from './../category/category.model';
+import Supplier from './../supplier/supplier.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -70,7 +71,6 @@ export function index(req, res) {
     // Product count
     return Product.count({owner: req.user._id}).exec()
         .then(productCount => {
-            console.log(productCount);
             
             result.productCount = productCount;
             
@@ -100,7 +100,7 @@ export function index(req, res) {
 
                                                 result.supplierCount = supplierCount;
 
-                                                res.status(201).json(result);
+                                                return res.status(201).json(result);
                                             })
                                             .catch(handleError(res));
                                     })
@@ -108,8 +108,20 @@ export function index(req, res) {
                                 
                             });
                     }
+                    else if (req.user.role === 'supplier') {
+
+                        // Find supplier 
+                        Supplier.findById(req.user.supplier).exec()
+                            .then((supplier) => {
+                                
+                                result.supplierRank = supplier ? supplier.rank : 0;
+                                
+                                return res.status(201).json(result);
+                            })
+                            .catch(handleError(res));
+                    }
                     else {
-                        res.status(201).json(result);
+                        res.status(403).end();
                     }
                 })
         })
