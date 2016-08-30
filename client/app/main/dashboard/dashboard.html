@@ -63,10 +63,10 @@
         <!-- / WIDGET GROUP -->
 
         <!-- SECOND GROUP -->
-        <div class="widget-group" layout="row" flex="100" layout-wrap>
+        <div class="widget-group" layout="row" flex="100" layout-wrap ng-if="!vm.Auth.isAdmin()">
 
             <!-- SUPPLIER RANK -->
-            <ms-widget class="h-300" layout="column" flex="100" flex-gt-md="100" ng-if="vm.Auth.isSupplier()">
+            <ms-widget class="h-300" layout="column" flex="100" flex-gt-md="100" >
 
                 <!-- Front -->
                 <ms-widget-front class="p-16 light-blue-bg white-fg" layout="row" flex ui-sref="app.products">
