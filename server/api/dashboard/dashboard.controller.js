@@ -62,45 +62,56 @@ function handleError(res, statusCode) {
     };
 }
 
-function getProductCounts(callback) {
-
-}
-
 // Gets a list of Dashboards
 export function index(req, res) {
 
-    // Customer count
-    return User.count({ role: 'customer' }).exec()
-        .then(customerCount => {
+    var result = {};
 
-            // Supplier count
-            return User.count({ role: 'supplier' }).exec()
-                .then(supplierCount => {
+    // Product count
+    return Product.count({owner: req.user._id}).exec()
+        .then(productCount => {
+            console.log(productCount);
+            
+            result.productCount = productCount;
+            
+            // Order count
+            return Order.count({supplier: req.user._id}).exec()
+                .then(orderCount => {
 
-                    // Product count
-                    return Product.count({}).exec()
-                        .then(productCount => {
+                    result.orderCount = orderCount;
 
-                            // Order count
-                            return Order.count({}).exec()
-                                .then(orderCount => {
+                    if (req.user.role === "admin") {
 
-                                    // Main Categories
-                                    return Category.count({}).exec()
-                                        .then(categoryCount => {
-                                            res.status(201).json({
-                                                customerCount: customerCount,
-                                                supplierCount: supplierCount,
-                                                productCount: productCount,
-                                                orderCount: orderCount,
-                                                categoryCount: categoryCount
+                        // Main Categories
+                        return Category.count({}).exec()
+                            .then(categoryCount => {
+
+                                result.categoryCount = categoryCount;
+
+                                // Customer count
+                                return User.count({ role: 'customer' }).exec()
+                                    .then(customerCount => {
+
+                                        result.customerCount = customerCount;
+
+                                        // Supplier count
+                                        return User.count({ role: 'supplier' }).exec()
+                                            .then(supplierCount => {
+
+                                                result.supplierCount = supplierCount;
+
+                                                res.status(201).json(result);
                                             })
-                                        });
-                                })
-                        })
-                        .catch(handleError(res));
+                                            .catch(handleError(res));
+                                    })
+                                    .catch(handleError(res));
+                                
+                            });
+                    }
+                    else {
+                        res.status(201).json(result);
+                    }
                 })
-                .catch(handleError(res));
         })
         .catch(handleError(res));
 }

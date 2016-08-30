@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function DashboardController($http, $state, toastr) {
+    function DashboardController($http, $state, toastr, Auth) {
         var vm = this;
 
         // Data
@@ -11,6 +11,7 @@
         vm.productCount = 0;
         vm.orderCount = 0;
         vm.categoryCount = 0;
+        vm.Auth = Auth;
 
         // Methods
 

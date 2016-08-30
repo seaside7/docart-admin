@@ -121,11 +121,9 @@ export function create(req, res) {
         delete req.body.image;
     }
 
-    // Set owner of this product        
-    if (req.user.role === 'supplier') {
-        req.body.owner = req.user; 
-    }
-
+    // Set owner of this product
+    req.body.owner = req.user;        
+    
     return Product.create(req.body)
         .then(respondWithResult(res, 201))
         .catch(handleError(res));
