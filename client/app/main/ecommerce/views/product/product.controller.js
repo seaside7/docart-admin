@@ -2,11 +2,12 @@
 
     'use strict';
 
-    function ProductController($scope, $state, $stateParams, $http, $document, toastr, Upload, Auth) {
+    function ProductController($scope, $state, $stateParams, $http, $document, toastr, Upload, Auth, appConfig) {
         var vm = this;
 
         // Data
         vm.data = {};
+        vm.productUnits = appConfig.productUnits;
         vm.productId = $stateParams.id;
         vm.productTitle = 'New Product';
         vm.taToolbar = [
@@ -14,6 +15,7 @@
             ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent', 'html', 'insertImage', 'insertLink', 'insertVideo', 'wordcount', 'charcount']
         ];
         vm.Auth = Auth;
+        vm.saving = false;
         
         // Methods
         vm.goBack = goBack;
@@ -128,7 +130,12 @@
             Upload.upload(query).then((response) => {
                 console.log(response);
                 toastr.success('Product saved', 'Success');
-                init();
+                if (vm.productId) {
+                    init();
+                }
+                else {
+                    $state.go('app.products');
+                }
             })
             .catch((err) => {
                 console.error(err);

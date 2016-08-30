@@ -50,7 +50,8 @@ var ProductSchema = new Schema({
     owner: { type: Schema.Types.ObjectId, ref: 'User' },
     tags: [String],
     unit: { type: String, default: '' },
-    rank: { type: Number, min: 0, default: 0 }
+    rank: { type: Number, min: 0, default: 0 },
+    minOrder: { type: Number, min: 0, default: 0}
 }).index({
     'title': 'text',
     'description': 'text',

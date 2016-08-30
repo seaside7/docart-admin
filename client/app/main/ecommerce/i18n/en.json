@@ -58,6 +58,7 @@
         "SAVE": "Save",
         "CATEGORIES": "Categories",
         "RANK": "Rank",
+        "MINIMUM_ORDER": "Minimum Order",
 
         "ERRORS": {
             "REQUIRED": "Required"
