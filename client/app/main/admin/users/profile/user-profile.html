@@ -74,12 +74,12 @@
 
 
                             <div class="upload" layout="row" layout-align="space-between end" style="padding-top: 30px;">
-                                <div class="preview" ng-show="vm.data.image">
-                                    <img ngf-src="vm.data.image" width="100px" height="100px">
+                                <div class="preview" ng-show="vm.data.file">
+                                    <img ngf-src="vm.data.file" width="100px" height="100px">
                                 </div>
-                                <label ng-show="vm.data.image" flex>{{vm.data.image.name}}</label>
-                                <label ng-show="!vm.data.image" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
-                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.image" accept="'image/*'" ngf-maxsize="15MB"
+                                <label ng-show="vm.data.file" flex>{{vm.data.file.name}}</label>
+                                <label ng-show="!vm.data.file" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
+                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.file" accept="'image/*'" ngf-maxsize="15MB"
                                     type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Profile Photo</md-button>
                             </div>
                         </form>

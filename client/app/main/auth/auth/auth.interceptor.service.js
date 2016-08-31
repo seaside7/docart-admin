@@ -11,7 +11,13 @@
                 if ($cookies.get('token') && Util.isSameOrigin(config.url)) {
                     config.headers.Authorization = 'Bearer ' + $cookies.get('token');
                 }
+                $rootScope.loadingProgress = true;
                 return config;
+            },
+
+            response: function (response) {
+                $rootScope.loadingProgress = false;
+                return response || $q.when(response);
             },
 
             // Intercept 401s and redirect you to login
@@ -22,6 +28,7 @@
                     // remove any stale tokens
                     $cookies.remove('token');
                 }
+                $rootScope.loadingProgress = false;
                 return $q.reject(response);
             }
         };

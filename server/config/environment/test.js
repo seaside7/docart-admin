@@ -16,5 +16,12 @@ module.exports = {
         timestamps: false
       }
     }
-  }
+  },
+  s3: {
+    Credentials: 'aws.credentials.json',
+    Bucket: 'assets'
+  },
+
+  imageHost: 'http://128.199.251.64:9000/assets/'
+
 };

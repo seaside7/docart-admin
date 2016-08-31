@@ -2,9 +2,11 @@
   "globalDependencies": {
     "angular-toastr": "registry:dt/angular-toastr#1.6.0+20160330162121",
     "app-root-path": "registry:dt/app-root-path#1.2.1+20160719232327",
+    "aws-sdk": "registry:dt/aws-sdk#0.0.0+20160811005841",
     "fast-json-patch": "registry:dt/fast-json-patch#1.0.0+20160803194703",
     "fs-extra": "registry:dt/fs-extra#0.0.0+20160517121359",
     "multer": "registry:dt/multer#0.0.0+20160726135055",
+    "multiparty": "registry:dt/multiparty#0.0.0+20160316155526",
     "ng-file-upload": "registry:dt/ng-file-upload#0.0.0+20160317120654"
   }
 }

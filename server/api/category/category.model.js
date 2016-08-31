@@ -4,6 +4,7 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 var slugs = require('mongoose-url-slugs');
 var mongoosePaginate = require('mongoose-paginate');
+var config = require('../../config/environment');
 
 var CategorySchema = new Schema({
   name: { type: String, required: true },

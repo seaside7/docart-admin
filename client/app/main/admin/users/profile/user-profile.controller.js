@@ -28,13 +28,13 @@
 
         function saveData() {
             Upload.upload({
-                url: '/api/users',
+                url: '/api/users/' + vm.userId,
                 data: {
                     name: vm.data.name,
                     oldPassword: vm.data.oldPassword,
                     newPassword: vm.data.newPassword,
                     newPasswordConfirm: vm.data.newPasswordConfirm,
-                    image: vm.data.image    
+                    file: vm.data.file    
                 },
                 method: 'PUT'
             })

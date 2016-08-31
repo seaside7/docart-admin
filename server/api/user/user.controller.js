@@ -7,7 +7,8 @@ import jwt from 'jsonwebtoken';
 import shared from './../../config/environment/shared';
 import path from 'path';
 import fs from 'fs-extra';
-
+import s3 from './../../components/s3bucket';
+import appRoot from 'app-root-path';
 
 function validationError(res, statusCode) {
     statusCode = statusCode || 422;
@@ -19,7 +20,7 @@ function validationError(res, statusCode) {
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
-        res.status(statusCode).send(err); 
+        res.status(statusCode).send(err);
     };
 }
 
@@ -45,6 +46,14 @@ export function index(req, res) {
 
     return User.paginate(query, options)
         .then((user) => {
+            if (user.docs) {
+                user.docs.forEach((e) => {
+                    if (e.imageUrl) {
+                        e.imageUrl = config.imageHost + path.basename(e.imageUrl);
+                    }
+                });
+            }
+
             return res.status(201).json(user);
         })
         .catch(handleError(res));
@@ -57,19 +66,13 @@ export function create(req, res, next) {
     var newUser = new User(req.body);
 
     if (req.body.password !== req.body.passwordConfirm) {
-        return res.status(403).json({message: 'Password mismatch'});
-    }
-    
-    var imageUrl = null;
-
-    if (req.files) {
-        var image = req.files.image;
-        imageUrl = image ? shared.getUploadPath(path.basename(image.path)) : null;
+        return res.status(403).json({ message: 'Password mismatch' });
     }
 
-    if (imageUrl) {
-        newUser.imageUrl = imageUrl;
+    if (req.s3) {
+        newUser.imageUrl = req.s3.fileName;
     }
+    console.log(req.s3);
 
     newUser.provider = 'local';
     newUser.role = 'admin';
@@ -94,6 +97,9 @@ export function show(req, res, next) {
             if (!user) {
                 return res.status(404).end();
             }
+            if (user.imageUrl) {
+                user.imageUrl = config.imageHost + path.basename(user.imageUrl);
+            }
             res.json(user);
         })
         .catch(err => next(err));
@@ -105,7 +111,15 @@ export function show(req, res, next) {
  */
 export function destroy(req, res) {
     return User.findByIdAndRemove(req.params.id).exec()
-        .then(function () {
+        .then(function (entity) {
+            if (entity.imageUrl) {
+                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, entity.imageUrl, (err, data) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            }
+
             res.status(204).end();
         })
         .catch(handleError(res));
@@ -135,7 +149,7 @@ export function changePassword(req, res, next) {
 }
 
 export function update(req, res, next) {
-    var userId = req.user._id;
+    var userId = req.params.id;//req.user._id;
     var name = req.body.name;
     var newPass = req.body.newPassword;
     var newPassConfirm = req.body.newPasswordConfirm;
@@ -143,41 +157,45 @@ export function update(req, res, next) {
     var imageUrl = null;
 
     if (req.body.password !== req.body.passwordConfirm) {
-        return res.status(403).json({message: 'Password mismatch'});
-    }
-
-    if (req.files) {
-        var image = req.files.image;
-        imageUrl = image ? shared.getUploadPath(path.basename(image.path)) : null;
+        return res.status(403).json({ message: 'Password mismatch' });
     }
 
     return User.findById(userId).exec()
         .then(handleEntityNotFound(res))
-        .then( user => {
-            if (user.authenticate(oldPass)) {
-                user.password = newPass;
-                user.name = name;
+        .then(user => {
 
-                // Delete old image
-                if (user.imageUrl && imageUrl && user.imageUrl !== imageUrl) {
-                    var image = path.basename(user.imageUrl);
-                    var deleteImagePath = shared.getRelativeUploadPath(image);
-                    console.log("Deleting imageUrl: " + deleteImagePath);
-                    fs.remove(deleteImagePath);
-                }
-
-                if (imageUrl) {
-                    user.imageUrl = imageUrl;
-                }
-
-                return user.save()
-                    .then(() => {
-                        res.status(204).end();
-                    })
-                    .catch(validationError(res));
-            } else {
-                return res.status(403).json({message: 'Authentication failed'});
+            if (user.imageUrl) {
+                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, user.imageUrl, (err, data) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
             }
+
+            user.authenticate(oldPass, function (authError, authenticated) {
+                if (authError) {
+                    return res.status(403).json({ message: 'Authentication error' });
+                }
+
+                if (!authenticated) {
+                    return res.status(403).json({ message: 'Authentication failed' });
+                }
+                else {
+                    user.password = newPass;
+                    user.name = name;
+
+                    if (req.s3 && req.s3.fileName) {
+                        user.imageUrl = req.s3.fileName;
+                    }
+
+                    return user.save()
+                        .then((user) => {
+                            res.status(204).end();
+                        })
+                        .catch(validationError(res));
+                }
+            });
+
         })
         .catch(handleError(res));
 }

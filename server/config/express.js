@@ -21,6 +21,7 @@ import multiparty from 'connect-multiparty';
 import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
 import appRoot from 'app-root-path';
+import s3 from '../components/s3bucket';
 
 var MongoStore = connectMongo(session);
 
@@ -50,6 +51,10 @@ export default function(app) {
   app.use(passport.initialize());
   app.use(multiparty({
     uploadDir: appRoot.resolve(config.uploadsPath)
+  }));
+  app.use(s3.s3FileUploader({
+    s3Bucket: config.s3.Bucket,
+    s3Credentials: config.s3.Credentials
   }));
 
   // Persist sessions with MongoStore / sequelizeStore

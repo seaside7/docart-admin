@@ -10,6 +10,13 @@ module.exports = {
   },
 
   // Seed database on startup
-  seedDB: false
+  seedDB: false,
+
+  s3: {
+    Credentials: 'aws.credentials.json',
+    Bucket: 'assets'
+  },
+
+  imageHost: 'http://128.199.251.64:9000/assets/'
 
 };

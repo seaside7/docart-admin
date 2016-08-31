@@ -25,7 +25,7 @@
                     email: vm.data.email,
                     password: vm.data.password,
                     passwordConfirm: vm.data.passwordConfirm,
-                    image: vm.data.image    
+                    file: vm.data.file    
                 },
                 method: 'POST'
             })

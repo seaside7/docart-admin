@@ -50,7 +50,7 @@
         /*
          * Suppliers
          */
-        msNavigationService.saveItem('ecommerce.suppliers', {
+        msNavigationService.saveItem('admin.suppliers', {
             title: 'Suppliers',
             icon: 'icon-truck',
             state: 'app.suppliers',

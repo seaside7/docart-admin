@@ -140,16 +140,14 @@ UserSchema.methods = {
    */
   authenticate(password, callback) {
     if (!callback) {
-      console.log("==> Pass: " + this.password);
-      console.log("==> NewPass: " + this.encryptPassword(password));
       return this.password === this.encryptPassword(password);
     }
-
+  
     this.encryptPassword(password, (err, pwdGen) => {
       if (err) {
         return callback(err);
       }
-
+    
       if (this.password === pwdGen) {
         callback(null, true);
       } else {
