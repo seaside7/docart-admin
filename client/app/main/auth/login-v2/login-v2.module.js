@@ -3,37 +3,30 @@
     'use strict';
 
     angular
-        .module('app.pages.auth.login-v2', [])
+        .module('app.loginV2', [])
         .config(config);
 
     /** @ngInject */
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.pages_auth_login-v2', {
-            url      : '/pages/auth/login-v2',
+        $stateProvider.state('app.loginV2', {
+            url      : '/loginV2',
             views    : {
-                'main@'                          : {
+                'main@'                       : {
                     templateUrl: 'app/core/layouts/content-only.html',
                     controller : 'MainController as vm'
                 },
-                'content@app.pages_auth_login-v2': {
-                    templateUrl: 'app/main/pages/auth/login-v2/login-v2.html',
+                'content@app.loginV2': {
+                    templateUrl: 'app/main/auth/login-v2/login-v2.html',
                     controller : 'LoginV2Controller as vm'
                 }
             },
-            bodyClass: 'login-v2'
+            bodyClass: 'login'
         });
 
         // Translation
-        $translatePartialLoaderProvider.addPart('app/main/pages/auth/login-v2');
-
-        // Navigation
-        msNavigationServiceProvider.saveItem('pages.auth.login-v2', {
-            title : 'Login v2',
-            state : 'app.pages_auth_login-v2',
-            weight: 2
-        });
+        $translatePartialLoaderProvider.addPart('app/main/auth/login-v2');
     }
 
 })();

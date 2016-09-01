@@ -26,6 +26,12 @@
             // Login
             'app.login',
 
+            // LoginV2
+            'app.loginV2',
+
+            // Register V2
+            'app.registerV2',
+
             // Sample
             'app.dashboard',
 

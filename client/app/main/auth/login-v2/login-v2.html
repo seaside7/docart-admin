@@ -1,16 +1,17 @@
 <div id="login-v2" layout="row" layout-align="start">
     <div id="login-v2-intro" flex hide show-gt-sm>
-        <div class="logo md-accent-bg">
-            <span>F</span>
+        <div class="logo logo-shadow white-bg" style="padding-top: 15px; padding-left: 10px; padding-right: 10px">
+            <img src="assets/images/logos/docart-box.png"></img>
         </div>
+
         <div class="title" translate="LOGIN_V2.INTRO_TITLE">
-            Welcome to the FUSE!
+            Welcome to do-cart!
         </div>
         <div class="description" translate="LOGIN_V2.INTRO_DESCRIPTION">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat,
-            vel convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis viverra.
+            Register yourself as supplier on do-cart, and feel the benefit of being do-cart supplier for broader target of clients.
         </div>
     </div>
+
 
     <div id="login-v2-form-wrapper" class="flex-scrollable md-whiteframe-8dp" ms-scroll>
         <div id="login-v2-form">
@@ -23,9 +24,8 @@
 
             <form name="loginForm" novalidate>
                 <md-input-container class="md-block" md-no-float>
-                    <input type="email" name="email" ng-model="vm.form.email" placeholder="Email"
-                           translate translate-attr-placeholder="LOGIN_V2.EMAIL"
-                           ng-pattern="/^.+@.+\..+$/" required>
+                    <input type="email" name="email" ng-model="vm.form.email" placeholder="Email" translate translate-attr-placeholder="LOGIN_V2.EMAIL"
+                        ng-pattern="/^.+@.+\..+$/" required>
                     <div ng-messages="loginForm.email.$error" role="alert" multiple>
                         <div ng-message="required">
                             <span translate="LOGIN_V2.ERRORS.EMAIL_REQUIRED">Email field is required</span>
@@ -37,9 +37,8 @@
                 </md-input-container>
 
                 <md-input-container class="md-block" md-no-float>
-                    <input type="password" name="password" ng-model="vm.form.password" placeholder="Password"
-                           translate translate-attr-placeholder="LOGIN_V2.PASSWORD"
-                           required>
+                    <input type="password" name="password" ng-model="vm.form.password" placeholder="Password" translate translate-attr-placeholder="LOGIN_V2.PASSWORD"
+                        required>
                     <div ng-messages="loginForm.password.$error" role="alert">
                         <div ng-message="required">
                             <span translate="LOGIN_V2.ERRORS.PASSWORD_REQUIRED">Password field is required</span>
@@ -47,50 +46,33 @@
                     </div>
                 </md-input-container>
 
-                <div class="remember-forgot-password" layout="row" layout-sm="column"
-                     layout-align="space-between center">
-                    <md-checkbox class="remember-me" ng-model="data.cb1" aria-label="Remember Me">
-                        <span translate="LOGIN_V2.REMEMBER_ME">Remember Me</span>
-                    </md-checkbox>
-
-                    <a ui-sref="app.pages_auth_forgot-password" class="forgot-password md-accent-color"
-                       translate="LOGIN_V2.FORGOT_PASSWORD">Forgot Password?</a>
+                <div class="description red-400-fg" ng-show="vm.failed" translate="LOGIN_V2.INVALID_AUTH">
+                    Invalid email or password, please try again!
                 </div>
 
-                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="LOG IN"
-                           ng-disabled="loginForm.$invalid || loginForm.$pristine"
-                           translate="LOGIN_V2.LOG_IN" translate-attr-aria-label="LOGIN_V2.LOG_IN">
-                    LOG IN
+                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="LOG IN" ng-disabled="loginForm.$invalid || loginForm.$pristine"
+                    ng-click="vm.login()" ng-disabled="vm.loading">
+                    <div layout="row" layout-align="center center">
+                        <div layout="row" layout-align="space-around">
+                            <md-progress-circular class="md-warn md-hue-3" ng-show="vm.loading" md-diameter="20px" style="margin-right: 10px;"></md-progress-circular>
+                        </div>
+                        <div>LOG IN</div>
+                    </div>
                 </md-button>
+
+                <div class="remember-forgot-password" layout="row" layout-sm="column" layout-align="end center">
+                    <a ui-sref="app.forgotPassword" class="forgot-password md-accent-color" translate="LOGIN_V2.FORGOT_PASSWORD">Forgot Password?</a>
+                </div>
+
             </form>
 
             <div class="separator">
                 <span class="text" translate="LOGIN_V2.OR">OR</span>
             </div>
 
-            <div layout="column" layout-align="start center">
-                <md-button class="md-raised google">
-                    <div layout="row" layout-align="center center">
-                        <span>
-                            <md-icon md-font-icon="icon-google-plus" class="s16"></md-icon>
-                            <span translate="LOGIN_V2.WITH_GOOGLE">Log in with Google</span>
-                        </span>
-                    </div>
-                </md-button>
-
-                <md-button class="md-raised facebook">
-                    <div layout="row" layout-align="center center">
-                        <span>
-                            <md-icon md-font-icon="icon-facebook" class="s16"></md-icon>
-                            <span translate="LOGIN_V2.WITH_FACEBOOK">Log in with Facebook</span>
-                        </span>
-                    </div>
-                </md-button>
-            </div>
-
             <div class="register" layout="row" layout-sm="column" layout-align="center center">
                 <span class="text" translate="LOGIN_V2.DONT_HAVE_ACCOUNT">Don't have an account?</span>
-                <a class="link" ui-sref="app.pages_auth_register-v2" translate="LOGIN_V2.CREATE_ACCOUNT">Create an
+                <a class="link" ui-sref="app.registerV2" translate="LOGIN_V2.CREATE_ACCOUNT">Create an
                     account</a>
             </div>
         </div>

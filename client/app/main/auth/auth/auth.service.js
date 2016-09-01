@@ -21,7 +21,7 @@
                         event.preventDefault();
                         return Auth.isLoggedIn(_.noop)
                             .then(is => {
-                                $state.go(is ? 'app.dashboard' : 'app.login');
+                                $state.go(is ? 'app.dashboard' : 'app.loginV2');
                             });
                     });
             } else {
@@ -32,7 +32,7 @@
                         }
 
                         event.preventDefault();
-                        $state.go('app.login');
+                        $state.go('app.loginV2');
                     });
             }
         });

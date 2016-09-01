@@ -257,7 +257,7 @@ UserSchema
 
 UserSchema
   .post('findOne', function (doc) {
-    if (doc.imageUrl) {
+    if (doc && doc.imageUrl) {
       doc.imageUrl = config.imageHost + path.basename(doc.imageUrl);
     }
   });
@@ -265,7 +265,7 @@ UserSchema
 UserSchema
   .post('remove', function (doc) {
     var removedFiles = [];
-    if (doc.imageUrl) {
+    if (doc && doc.imageUrl) {
       removedFiles.push(path.basename(doc.imageUrl));
     }
 

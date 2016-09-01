@@ -1,8 +1,9 @@
 <div id="register-v2" layout="row" layout-align="start">
     <div id="register-v2-intro" flex hide show-gt-sm>
-        <div class="logo md-accent-bg">
-            <span>F</span>
+        <div class="logo logo-shadow white-bg" style="padding-top: 15px; padding-left: 10px; padding-right: 10px">
+            <img src="assets/images/logos/docart-box.png"></img>
         </div>
+
         <div class="title" translate="REGISTER_V2.INTRO_TITLE">
             Welcome to the FUSE!
         </div>
@@ -14,12 +15,9 @@
 
     <div id="register-v2-form-wrapper" class="flex-scrollable md-whiteframe-8dp" layout="column" flex ms-scroll>
         <div id="register-v2-form">
-            <div class="logo md-accent-bg" hide-gt-sm>
-                <span>F</span>
-            </div>
 
             <div class="title" translate="REGISTER_V2.TITLE">Create an account</div>
-            <div class="description" translate="REGISTER_V2.DESCRIPTION">Sed mollis velit facilisis facilisis viverra
+            <div class="description" translate="REGISTER_V2.DESCRIPTION">Fill in your credentials
             </div>
 
             <form name="registerForm" novalidate>
@@ -89,7 +87,7 @@
 
             <div class="login" layout="row" layout-sm="column" layout-align="center center">
                 <span class="text" translate="REGISTER_V2.ALREADY_HAVE">Already have an account?</span>
-                <a class="link" ui-sref="app.pages_auth_login-v2" translate="REGISTER_V2.LOGIN">Log in</a>
+                <a class="link" ui-sref="app.loginV2" translate="REGISTER_V2.LOGIN">Log in</a>
             </div>
         </div>
     </div>

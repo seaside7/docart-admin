@@ -120,7 +120,7 @@
         {
             // Do logout here..
             Auth.logout();
-            $state.go('app.login');
+            $state.go('app.loginV2');
         }
 
         /**

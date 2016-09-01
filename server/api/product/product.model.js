@@ -77,11 +77,11 @@ ProductSchema
 
 ProductSchema
     .post('findOne', function(doc) {
-        if (doc.imageUrl) {
+        if (doc && doc.imageUrl) {
             doc.imageUrl = config.imageHost+path.basename(doc.imageUrl);
         }
 
-        if (doc.imageUrls) {
+        if (doc && doc.imageUrls) {
             for (var i=0; i < doc.imageUrls.length; i++) {
                 doc.imageUrls[i] = config.imageHost + path.basename(doc.imageUrls[i]);
             }
@@ -91,11 +91,11 @@ ProductSchema
 ProductSchema
     .post('remove', function(doc) {
         var removedFiles = [];
-        if (doc.imageUrl) {
+        if (doc && doc.imageUrl) {
             removedFiles.push(path.basename(doc.imageUrl));
         }
 
-        if (doc.imageUrls) {
+        if (doc && doc.imageUrls) {
             doc.imageUrls.forEach((img) => {
                 removedFiles.push(path.basename(img));
             })

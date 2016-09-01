@@ -24,7 +24,7 @@
             responseError(response) {
                 if (response.status === 401) {
                     (state || (state = $injector.get('$state')))
-                        .go('app.login');
+                        .go('app.loginV2');
                     // remove any stale tokens
                     $cookies.remove('token');
                 }

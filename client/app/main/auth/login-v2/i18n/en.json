@@ -1,9 +1,9 @@
 {
     "LOGIN_V2": {
-        "INTRO_TITLE": "Welcome to the FUSE!",
-        "INTRO_DESCRIPTION": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis viverra.",
+        "INTRO_TITLE": "Welcome to do-cart!",
+        "INTRO_DESCRIPTION": "Login to your account, or register yourself as supplier on do-cart, and feel the benefit of being do-cart supplier for broader target of clients.",
         "TITLE": "Log in to your account",
-        "DESCRIPTION": "Sed mollis velit facilisis facilisis viverra",
+        "DESCRIPTION": "Use your supplier account or create a new account now.",
         "EMAIL": "Email",
         "PASSWORD": "Password",
         "REMEMBER_ME": "Remember Me",
@@ -14,6 +14,7 @@
         "WITH_FACEBOOK": "Log in with Facebook",
         "DONT_HAVE_ACCOUNT": "Don't have an account?",
         "CREATE_ACCOUNT": "Create an account",
+        "INVALID_AUTH": "Invalid email or password, please try again!",
         "ERRORS": {
             "EMAIL_REQUIRED": "Email field is required",
             "EMAIL_MUST_VALID": "Email must be a valid e-mail address",

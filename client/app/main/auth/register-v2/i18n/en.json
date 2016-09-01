@@ -1,9 +1,9 @@
 {
     "REGISTER_V2": {
-        "INTRO_TITLE": "Welcome to the FUSE!",
-        "INTRO_DESCRIPTION": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat, vel convallis elit fermentum pellentesque. Sed mollis velit facilisis facilisis viverra.",
+        "INTRO_TITLE": "Create your supplier account now!",
+        "INTRO_DESCRIPTION": "Register yourself as supplier on do-cart, and get the benefit of being do-cart supplier for broader target of clients.",
         "TITLE": "Create an account",
-        "DESCRIPTION": "Sed mollis velit facilisis facilisis viverra",
+        "DESCRIPTION": "Fill in your credentials",
         "NAME": "Name",
         "EMAIL": "Email",
         "PASSWORD": "Password",
