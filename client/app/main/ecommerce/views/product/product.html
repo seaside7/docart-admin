@@ -18,7 +18,7 @@
             </div>
 
             <div>
-                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine)">
+                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) && !vm.productId">
                     <span translate="EC.SAVE">SAVE</span>
                 </md-button>
             </div>
@@ -167,7 +167,7 @@
 
                             <md-input-container class="md-block md-icon-float">
                                 <label translate="EC.STOCK_QUANTITY">Stock Quantity</label>
-                                <input type="number" step="1" name="stock" ng-model="vm.data.stock" required>
+                                <input type="number" step="1" min="0" name="stock" ng-model="vm.data.stock" required>
                                 <div ng-messages="dataForm.stock.$error" ng-show="dataForm.stock.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
@@ -196,7 +196,7 @@
                     </md-tab-label>
 
                     <md-tab-body>
-                        <div class="detail-form-container md-background-bg md-whiteframe-1dp" ng-if="vm.productId">
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp" ng-if="vm.productId !== undefined">
                             <div layout="column" layout-align="start start" layout-wrap>
                                 <div>
                                     <span class="secondary-text mt-8">Current Images</span>

@@ -5,6 +5,7 @@
     "aws-sdk": "registry:dt/aws-sdk#0.0.0+20160811005841",
     "fast-json-patch": "registry:dt/fast-json-patch#1.0.0+20160803194703",
     "fs-extra": "registry:dt/fs-extra#0.0.0+20160517121359",
+    "moment": "registry:dt/moment#2.11.1+20160829143156",
     "multer": "registry:dt/multer#0.0.0+20160726135055",
     "multer-s3": "registry:dt/multer-s3#0.0.0+20160829142114",
     "multiparty": "registry:dt/multiparty#0.0.0+20160316155526",

@@ -63,9 +63,9 @@
                 vm.data.finalPrice = price - ((price * disc) / 100);
             });
 
-            $scope.$watch('vm.data.images', (newVal, oldVal) => {
+            /*$scope.$watch('vm.data.images', (newVal, oldVal) => {
                 console.log(newVal);
-            })
+            })*/
 
         }
 
@@ -141,7 +141,6 @@
         }
 
         function deleteImage(deleteImage, index) {
-            console.log(index);
             $http({
                 url: "/api/products/image/" + vm.productId,
                 method: 'POST',

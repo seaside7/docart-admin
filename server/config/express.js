@@ -26,6 +26,8 @@ import s3 from '../components/s3bucket';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
 import sha1 from 'sha1';
+import moment from 'moment';
+
 
 AWS.config.loadFromPath(config.s3.Credentials);
 var S3 = new AWS.S3();
@@ -66,7 +68,9 @@ export default function (app) {
             },
             key: function (req, file, cb) {
                 var extName = path.extname(file.originalname);
-                cb(null, sha1(Date.now().toString()) + extName)
+                var filename = sha1(file.originalname + moment().format('DD-MM-YYYY HH:mm:ss')) + extName
+                console.log("S3 Upload: " + filename);
+                cb(null, filename);
             }
         })
     }).fields([
