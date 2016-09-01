@@ -10,6 +10,7 @@
         // Data
         vm.loading = false;
         vm.failed = false;
+        vm.errorMessage = "Invalid email or password, please try again!";
 
         // Methods
         vm.login = login;
@@ -31,6 +32,8 @@
                 .catch(function(err) {
                     vm.loading = false;
                     vm.failed = true;
+                    vm.errorMessage = err.message;
+                    $state.go("app.registerSuccess", {id: "7f5a605053babdb0cd1ad7abccabe910"});
                 })
         }
     }

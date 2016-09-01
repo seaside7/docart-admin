@@ -5,7 +5,7 @@
         </div>
 
         <div class="title" translate="REGISTER_V2.INTRO_TITLE">
-            Welcome to the FUSE!
+            Welcome to do-cart!
         </div>
         <div class="description" translate="REGISTER_V2.INTRO_DESCRIPTION">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper nisl erat,
@@ -22,7 +22,7 @@
 
             <form name="registerForm" novalidate>
                 <md-input-container class="md-block" md-no-float>
-                    <input name="username" ng-model="vm.form.username" placeholder="Name"
+                    <input name="username" ng-model="vm.form.name" placeholder="Name"
                            translate translate-attr-placeholder="REGISTER_V2.NAME"
                            required>
                     <div ng-messages="registerForm.username.$error" role="alert">
@@ -79,9 +79,13 @@
 
                 <md-button type="submit" class="md-raised md-accent submit-button" aria-label="CREATE MY ACCOUNT"
                            ng-disabled="registerForm.$invalid || registerForm.$pristine"
-                           translate="REGISTER_V2.CREATE_ACCOUNT"
-                           translate-attr-aria-label="REGISTER_V2.CREATE_ACCOUNT">
-                    CREATE MY ACCOUNT
+                           ng-click="vm.register()" ng-disabled="vm.loading">
+                    <div layout="row" layout-align="center center">
+                        <div layout="row" layout-align="space-around">
+                            <md-progress-circular class="md-warn md-hue-3" ng-show="vm.loading" md-diameter="20px" style="margin-right: 10px;"></md-progress-circular>
+                        </div>
+                        <div>CREATE MY ACCOUNT</div>
+                    </div>
                 </md-button>
             </form>
 

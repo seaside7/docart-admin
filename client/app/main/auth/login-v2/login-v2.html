@@ -46,8 +46,8 @@
                     </div>
                 </md-input-container>
 
-                <div class="description red-400-fg" ng-show="vm.failed" translate="LOGIN_V2.INVALID_AUTH">
-                    Invalid email or password, please try again!
+                <div class="description red-400-fg" ng-show="vm.failed">
+                    {{vm.errorMessage}}
                 </div>
 
                 <md-button type="submit" class="md-raised md-accent submit-button" aria-label="LOG IN" ng-disabled="loginForm.$invalid || loginForm.$pristine"

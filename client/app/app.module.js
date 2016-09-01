@@ -32,6 +32,9 @@
             // Register V2
             'app.registerV2',
 
+            // Register Success
+            'app.registerSuccess',
+
             // Sample
             'app.dashboard',
 

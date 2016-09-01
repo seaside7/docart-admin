@@ -8,15 +8,18 @@ function localAuthenticate(User, email, password, done) {
     .then(user => {
       if (!user) {
         return done(null, false, {
-          message: 'This email is not registered.'
+          status: 1, message: 'Your email or password is not correct. Please try again!'
         });
       }
       user.authenticate(password, function(authError, authenticated) {
+        if (!user.active && user.role !== 'admin') {
+          return done(null, false, { status: 2, message: 'You need to activate your account, please check your email!'} );
+        }
         if (authError) {
           return done(authError);
         }
         if (!authenticated) {
-          return done(null, false, { message: 'This password is not correct.' });
+          return done(null, false, { status: 1, message: 'Your email or password is not correct. Please try again!' });
         } else {
           return done(null, {
             _id: user._id,
