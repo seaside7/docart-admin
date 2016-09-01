@@ -67,25 +67,27 @@ function s3FileUploader(params) {
     }
 }
 
-function s3FileRemove(credentials, bucket, fileName, cb) {
+function s3FileRemove(credentials, bucket, fileNames, cb) {
     AWS.config.loadFromPath(credentials);
     var S3 = new AWS.S3();
 
+    var objs = [];
+    fileNames.forEach((f) => {
+        objs.push({
+            Key: f
+        });
+    });
     var params = {
         Bucket: bucket,
         Delete: { // required
-            Objects: [ // required
-                {
-                    Key: fileName // required
-                }
-            ]
+            Objects: objs
         }
     }
 
     S3.deleteObjects(params, (err, data) => {
         if (cb) {
             if (!err) {
-                console.info('s3FileRemove: Removed file on bucket => ' + fileName);
+                console.info('s3FileRemove: Removed file on bucket => ' + JSON.stringify(fileNames));
             }
             cb(err, data);
         }

@@ -67,32 +67,17 @@
                             <!-- PASSWORD FOR UPDATE USER --> 
                             <md-input-container class="md-block" ng-if="!vm.newData">
                                 <label translate="EC.OLD_PASSWORD">Old Password</label>
-                                <input type="password" ng-model="vm.data.oldPassword" name="oldPassword" autocomplete="new-password" required> 
-                                <div ng-messages="dataForm.oldPassword.$error" ng-show="dataForm.oldPassword.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
+                                <input type="password" ng-model="vm.data.oldPassword" name="oldPassword" autocomplete="new-password"> 
                             </md-input-container>
 
                             <md-input-container class="md-block" ng-if="!vm.newData">
                                 <label translate="EC.NEW_PASSWORD">New Password</label>
-                                <input type="password" ng-model="vm.data.newPassword" name="newPassword" autocomplete="new-password" required>
-                                <div ng-messages="dataForm.newPassword.$error" ng-show="dataForm.newPassword.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
+                                <input type="password" ng-model="vm.data.newPassword" name="newPassword" autocomplete="new-password">
                             </md-input-container>
 
                             <md-input-container class="md-block" ng-if="!vm.newData">
                                 <label translate="EC.NEW_PASSWORD_CONFIRMATION">New Password Confirmation</label>
-                                <input type="password" ng-model="vm.data.newPasswordConfirm" name="newPasswordConfirm" autocomplete="new-password" required>
-                                <div ng-messages="dataForm.newPasswordConfirm.$error" ng-show="dataForm.newPasswordConfirm.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
+                                <input type="password" ng-model="vm.data.newPasswordConfirm" name="newPasswordConfirm" autocomplete="new-password">
                             </md-input-container>
                             <!-- PASSWORD FOR UPDATE USER -->
 
@@ -119,12 +104,12 @@
                             <!-- PASSWORD FOR NEW USER -->
 
                             <div class="upload" layout="row" layout-align="space-between end" style="padding-top: 30px;">
-                                <div class="preview" ng-show="vm.data.image">
-                                    <img ngf-src="vm.data.image" width="100px" height="100px">
+                                <div class="preview" ng-show="vm.data.file">
+                                    <img ngf-src="vm.data.file" width="100px" height="100px">
                                 </div>
-                                <label ng-show="vm.data.image" flex>{{vm.data.image.name}}</label>
-                                <label ng-show="!vm.data.image" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
-                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.image" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Profile Photo</md-button>
+                                <label ng-show="vm.data.file" flex>{{vm.data.file.name}}</label>
+                                <label ng-show="!vm.data.file" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
+                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.file" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Profile Photo</md-button>
                             </div>
                         </form>
                     </div>
@@ -155,12 +140,12 @@
                             </div>
 
                             <div class="upload" layout="row" layout-align="space-between end" style="margin-top: 30px;">
-                                <div class="preview" ng-show="vm.data.logo">
-                                    <img ngf-src="vm.data.logo" width="100px" height="100px">
+                                <div class="preview" ng-show="vm.data.images">
+                                    <img ngf-src="vm.data.images" width="100px" height="100px">
                                 </div>
-                                <label ng-show="vm.data.logo" flex>{{vm.data.logo.name}}</label>
-                                <label ng-show="!vm.data.logo" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
-                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.logo" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Logo</md-button>
+                                <label ng-show="vm.data.images" flex>{{vm.data.images.name}}</label>
+                                <label ng-show="!vm.data.images" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
+                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.images" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Logo</md-button>
                             </div>
 
                             <md-input-container class="md-block md-icon-float">

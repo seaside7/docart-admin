@@ -9,19 +9,41 @@
 
 'use strict';
 
-import _ from 'lodash'; 
+import _ from 'lodash';
 import Supplier from './supplier.model';
 import User from './../user/user.model';
 import Product from './../product/product.model';
 import shared from './../../config/environment/shared';
+import config from './../../config/environment';
+import s3 from './../../components/s3bucket';
 import path from 'path';
 import fs from 'fs-extra';
+import appRoot from 'app-root-path';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function (entity) {
         if (entity) {
-            return res.status(statusCode).json(entity);
+            if (entity.docs) {
+                var entities = entity.docs;
+                entities.forEach((e) => {
+                    if (e.imageUrl) {
+                        e.imageUrl = config.imageHost + path.basename(e.imageUrl);
+                    }
+                    if (e.supplier && e.supplier.logoUrl) {
+                        e.supplier.logoUrl = config.imageHost + path.basename(e.supplier.logoUrl);
+                    }
+                })
+            }
+            else {
+                if (entity.imageUrl) {
+                    entity.imageUrl = config.imageHost + path.basename(entity.imageUrl);
+                }
+                if (entity.supplier && entity.supplier.logoUrl) {
+                    entity.supplier.logoUrl = config.imageHost + path.basename(entity.supplier.logoUrl);
+                }
+            }
+            res.status(statusCode).json(entity);
         }
     };
 }
@@ -82,6 +104,9 @@ export function show(req, res) {
     User.findById(req.params.id).populate('supplier').exec()
         .then(handleEntityNotFound(res))
         .then((user) => {
+            if (user.imageUrl) {
+                user.imageUrl = config.imageHost + path.basename(user.imageUrl);
+            }
             return respondWithResult(res)(user);
         })
         .catch(handleError(res));
@@ -89,9 +114,9 @@ export function show(req, res) {
 
 // Creates a new Supplier in the DB
 export function create(req, res) {
-    
+
     if (req.body.password !== req.body.passwordConfirm) {
-        return res.status(403).json({message: 'Password mismatch'});
+        return res.status(403).json({ message: 'Password mismatch' });
     }
 
     var user = {
@@ -101,23 +126,14 @@ export function create(req, res) {
         password: req.body.password,
         role: 'supplier'
     };
-    delete req.body.name;
-    delete req.body.email;
-    delete req.body.password;
-
 
     if (req.files) {
-        var image = req.files.image;
-        var logo = req.files.logo;
-        if (image) {
-            user.imageUrl = shared.getUploadPath(path.basename(image.path));
+        if (req.files.file && req.files.file.length > 0) {
+            user.imageUrl = req.files.file[0].key;
         }
-        if (logo) {
-            req.body.logoUrl = shared.getUploadPath(path.basename(logo.path));
+        if (req.files.images && req.files.images.length > 0) {
+            req.body.logoUrl = req.files.images[0].key;
         }
-
-        delete req.body.image;
-        delete req.body.logo;
     }
 
     return User.create(user)
@@ -131,9 +147,12 @@ export function create(req, res) {
 
 // Updates an existing Supplier in the DB
 export function update(req, res) {
-    
-    if (req.body.newPassword !== req.body.newPasswordConfirm) {
-        return res.status(403).json({message: 'Password mismatch'});
+
+    var newPass = req.body.newPassword;
+    var oldPass = req.body.oldPassword;
+
+    if (newPass !== req.body.newPasswordConfirm) {
+        return res.status(403).json({ message: 'Password mismatch' });
     }
 
     if (req.body._id) {
@@ -143,35 +162,42 @@ export function update(req, res) {
         provider: 'local',
         name: req.body.name,
         email: req.body.email,
-        password: req.body.newPassword,
+        password: newPass,
         role: 'supplier'
     };
-    delete req.body.name;
-    delete req.body.email;
-    delete req.body.password;
-
-    if (req.files) {
-        var image = req.files.image;
-        var logo = req.files.logo;
-        if (image) {
-            user.imageUrl = shared.getUploadPath(path.basename(image.path));
-        }
-        if (logo) {
-            req.body.logoUrl = shared.getUploadPath(path.basename(logo.path));
-        }
-
-        delete req.body.image;
-        delete req.body.logo;
-    }
 
     return User.findById(req.params.id).populate('supplier').exec()
         .then(handleEntityNotFound(res))
         .then((userResult) => {
-            
-            if (userResult.authenticate(req.body.oldPassword)) {
-                var updatedUser = _.merge(userResult, user);
-                updatedUser.password = req.body.newPassword;
 
+            if (req.files) {
+
+                var removedFiles = [];
+                if (req.files.file && req.files.file.length > 0) {
+                    user.imageUrl = req.files.file[0].key;
+                    removedFiles.push(path.basename(userResult.imageUrl));
+                }
+                if (req.files.images && req.files.images.length > 0) {
+                    req.body.logoUrl = req.files.images[0].key;
+                    if (userResult.supplier) {
+                        removedFiles.push(path.basename(userResult.supplier.logoUrl));
+                    }
+                }
+
+                if (removedFiles.length > 0) {
+                    s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, removedFiles, (err, data) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                    });
+                }
+                
+            }
+
+            var updatedUser = _.merge(userResult, user);
+
+            // if we dont pass oldPass and newPass, then we only update other data
+            if (!oldPass && !newPass) {
                 return updatedUser.save()
                     .then((updatedUser) => {
                         var supplier = _.merge(updatedUser.supplier, req.body);
@@ -179,89 +205,57 @@ export function update(req, res) {
                             .then((updatedSupplier) => {
                                 updatedUser.supplier = updatedSupplier;
                                 return respondWithResult(res, 201)(userResult);
-                            })    
+                            })
                     })
                     .catch(handleError(res));
-            } else {
-                return res.status(403).json({message: 'Authentication failed'});
             }
+            else {
+                if (userResult.authenticate(oldPass)) {
+                    updatedUser.password = newPass;
 
-            /*var updateUser = _.merge(userResult, user);
-            return updateUser.save()
-                .then((updatedUser) => {
-                    var supplier = _.merge(updatedUser.supplier, req.body);
-                    supplier.save()
-                        .then((updatedSupplier) => {
-                            updatedUser.supplier = updatedSupplier;
-                            return respondWithResult(res, 201)(updatedUser);
-                        }) 
-                })*/
-        })
-        .catch(handleError(res));
-}
-
-/*var userId = req.user._id;
-    var name = req.body.name;
-    var newPass = req.body.newPassword;
-    var newPassConfirm = req.body.newPasswordConfirm;
-    var oldPass = req.body.oldPassword;
-    var imageUrl = null;
-
-    if (req.body.password !== req.body.passwordConfirm) {
-        return res.status(403).json({message: 'Password mismatch'});
-    }
-
-    if (req.files) {
-        var image = req.files.image;
-        imageUrl = image ? shared.getUploadPath(path.basename(image.path)) : null;
-    }
-
-    return User.findById(userId).exec()
-        .then(handleEntityNotFound(res))
-        .then( user => {
-            if (user.authenticate(oldPass)) {
-                user.password = newPass;
-                user.name = name;
-
-                // Delete old image
-                if (user.imageUrl && imageUrl && user.imageUrl !== imageUrl) {
-                    var image = path.basename(user.imageUrl);
-                    var deleteImagePath = shared.getRelativeUploadPath(image);
-                    console.log("Deleting imageUrl: " + deleteImagePath);
-                    fs.remove(deleteImagePath);
+                    return updatedUser.save()
+                        .then((updatedUser) => {
+                            var supplier = _.merge(updatedUser.supplier, req.body);
+                            supplier.save()
+                                .then((updatedSupplier) => {
+                                    updatedUser.supplier = updatedSupplier;
+                                    return respondWithResult(res, 201)(userResult);
+                                })
+                        })
+                        .catch(handleError(res));
+                } else {
+                    return res.status(403).json({ message: 'Authentication failed' });
                 }
-
-                if (imageUrl) {
-                    user.imageUrl = imageUrl;
-                }
-
-                return user.save()
-                    .then(() => {
-                        res.status(204).end();
-                    })
-                    .catch(validationError(res));
-            } else {
-                return res.status(403).json({message: 'Authentication failed'});
             }
         })
         .catch(handleError(res));
 }
 
-*/
 // Deletes a Supplier from the DB
 export function destroy(req, res) {
     return User.findById(req.params.id).populate('supplier').exec()
         .then(handleEntityNotFound(res))
         .then((user) => {
+            
+            var removedImages = [];
             if (user.imageUrl) {
-                var image = path.basename(user.imageUrl);
-                var deleteImagePath = shared.getRelativeUploadPath(image);
-                console.log("Deleting supplier imageUrl: " + deleteImagePath);
-                fs.remove(deleteImagePath);
+                removedImages.push(path.basename(user.imageUrl));
+            }
+
+            if (user.supplier && user.supplier.logoUrl) {
+                removedImages.push(path.basename(user.supplier.logoUrl));
+            }
+
+            if (removedImages.length > 0) {
+                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, removedImages, (err, data) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
             }
 
             // Remove all associated products
-            return Product.remove({owner: req.params.id}).exec()
+            return Product.remove({ owner: req.params.id }).exec()
                 .then(() => {
                     return user.remove()
                         .then((removedUser) => {
@@ -270,7 +264,7 @@ export function destroy(req, res) {
                         .catch(handleError(res));
                 })
                 .catch(handleError(res));
-            
+
         })
         .catch(handleError(res));
 }

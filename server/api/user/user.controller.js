@@ -114,7 +114,7 @@ export function destroy(req, res) {
     return User.findByIdAndRemove(req.params.id).exec()
         .then(function (entity) {
             if (entity.imageUrl) {
-                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, entity.imageUrl, (err, data) => {
+                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, [entity.imageUrl], (err, data) => {
                     if (err) {
                         console.error(err);
                     }
@@ -165,15 +165,15 @@ export function update(req, res, next) {
         .then(handleEntityNotFound(res))
         .then(user => {
 
-            if (user.imageUrl) {
-                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, user.imageUrl, (err, data) => {
-                    if (err) {
-                        console.error(err);
-                    }
-                });
-            }
-
             if (req.files && req.files.file) {
+                if (user.imageUrl) {
+                    s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, [path.basename(user.imageUrl)], (err, data) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                    });
+                }
+
                 if (req.files.file.length > 0) {
                     user.imageUrl = req.files.file[0].key;
                 }
