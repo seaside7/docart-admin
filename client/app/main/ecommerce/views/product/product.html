@@ -192,26 +192,43 @@
                 <!-- /////// PRODUCT IMAGES //// -->
                 <md-tab>
                     <md-tab-label>
-                        <span translate="EC.PRODUCT_IMAGES">Product Image</span>
+                        <span translate="EC.PRODUCT_IMAGES">Product Images</span>
                     </md-tab-label>
 
                     <md-tab-body>
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp" ng-if="vm.productId">
+                            <div layout="column" layout-align="start start" layout-wrap>
+                                <div>
+                                    <span class="secondary-text mt-8">Current Images</span>
+                                </div>
+                                <div layout="row" layout-align="center start">
+                                    <div class="product-image" style="position: relative" layout="column" layout-align="center center" ng-repeat="img in vm.data.imageUrls">
+                                        <img class="media" style="width: 150px; height: 150px; padding: 5px; margin-right: 10px" ngf-src="img">
+                                        
+                                        <md-button ng-click="vm.setDefaultImage(img)" class="md-raised" ng-disabled="img === vm.data.imageUrl">{{img === vm.data.imageUrl ? "Default" : "Set Default"}}</md-button>
+                                         
+                                        <md-button class="md-fab md-red-400-bg md-xs md-close">
+                                            <md-icon md-font-icon="icon-close" aria-label="close" ng-click="vm.deleteImage(img, $index)"></md-icon>
+                                        </md-button>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="detail-form-container md-background-bg md-whiteframe-1dp">
 
-                            <div ngf-drop ngf-select ng-model="vm.data.image" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="false"
+                            <div ngf-drop ngf-select ng-model="vm.data.images" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true"
                                 ngf-allow-dir="true" accept="image/*" ngf-pattern="'image/*'">
 
                                 <div class="upload-button" layout="column" layout-align="center center">
-                                    <md-button class="md-accent md-raised" ngf-select ng-model="vm.data.image" ngf-multiple="false">
-                                        Upload
+                                    <md-button class="md-accent md-raised" ngf-select ng-model="vm.data.images" ngf-multiple="true">
+                                        Uploads
                                     </md-button>
-                                    <span class="secondary-text mt-8">You can also drop image here to upload. Only PNG, JPG - Max. 8MB</span>
+                                    <span class="secondary-text mt-8">You can also drop images here to upload. Only PNG, JPG - Max. 8MB</span>
                                 </div>
                                 <div layout="row" layout-align="start start" layout-wrap>
-                                    <!--<img class="media" ngf-src="vm.product.images">-->
-                                    <img class="media" ngf-src="vm.data.image">
-                                    <div class="product-image" layout="row" layout-align="center center">
-
+                                    <div class="product-image" layout="row" layout-align="center center" ng-repeat="img in vm.data.images">
+                                        <img class="media" style="width: 150px; height: auto; padding: 5px;" ngf-src="img">
                                     </div>
                                 </div>
                             </div>

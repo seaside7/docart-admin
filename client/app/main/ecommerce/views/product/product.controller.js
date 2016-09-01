@@ -21,6 +21,8 @@
         // Methods
         vm.goBack = goBack;
         vm.saveData = saveData;
+        vm.setDefaultImage = setDefaultImage;
+        vm.deleteImage = deleteImage;
 
         //////////
 
@@ -60,6 +62,11 @@
                 var disc = +vm.data.discount;
                 vm.data.finalPrice = price - ((price * disc) / 100);
             });
+
+            $scope.$watch('vm.data.images', (newVal, oldVal) => {
+                console.log(newVal);
+            })
+
         }
 
         function loadCategories() {
@@ -86,6 +93,7 @@
 
             var query = {
                 url: '/api/products',
+                arrayKey: '',
                 data: vm.data
             };
 
@@ -94,7 +102,8 @@
                 query.method = 'PUT';
             }
 
-            Upload.upload(query).then((response) => {
+            Upload.upload(query)
+            .then((response) => {
                 console.log(response);
                 toastr.success('Product saved', 'Success');
                 if (vm.productId) {
@@ -110,6 +119,48 @@
             })
         }
 
+        function setDefaultImage(defaultImage) {
+            $http({
+                url: "/api/products/image/" + vm.productId + "/default",
+                method: 'PUT',
+                data: {
+                    defaultImage: defaultImage
+                }
+            })
+            .then((response) => {
+                console.log(response);
+                toastr.success('Default image changed', 'Success');
+                if (vm.productId) {
+                    init();
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                toastr.error(err.data, 'Error');
+            })
+        }
+
+        function deleteImage(deleteImage, index) {
+            console.log(index);
+            $http({
+                url: "/api/products/image/" + vm.productId,
+                method: 'POST',
+                data: {
+                    deleteIndex: index
+                }
+            })
+            .then((response) => {
+                console.log(response);
+                toastr.success('Image deleted', 'Success');
+                if (vm.productId) {
+                    init();
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                toastr.error(err.data, 'Error');
+            })
+        }
     }
 
     angular

@@ -12,5 +12,7 @@ router.post('/', auth.isAuthenticated(), controller.create);
 router.put('/:id', auth.isAuthenticated(), controller.update);
 router.patch('/:id', auth.isAuthenticated(), controller.update);
 router.delete('/:id', auth.isAuthenticated(), controller.destroy);
+router.put('/image/:id/default', auth.isAuthenticated(), controller.updateDefaultImage);
+router.post('/image/:id', auth.isAuthenticated(), controller.destroyImage);
 
 module.exports = router;

@@ -40,11 +40,8 @@ var ProductSchema = new Schema({
         default: Date.now
     },
     published: Boolean,
-    imageBin: {
-        data: Buffer,
-        contentType: String
-    },
     imageUrl: String,
+    imageUrls: [{type: String}],
     featured: Boolean,
     categories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', index: true }],
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },

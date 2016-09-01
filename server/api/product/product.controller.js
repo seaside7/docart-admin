@@ -17,16 +17,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import mongoose from 'mongoose';
 
-function saveFile(res, file) {
-    return function(entity) {
-        var newPath = '/assets/uploads' + path.basename(file.path);
-        entity.imageUrl = newPath;
-        return entity.saveAsync().spread(function(updated) {
-            return updated;
-        });
-    }
-}
-
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function(entity) {
@@ -72,19 +62,6 @@ function handleError(res, statusCode) {
     return function(err) {
         res.status(statusCode).send(err);
     };
-}
-
-export function uploads(req, res) {
-    var file = req.files.file;
-    if (!file) {
-        return handleError(res)('File not provided');
-    }
-
-    Product.findByIdAsync(req.params.id)
-        .then(handleEntityNotFound(res))
-        .then(saveFile(res, file))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
 }
 
 // Gets a list of Products
@@ -191,5 +168,55 @@ export function destroy(req, res) {
             }
             return removeEntity(res)(entity);
         })
+        .catch(handleError(res));
+}
+
+
+// Change default image
+export function updateDefaultImage(req, res) {
+    if (req.body._id) {
+        delete req.body._id;
+    }
+
+    return Product.findById(req.params.id).exec()
+        .then(handleEntityNotFound(res))
+        .then((entity) => {
+
+            entity.imageUrl = req.body.defaultImage;
+
+            return entity.save()
+                .then(updated => {
+                    return updated;
+                });
+        })
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
+export function destroyImage(req, res) {
+    if (req.body._id) {
+        delete req.body._id;
+    }
+    var deleteIndex = req.body.deleteIndex;
+
+    return Product.findById(req.params.id).exec()
+        .then(handleEntityNotFound(res))
+        .then((entity) => {
+
+            if (deleteIndex > -1 && deleteIndex < entity.imageUrls.length) {
+                
+                var deleteImage = entity.imageUrls[deleteIndex]; 
+                entity.imageUrls = entity.imageUrls.splice(deleteIndex, 1);
+                if (deleteImage === entity.imageUrl) {
+                    entity.imageUrl = entity.imageUrls.length > 0 ? entity.imageUrls[0] : '';
+                }
+            }
+
+            return entity.save()
+                .then(updated => {
+                    return updated;
+                });
+        })
+        .then(respondWithResult(res))
         .catch(handleError(res));
 }
