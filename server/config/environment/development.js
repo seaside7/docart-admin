@@ -14,9 +14,9 @@ module.exports = {
 
   s3: {
     Credentials: 'aws.credentials.json',
-    Bucket: 'assets'
+    Bucket: 'images'
   },
 
-  imageHost: 'http://128.199.251.64:9000/assets/'
+  imageHost: 'http://128.199.251.64:9000/images/'
 
 };

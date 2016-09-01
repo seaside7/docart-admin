@@ -69,10 +69,11 @@ export function create(req, res, next) {
         return res.status(403).json({ message: 'Password mismatch' });
     }
 
-    if (req.s3) {
-        newUser.imageUrl = req.s3.fileName;
+    if (req.files && req.files.file) {
+        if (req.files.file.length > 0) {
+            newUser.imageUrl = req.files.file[0].key;
+        }
     }
-    console.log(req.s3);
 
     newUser.provider = 'local';
     newUser.role = 'admin';
@@ -172,29 +173,40 @@ export function update(req, res, next) {
                 });
             }
 
-            user.authenticate(oldPass, function (authError, authenticated) {
-                if (authError) {
-                    return res.status(403).json({ message: 'Authentication error' });
+            if (req.files && req.files.file) {
+                if (req.files.file.length > 0) {
+                    user.imageUrl = req.files.file[0].key;
                 }
+            }
+            user.name = name;
 
-                if (!authenticated) {
-                    return res.status(403).json({ message: 'Authentication failed' });
-                }
-                else {
-                    user.password = newPass;
-                    user.name = name;
+            if (!oldPass && !newPass) {
+                return user.save()
+                    .then((user) => {
+                        res.status(204).end();
+                    })
+                    .catch(validationError(res));
+            }
+            else {
 
-                    if (req.s3 && req.s3.fileName) {
-                        user.imageUrl = req.s3.fileName;
+                user.authenticate(oldPass, function (authError, authenticated) {
+                    if (authError) {
+                        return res.status(403).json({ message: 'Authentication error' });
                     }
 
-                    return user.save()
-                        .then((user) => {
-                            res.status(204).end();
-                        })
-                        .catch(validationError(res));
-                }
-            });
+                    if (!authenticated) {
+                        return res.status(403).json({ message: 'Authentication failed' });
+                    }
+                    else {
+                        user.password = newPass;
+                        return user.save()
+                            .then((user) => {
+                                res.status(204).end();
+                            })
+                            .catch(validationError(res));
+                    }
+                });
+            }
 
         })
         .catch(handleError(res));
@@ -211,6 +223,9 @@ export function me(req, res, next) {
         .then(user => { // don't ever give out the password or salt
             if (!user) {
                 return res.status(401).end();
+            }
+            if (user.imageUrl) {
+                user.imageUrl = config.imageHost + path.basename(user.imageUrl);
             }
             res.json(user);
         })

@@ -14,7 +14,7 @@ import fsExtra from 'fs-extra';
 function s3FileUploader(params) {
 
     AWS.config.loadFromPath(params.s3Credentials);
-    var s3 = new AWS.S3();
+    var S3 = new AWS.S3();
     return uploader;
 
     function uploader(req, res, next) {
@@ -41,7 +41,7 @@ function s3FileUploader(params) {
                 Body: fs.createReadStream(uploadedFilePath)
             };
 
-            s3.putObject(s3Params, function (err, data) {
+            S3.putObject(s3Params, function (err, data) {
                 if (err) {
                     throw err;
                 }
@@ -69,7 +69,7 @@ function s3FileUploader(params) {
 
 function s3FileRemove(credentials, bucket, fileName, cb) {
     AWS.config.loadFromPath(credentials);
-    var s3 = new AWS.S3();
+    var S3 = new AWS.S3();
 
     var params = {
         Bucket: bucket,
@@ -82,7 +82,7 @@ function s3FileRemove(credentials, bucket, fileName, cb) {
         }
     }
 
-    s3.deleteObjects(params, (err, data) => {
+    S3.deleteObjects(params, (err, data) => {
         if (cb) {
             if (!err) {
                 console.info('s3FileRemove: Removed file on bucket => ' + fileName);
@@ -91,6 +91,7 @@ function s3FileRemove(credentials, bucket, fileName, cb) {
         }
     })
 }
+
 
 module.exports = {
     s3FileUploader: s3FileUploader,

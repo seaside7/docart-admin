@@ -146,8 +146,11 @@ export function create(req, res) {
         active: req.body.active
     };
 
-    if (req.s3) {
-        body.imageUrl = req.s3.fileName;
+    
+    if (req.files && req.files.file) {
+        if (req.files.file.length > 0) {
+            body.imageUrl = req.files.file[0].key;
+        }
     }
 
     return Category.create(body)
@@ -160,8 +163,10 @@ export function createChild(req, res) {
     return Category.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(function (parent) {
-            if (req.s3) {
-                req.body.imageUrl = req.s3.fileName;
+            if (req.files && req.files.file) {
+                if (req.files.file.length > 0) {
+                    req.body.imageUrl = req.files.file[0].key;
+                }
             }
             return parent.addChild(req.body)
                 .then(respondWithResult(res, 201))
@@ -182,15 +187,17 @@ export function update(req, res) {
         active: req.body.active
     };
 
-    if (req.s3) {
-        body.imageUrl = req.s3.fileName;
+    if (req.files && req.files.file) {
+        if (req.files.file.length > 0) {
+            body.imageUrl = req.files.file[0].key;
+        }
     }
 
     return Category.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then((entity) => {
 
-            s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, entity.imageUrl, (err, data) => {
+            s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, path.basename(entity.imageUrl), (err, data) => {
                 if (err) {
                     console.error(err);
                 }
