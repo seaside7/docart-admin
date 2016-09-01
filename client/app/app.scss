@@ -11,12 +11,12 @@
  */
 // injector
 @import 'client/app/core/scss/global';
-@import 'client/app/core/directives/ms-card/templates/template-1/template-1';
 @import 'client/app/core/directives/ms-card/templates/template-10/template-10';
+@import 'client/app/core/directives/ms-card/templates/template-1/template-1';
 @import 'client/app/core/directives/ms-card/templates/template-2/template-2';
 @import 'client/app/core/directives/ms-card/templates/template-3/template-3';
-@import 'client/app/core/directives/ms-card/templates/template-5/template-5';
 @import 'client/app/core/directives/ms-card/templates/template-4/template-4';
+@import 'client/app/core/directives/ms-card/templates/template-5/template-5';
 @import 'client/app/core/directives/ms-card/templates/template-6/template-6';
 @import 'client/app/core/directives/ms-card/templates/template-7/template-7';
 @import 'client/app/core/directives/ms-card/templates/template-8/template-8';
@@ -31,8 +31,8 @@
 @import 'client/app/core/directives/ms-material-color-picker/ms-material-color-picker';
 @import 'client/app/core/directives/ms-nav/ms-nav';
 @import 'client/app/core/directives/ms-navigation/ms-navigation';
-@import 'client/app/core/directives/ms-responsive-table/ms-responsive-table';
 @import 'client/app/core/directives/ms-scroll/ms-scroll';
+@import 'client/app/core/directives/ms-responsive-table/ms-responsive-table';
 @import 'client/app/core/directives/ms-search-bar/ms-search-bar';
 @import 'client/app/core/directives/ms-shortcuts/ms-shortcuts';
 @import 'client/app/core/directives/ms-splash-screen/ms-splash-screen';
@@ -54,8 +54,8 @@
 @import 'client/app/navigation/layouts/horizontal-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';
-@import 'client/app/quick-panel/tabs/chat/chat-tab';
 @import 'client/app/quick-panel/tabs/activity/activity-tab';
+@import 'client/app/quick-panel/tabs/chat/chat-tab';
 @import 'client/app/quick-panel/tabs/today/today-tab';
 @import 'client/app/toolbar/layouts/content-with-toolbar/toolbar';
 @import 'client/app/toolbar/layouts/horizontal-navigation/toolbar';

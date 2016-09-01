@@ -54,7 +54,7 @@ function removeEntity(res) {
     return function (entity) {
         if (entity) {
             if (entity.imageUrl) {
-                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, entity.imageUrl, (err, data) => {
+                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, [path.basename(entity.imageUrl)], (err, data) => {
                     if (err) {
                         console.error(err);
                     }
@@ -145,7 +145,6 @@ export function create(req, res) {
         name: req.body.name,
         active: req.body.active
     };
-
     
     if (req.files && req.files.file) {
         if (req.files.file.length > 0) {
@@ -187,21 +186,28 @@ export function update(req, res) {
         active: req.body.active
     };
 
-    if (req.files && req.files.file) {
-        if (req.files.file.length > 0) {
-            body.imageUrl = req.files.file[0].key;
-        }
-    }
-
     return Category.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then((entity) => {
 
-            s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, path.basename(entity.imageUrl), (err, data) => {
-                if (err) {
-                    console.error(err);
+            var removedFiles = [];
+            if (req.files && req.files.file) {
+                if (entity.imageUrl) {
+                    removedFiles.push(path.basename(entity.imageUrl));
                 }
-            });
+
+                if (req.files.file.length > 0) {
+                    body.imageUrl = req.files.file[0].key;
+                }
+            }
+
+            if (removedFiles.length > 0) {
+                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, removedFiles, (err, data) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            }
 
             var updated = _.merge(entity, body);
             return updated.save()
