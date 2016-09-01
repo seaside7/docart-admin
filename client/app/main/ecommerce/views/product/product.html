@@ -205,11 +205,15 @@
                                     <div class="product-image" style="position: relative" layout="column" layout-align="center center" ng-repeat="img in vm.data.imageUrls">
                                         <img class="media" style="width: 150px; height: 150px; padding: 5px; margin-right: 10px" ngf-src="img">
                                         
-                                        <md-button ng-click="vm.setDefaultImage(img)" class="md-raised" ng-disabled="img === vm.data.imageUrl">{{img === vm.data.imageUrl ? "Default" : "Set Default"}}</md-button>
+                                        <div layout="row" layout-align="center center">
+                                            <md-button class="md-fab md-raised md-mini" ng-disabled="img === vm.data.imageUrl" ng-click="vm.setDefaultImage(img)">
+                                                <md-icon md-font-icon="icon-check" aria-label="Default"></md-icon>
+                                            </md-button>
                                          
-                                        <md-button class="md-fab md-red-400-bg md-xs md-close">
-                                            <md-icon md-font-icon="icon-close" aria-label="close" ng-click="vm.deleteImage(img, $index)"></md-icon>
-                                        </md-button>
+                                            <md-button class="md-fab md-red-400-bg md-mini md-close" ng-click="vm.deleteImage(img, $index)">
+                                                <md-icon md-font-icon="icon-close" aria-label="Remove"></md-icon>
+                                            </md-button>
+                                        </div>
                                         
                                     </div>
                                 </div>
