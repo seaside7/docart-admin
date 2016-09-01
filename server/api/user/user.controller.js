@@ -46,14 +46,6 @@ export function index(req, res) {
 
     return User.paginate(query, options)
         .then((user) => {
-            if (user.docs) {
-                user.docs.forEach((e) => {
-                    if (e.imageUrl) {
-                        e.imageUrl = config.imageHost + path.basename(e.imageUrl);
-                    }
-                });
-            }
-
             return res.status(201).json(user);
         })
         .catch(handleError(res));
@@ -98,9 +90,6 @@ export function show(req, res, next) {
             if (!user) {
                 return res.status(404).end();
             }
-            if (user.imageUrl) {
-                user.imageUrl = config.imageHost + path.basename(user.imageUrl);
-            }
             res.json(user);
         })
         .catch(err => next(err));
@@ -113,14 +102,6 @@ export function show(req, res, next) {
 export function destroy(req, res) {
     return User.findByIdAndRemove(req.params.id).exec()
         .then(function (entity) {
-            if (entity.imageUrl) {
-                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, [entity.imageUrl], (err, data) => {
-                    if (err) {
-                        console.error(err);
-                    }
-                });
-            }
-
             res.status(204).end();
         })
         .catch(handleError(res));
@@ -223,9 +204,6 @@ export function me(req, res, next) {
         .then(user => { // don't ever give out the password or salt
             if (!user) {
                 return res.status(401).end();
-            }
-            if (user.imageUrl) {
-                user.imageUrl = config.imageHost + path.basename(user.imageUrl);
             }
             res.json(user);
         })

@@ -22,19 +22,6 @@ function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function (entity) {
         if (entity) {
-            if (entity.docs) {
-                var entities = entity.docs;
-                entities.forEach((e) => {
-                    if (e.imageUrl) {
-                        e.imageUrl = config.imageHost+path.basename(e.imageUrl);
-                    }
-                })
-            }
-            else {
-                if (entity.imageUrl) {
-                    entity.imageUrl = config.imageHost+path.basename(entity.imageUrl);
-                }
-            }
             res.status(statusCode).json(entity);
         }
     };
@@ -53,14 +40,6 @@ function saveUpdates(updates) {
 function removeEntity(res) {
     return function (entity) {
         if (entity) {
-            if (entity.imageUrl) {
-                s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, [path.basename(entity.imageUrl)], (err, data) => {
-                    if (err) {
-                        console.error(err);
-                    }
-                });
-            }
-
             return entity.remove()
                 .then(() => {
                     res.status(204).end();

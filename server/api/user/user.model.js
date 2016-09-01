@@ -5,6 +5,11 @@ import mongoose from 'mongoose';
 mongoose.Promise = require('bluebird');
 import {Schema} from 'mongoose';
 var mongoosePaginate = require('mongoose-paginate');
+var config = require('../../config/environment');
+import s3 from './../../components/s3bucket';
+import appRoot from 'app-root-path';
+import path from 'path';
+
 
 var UserSchema = new Schema({
   name: String,
@@ -36,7 +41,7 @@ var UserSchema = new Schema({
 // Public profile information
 UserSchema
   .virtual('profile')
-  .get(function() {
+  .get(function () {
     return {
       'name': this.name,
       'role': this.role
@@ -46,7 +51,7 @@ UserSchema
 // Non-sensitive info we'll be putting in the token
 UserSchema
   .virtual('token')
-  .get(function() {
+  .get(function () {
     return {
       '_id': this._id,
       'role': this.role
@@ -60,25 +65,25 @@ UserSchema
 // Validate empty email
 UserSchema
   .path('email')
-  .validate(function(email) {
+  .validate(function (email) {
     return email.length;
   }, 'Email cannot be blank');
 
 // Validate empty password
 UserSchema
   .path('password')
-  .validate(function(password) {
+  .validate(function (password) {
     return password.length;
   }, 'Password cannot be blank');
 
 // Validate email is not taken
 UserSchema
   .path('email')
-  .validate(function(value, respond) {
+  .validate(function (value, respond) {
     var self = this;
 
     return this.constructor.findOne({ email: value }).exec()
-      .then(function(user) {
+      .then(function (user) {
         if (user) {
           if (self.id === user.id) {
             return respond(true);
@@ -87,12 +92,12 @@ UserSchema
         }
         return respond(true);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         throw err;
       });
   }, 'The specified email address is already in use.');
 
-var validatePresenceOf = function(value) {
+var validatePresenceOf = function (value) {
   return value && value.length;
 };
 
@@ -100,7 +105,7 @@ var validatePresenceOf = function(value) {
  * Pre-save hook
  */
 UserSchema
-  .pre('save', function(next) {
+  .pre('save', function (next) {
     // Handle new/update passwords
     if (!this.isModified('password')) {
       return next();
@@ -142,12 +147,12 @@ UserSchema.methods = {
     if (!callback) {
       return this.password === this.encryptPassword(password);
     }
-  
+
     this.encryptPassword(password, (err, pwdGen) => {
       if (err) {
         return callback(err);
       }
-    
+
       if (this.password === pwdGen) {
         callback(null, true);
       } else {
@@ -214,7 +219,7 @@ UserSchema.methods = {
 
     if (!callback) {
       return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
-                   .toString('base64');
+        .toString('base64');
     }
 
     return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, (err, key) => {
@@ -228,19 +233,50 @@ UserSchema.methods = {
 
   /*
    * Add Supplier to a user and alter user's role into supplier
-   */ 
-  addSupplier: function(supplier) {
+   */
+  addSupplier: function (supplier) {
     var that = this;
     this.role = 'supplier';
-    return this.model('Supplier').create(supplier, function(err, data) { 
+    return this.model('Supplier').create(supplier, function (err, data) {
       that.supplier = data._id;
       that.save();
     });
   }
 
-
-
 };
+
+
+UserSchema
+  .post('find', function (doc) {
+    doc.forEach((entity) => {
+      if (entity.imageUrl) {
+        entity.imageUrl = config.imageHost + path.basename(entity.imageUrl);
+      }
+    })
+  });
+
+UserSchema
+  .post('findOne', function (doc) {
+    if (doc.imageUrl) {
+      doc.imageUrl = config.imageHost + path.basename(doc.imageUrl);
+    }
+  });
+
+UserSchema
+  .post('remove', function (doc) {
+    var removedFiles = [];
+    if (doc.imageUrl) {
+      removedFiles.push(path.basename(doc.imageUrl));
+    }
+
+    if (removedFiles.length > 0) {
+      s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, removedFiles, (err, data) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    }
+  });
 
 UserSchema.plugin(mongoosePaginate);
 

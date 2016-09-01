@@ -108,7 +108,6 @@ ProductSchema
                 }
             });
         }
-        console.log(removedFiles);
     })
 
 ProductSchema.plugin(mongoosePaginate);
