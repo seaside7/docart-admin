@@ -37,9 +37,6 @@
                     if (!user.active) {
                         $state.go("app.activation", {id: user._id});
                     }
-                    else {
-                        $state.go('app.supplierProfile', { id: user._id });
-                    }
                 })
                 .catch((err) => {
                     vm.loading = false;

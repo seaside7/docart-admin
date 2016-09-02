@@ -30,21 +30,13 @@
                         controller: 'SupplierController as vm'
                     }
                 },
-                authenticate: true
-            })
-            .state('app.supplierProfile', {
-                url: '/supplier/profile/:id',
-                views: {
-                    'main@': {
-                        templateUrl: 'app/core/layouts/content-only.html',
-                        controller: 'MainController as vm'
-                    },
-                    'content@app.supplierProfile': {
-                        templateUrl: 'app/main/ecommerce/views/supplier/supplier.html',
-                        controller: 'SupplierController as vm'
+                authenticate: true,
+                resolve  : {
+                    Banks: function(msApi)
+                    {
+                        return msApi.resolve('e-commerce.banks@query');
                     }
-                },
-                authenticate: true
+                }
             })
             .state('app.categories', {
                 url: '/categories',
@@ -98,6 +90,9 @@
                 },
                 authenticate: true
             });
+
+            //e-commerce.banks
+            msApiProvider.register('e-commerce.banks', ['app/data/bank.json']);
     }
 
     angular.module('app.ecommerce', [])

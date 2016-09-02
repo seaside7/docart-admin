@@ -14,6 +14,13 @@
             "SAVE": "Save",
             "PREMIUM": "Premium"
         },
+
+        "SUPPLIER": {
+            "BANK_INFO" : "Bank Info",
+            "BANK_CODE" : "Bank Code",
+            "BANK_ACCOUNT": "Bank Account",
+            "BANKS": "Banks"
+        },
         
         "PRODUCTS": "Products",
         "PRODUCT_NAME": "Product Name",

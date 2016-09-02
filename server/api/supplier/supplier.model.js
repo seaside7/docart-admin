@@ -17,7 +17,10 @@ var SupplierSchema = new mongoose.Schema({
   country: String,
   description: String,
   premium: { type: Boolean, default: false },
-  rank: { type: Number, min: 0, default: 0 }
+  rank: { type: Number, min: 0, default: 0 },
+  bankName: String,
+  bankCode: String,
+  bankAccount: String
 });
 
 SupplierSchema

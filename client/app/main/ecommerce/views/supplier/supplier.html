@@ -1,49 +1,49 @@
-<div id="e-commerce" class="page-layout simple tabbed" layout="column">
+<form name="dataForm">
+    <div id="e-commerce" class="page-layout simple tabbed" layout="column">
 
-    <!-- HEADER -->
-    <div class="header md-accent-bg" layout="row" layout-align="start center">
-        <div class="white-fg" layout="row" layout-align="start center" flex>
-            <md-button class="goto-products-button md-icon-button" aria-label="Go to suppliers"
-                       ng-click="vm.gotoSuppliers()"
-                       translate translate-attr-aria-label="EC.GO_TO_SUPPLIERS"
-                       ng-if="vm.Auth.isAdmin()">
-                <md-icon md-font-icon="icon-arrow-left"></md-icon>
-            </md-button>
+        <!-- HEADER -->
+        <div class="header md-accent-bg" layout="row" layout-align="start center">
+            <div class="white-fg" layout="row" layout-align="start center" flex>
+                <md-button class="goto-products-button md-icon-button" aria-label="Go to suppliers" ng-click="vm.gotoSuppliers()" translate
+                    translate-attr-aria-label="EC.GO_TO_SUPPLIERS" ng-if="vm.Auth.isAdmin()">
+                    <md-icon md-font-icon="icon-arrow-left"></md-icon>
+                </md-button>
 
-            <div layout="row" layout-align="start center">
-                <div class="product-image" hide-xs >
-                    <img ng-src="{{vm.data.imageUrl}}">
-                </div>
+                <div layout="row" layout-align="start center">
+                    <div class="product-image" hide-xs>
+                        <img ng-src="{{vm.data.imageUrl}}">
+                    </div>
 
-                <div layout="column" layout-align="start start">
-                    <div class="h2">
-                        {{vm.supplierTitle.toUpperCase()}}
+                    <div layout="column" layout-align="start start">
+                        <div class="h2">
+                            {{vm.supplierTitle.toUpperCase()}}
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div>
+                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) && (dataForm.$invalid || dataForm.$pristine)">
+                    <span translate="EC.SAVE">SAVE</span>
+                </md-button>
+            </div>
         </div>
+        <!-- / HEADER -->
 
-        <div>
-            <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) && (dataForm2.$invalid || dataForm2.$pristine)">
-                <span translate="EC.SAVE">SAVE</span>
-            </md-button>
-        </div>
-    </div>
-    <!-- / HEADER -->
+        <!-- CONTENT -->
+        <div class="content">
 
-    <!-- CONTENT -->
-    <div class="content">
+            <md-tabs md-dynamic-height>
 
-        <md-tabs md-dynamic-height>
+                <!-- SUPPLIER PROFILE -->
+                <md-tab>
+                    <md-tab-label>
+                        <span translate="EC.PROFILE">Profile</span>
+                    </md-tab-label>
 
-            <md-tab>
-                <md-tab-label>
-                    <span translate="EC.PROFILE">Profile</span>
-                </md-tab-label> 
+                    <md-tab-body>
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
 
-                <md-tab-body>
-                    <div class="detail-form-container md-background-bg md-whiteframe-1dp">
-                        <form name="dataForm">
                             <md-input-container class="md-block">
                                 <label translate="EC.SUPPLIER_NAME">Supplier Name</label>
                                 <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
@@ -63,11 +63,11 @@
                                     </div>
                                 </div>
                             </md-input-container>
-                            
-                            <!-- PASSWORD FOR UPDATE USER --> 
+
+                            <!-- PASSWORD FOR UPDATE USER -->
                             <md-input-container class="md-block" ng-if="!vm.newData">
                                 <label translate="EC.OLD_PASSWORD">Old Password</label>
-                                <input type="password" ng-model="vm.data.oldPassword" name="oldPassword" autocomplete="new-password"> 
+                                <input type="password" ng-model="vm.data.oldPassword" name="oldPassword" autocomplete="new-password">
                             </md-input-container>
 
                             <md-input-container class="md-block" ng-if="!vm.newData">
@@ -109,31 +109,30 @@
                                 </div>
                                 <label ng-show="vm.data.file" flex>{{vm.data.file.name}}</label>
                                 <label ng-show="!vm.data.file" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
-                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.file" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Profile Photo</md-button>
+                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.file" accept="'image/*'" ngf-maxsize="15MB"
+                                    type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Profile Photo</md-button>
                             </div>
-                        </form>
-                    </div>
-                </md-tab-body>
-            </md-tab>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <!-- SUPPLIER PROFILE -->
 
-            <md-tab>
-                <md-tab-label>
-                    <span translate="EC.SUPPLIER_INFO">Supplier Info</span>
-                </md-tab-label>
+                <!-- SUPPLIER INFO -->
+                <md-tab>
+                    <md-tab-label>
+                        <span translate="EC.SUPPLIER_INFO">Supplier Info</span>
+                    </md-tab-label>
 
-                <md-tab-body>
-                    <div class="detail-form-container md-background-bg md-whiteframe-1dp">
-                        <form name="dataForm2">
+                    <md-tab-body>
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                             <div ng-if="vm.Auth.isAdmin()" layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
-                                <div >
+                                <div>
                                     <label translate="EC.DIALOG.ACTIVE">Active</label>
-                                    <md-switch style="padding: 15px" ng-model="vm.data.active" aria-label="Active" translate
-                                            translate-attr-aria-label="EC.DIALOG.ACTIVE"></md-switch>
+                                    <md-switch style="padding: 15px" ng-model="vm.data.active" aria-label="Active" translate translate-attr-aria-label="EC.DIALOG.ACTIVE"></md-switch>
                                 </div>
                                 <div>
                                     <label translate="EC.DIALOG.PREMIUM">Premium</label>
-                                    <md-switch style="padding: 15px" ng-model="vm.data.premium" aria-label="Premium" translate
-                                            translate-attr-aria-label="EC.DIALOG.PREMIUM"></md-switch>
+                                    <md-switch style="padding: 15px" ng-model="vm.data.premium" aria-label="Premium" translate translate-attr-aria-label="EC.DIALOG.PREMIUM"></md-switch>
                                 </div>
                             </div>
 
@@ -143,10 +142,11 @@
                                 </div>
                                 <label ng-show="vm.data.images" flex>{{vm.data.images.name}}</label>
                                 <label ng-show="!vm.data.images" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
-                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.images" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Logo</md-button>
+                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.images" accept="'image/*'" ngf-maxsize="15MB"
+                                    type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Logo</md-button>
                             </div>
 
-                            <md-input-container class="md-block md-icon-float" ng-if="vm.Auth.isAdmin()"> 
+                            <md-input-container class="md-block md-icon-float" ng-if="vm.Auth.isAdmin()">
                                 <label translate="EC.RANK">Rank</label>
                                 <input type="number" step="1" min="0" name="rank" ng-model="vm.data.rank" ng-init="vm.data.rank = 0">
                             </md-input-container>
@@ -173,19 +173,57 @@
                                 </md-input-container>
 
                             </div>
-                                                        
+
                             <md-input-container class="md-block" flex-gt-sm>
                                 <h3 class="secondary-text" translate="EC.SUPPLIER_DESCRIPTION">Supplier Description</h3>
-                                <textarea aria-label="Description" style="height: auto;" rows="3" name="description" ng-model="vm.data.description">
+                                <textarea aria-label="Description" style="height: auto;" rows="3" name="description" ng-model="vm.data.description"></textarea>
                             </md-input-container>
+
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <!-- SUPPLIER INFO -->
+
+                <!-- SUPPLIER BANK -->
+                <md-tab>
+
+                    <md-tab-label>
+                        <span translate="EC.SUPPLIER.BANK_INFO">Bank Info</span>
+                    </md-tab-label>
+                    <md-tab-body>
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                             
-                        </form>
-                    </div>
-                </md-tab-body>
-            </md-tab>
-        </md-tabs>
+                            <!-- BANK NAMES -->
+                            <md-input-container class="md-block">
+                                <label translate="EC.SUPPLIER.BANKS">Banks</label>
+                                <md-select ng-model="vm.data.bank" name="banks">
+                                    <md-option ng-repeat="bank in vm.banks" ng-value="bank">
+                                    {{bank.name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <!-- BANK NAMES -->
+
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.SUPPLIER.BANK_CODE">Bank Code</label>
+                                    <input type="text" ng-model="vm.data.bankCode">
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.SUPPLIER.BANK_ACCOUNT">Bank Account</label>
+                                    <input type="text" ng-model="vm.data.bankAccount">
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <!-- SUPPLIER BANK -->
+
+            </md-tabs>
+
+        </div>
+        <!-- / CONTENT -->
 
     </div>
-    <!-- / CONTENT -->
-
-</div>
+</form>

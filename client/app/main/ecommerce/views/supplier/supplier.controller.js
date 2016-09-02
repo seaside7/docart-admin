@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function SupplierController($http, $state, $stateParams, $mdDialog, $document, toastr, Upload, Auth, _) {
+    function SupplierController($scope, $http, $state, $stateParams, $mdDialog, $document, toastr, Upload, Auth, Banks, _) {
         var vm = this;
         var started = false;
 
@@ -15,10 +15,12 @@
         ];
         vm.newData = vm.supplierId ? false : true;
         vm.Auth = Auth;
+        vm.banks = Banks;
 
         // Methods
         vm.saveData = saveData;
         vm.gotoSuppliers = gotoSuppliers;
+
 
         //////////
 
@@ -32,12 +34,25 @@
                         delete data.password;
                         vm.data = data;
                         vm.supplierTitle = data.name;
+
+                        if (data.bankName) {
+                            vm.banks.forEach(bank => {
+                                if (bank.name === data.bankName) {
+                                    vm.data.bank = bank;
+                                }
+                            })
+                        }
                     })
                     .catch((err) => {
                         console.error(err);
                         toastr.error(err.data, 'Error');
                     })
              }
+
+             $scope.$watch('vm.data.bank', bank => {
+                 vm.data.bankName = bank.name;
+                 vm.data.bankCode = bank.code;
+             })
         }
 
         /**
