@@ -29,7 +29,8 @@ var UserSchema = new Schema({
   provider: String,
   salt: String,
   imageUrl: String,
-  supplier: { type: Schema.Types.ObjectId, ref: 'Supplier' }
+  supplier: { type: Schema.Types.ObjectId, ref: 'Supplier' },
+  active: { type: Boolean, default: false }
 });
 
 

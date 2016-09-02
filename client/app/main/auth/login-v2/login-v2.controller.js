@@ -33,7 +33,7 @@
                     vm.loading = false;
                     vm.failed = true;
                     vm.errorMessage = err.message;
-                    $state.go("app.registerSuccess", {id: "7f5a605053babdb0cd1ad7abccabe910"});
+                    $state.go("app.activation", {id: "7f5a605053babdb0cd1ad7abccabe910"});
                 })
         }
     }

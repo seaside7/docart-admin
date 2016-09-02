@@ -32,6 +32,20 @@
                 },
                 authenticate: true
             })
+            .state('app.supplierProfile', {
+                url: '/supplier/profile/:id',
+                views: {
+                    'main@': {
+                        templateUrl: 'app/core/layouts/content-only.html',
+                        controller: 'MainController as vm'
+                    },
+                    'content@app.supplierProfile': {
+                        templateUrl: 'app/main/ecommerce/views/supplier/supplier.html',
+                        controller: 'SupplierController as vm'
+                    }
+                },
+                authenticate: true
+            })
             .state('app.categories', {
                 url: '/categories',
                 views: {

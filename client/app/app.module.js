@@ -33,7 +33,7 @@
             'app.registerV2',
 
             // Register Success
-            'app.registerSuccess',
+            'app.activation',
 
             // Sample
             'app.dashboard',

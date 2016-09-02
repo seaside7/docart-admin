@@ -69,6 +69,7 @@ export function create(req, res, next) {
 
     newUser.provider = 'local';
     newUser.role = 'admin';
+    newUser.active = true;
     newUser.save()
         .then(function (user) {
             var token = jwt.sign({ _id: user._id }, config.secrets.session, {

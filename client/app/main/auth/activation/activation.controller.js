@@ -3,11 +3,11 @@
     'use strict';
 
     angular
-        .module('app.registerSuccess')
-        .controller('RegisterSuccessController', RegisterSuccessController);
+        .module('app.activation')
+        .controller('ActivationController', ActivationController);
 
     /** @ngInject */
-    function RegisterSuccessController($state, $stateParams)
+    function ActivationController($state, $stateParams)
     {
         var vm = this;
         var secretKey = $stateParams.id;

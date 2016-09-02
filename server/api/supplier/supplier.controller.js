@@ -163,7 +163,8 @@ export function update(req, res) {
         name: req.body.name,
         email: req.body.email,
         password: newPass,
-        role: 'supplier'
+        role: 'supplier',
+        active: req.body.active
     };
 
     return User.findById(req.params.id).populate('supplier').exec()
@@ -273,12 +274,6 @@ function removeSupplier(res, id) {
     return Supplier.findById(id).exec()
         .then(handleEntityNotFound(res))
         .then((supplier) => {
-            if (supplier.logoUrl) {
-                var logo = path.basename(supplier.logoUrl);
-                var deleteLogoPath = shared.getRelativeUploadPath(logo);
-                console.log("Deleting logoUrl: " + deleteLogoPath);
-                fs.remove(deleteLogoPath);
-            }
             return supplier.remove()
                 .then(() => {
                     res.status(204).end();

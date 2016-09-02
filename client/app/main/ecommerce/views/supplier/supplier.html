@@ -124,19 +124,17 @@
                 <md-tab-body>
                     <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                         <form name="dataForm2">
-                            <div layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
+                            <div ng-if="vm.Auth.isAdmin()" layout="row" layout-align="start center" style="padding: 0px 15px 10px 5px">
                                 <div >
                                     <label translate="EC.DIALOG.ACTIVE">Active</label>
                                     <md-switch style="padding: 15px" ng-model="vm.data.active" aria-label="Active" translate
                                             translate-attr-aria-label="EC.DIALOG.ACTIVE"></md-switch>
                                 </div>
                                 <div>
-                                    <label translate="EC.DIALOG.PREMIUM">Active</label>
+                                    <label translate="EC.DIALOG.PREMIUM">Premium</label>
                                     <md-switch style="padding: 15px" ng-model="vm.data.premium" aria-label="Premium" translate
                                             translate-attr-aria-label="EC.DIALOG.PREMIUM"></md-switch>
                                 </div>
-                                
-                                            
                             </div>
 
                             <div class="upload" layout="row" layout-align="space-between end" style="margin-top: 30px;">
@@ -148,7 +146,7 @@
                                 <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.images" accept="'image/*'" ngf-maxsize="15MB" type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Logo</md-button>
                             </div>
 
-                            <md-input-container class="md-block md-icon-float">
+                            <md-input-container class="md-block md-icon-float" ng-if="vm.Auth.isAdmin()"> 
                                 <label translate="EC.RANK">Rank</label>
                                 <input type="number" step="1" min="0" name="rank" ng-model="vm.data.rank" ng-init="vm.data.rank = 0">
                             </md-input-container>

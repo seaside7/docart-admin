@@ -34,7 +34,7 @@
                 .then((response) => {
                     toastr.success('Your account created', 'Success');
                     vm.loading = false;        
-                    $state.go("app.registerSuccess", {id: "7f5a605053babdb0cd1ad7abccabe910"});
+                    $state.go("app.activation", {id: "7f5a605053babdb0cd1ad7abccabe910"});
                 })
                 .catch((err) => {
                     vm.loading = false;

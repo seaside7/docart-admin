@@ -3,30 +3,30 @@
     'use strict';
 
     angular
-        .module('app.registerSuccess', [])
+        .module('app.activation', [])
         .config(config);
 
     /** @ngInject */
     function config($stateProvider, $translatePartialLoaderProvider, msNavigationServiceProvider)
     {
         // State
-        $stateProvider.state('app.registerSuccess', {
+        $stateProvider.state('app.activation', {
             url      : '/register/success/:id',
             views    : {
                 'main@'                        : {
                     templateUrl: 'app/core/layouts/content-only.html',
                     controller : 'MainController as vm'
                 },
-                'content@app.registerSuccess': {
-                    templateUrl: 'app/main/auth/register-success/register-success.html',
-                    controller : 'RegisterSuccessController as vm'
+                'content@app.activation': {
+                    templateUrl: 'app/main/auth/activation/activation.html',
+                    controller : 'ActivationController as vm'
                 }
             },
-            bodyClass: 'register-success'
+            bodyClass: 'activation'
         });
 
         // Translation
-        $translatePartialLoaderProvider.addPart('app/main/auth/register-success');
+        $translatePartialLoaderProvider.addPart('app/main/auth/activation');
     }
 
 })();
