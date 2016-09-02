@@ -217,3 +217,34 @@ export function me(req, res, next) {
 export function authCallback(req, res, next) {
     res.redirect('/');
 }
+
+
+/*
+ * Check User Activation
+ */
+export function activation(req, res) {
+    if (!req.body.id) {
+        return res.send(400, { error: 'Bad request' });
+    }
+
+    return User.findById(req.body.id).exec()
+        .then(user => {
+            if (!user) {
+                res.send(400, { error: 'Invalid user, please register again with the correct informations!' });
+            }
+            else {
+                if (req.body.activationCode && req.body.activationCode === user.activationCode) {
+                    user.active = true;
+                    return user.save()
+                        .then((user) => {
+                            res.status(201).json({ active: user.active });
+                        })
+                        .catch(handleError(res));
+                }
+
+                res.status(201).json({ active: user.active });
+            }
+
+        })
+        .catch(handleError(res));
+}

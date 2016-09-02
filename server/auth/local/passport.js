@@ -1,5 +1,6 @@
 import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
+import shared from '../../config/environment/shared';
 
 function localAuthenticate(User, email, password, done) {
   User.findOne({
@@ -8,18 +9,18 @@ function localAuthenticate(User, email, password, done) {
     .then(user => {
       if (!user) {
         return done(null, false, {
-          status: 1, message: 'Your email or password is not correct. Please try again!'
+          status: shared.status.ERROR, message: 'Your email or password is not correct. Please try again!'
         });
       }
       user.authenticate(password, function(authError, authenticated) {
         if (!user.active && user.role !== 'admin') {
-          return done(null, false, { status: 2, message: 'You need to activate your account, please check your email!'} );
+          return done(null, false, { status: shared.status.INACTIVE, message: 'You need to activate your account, please check your email!'} );
         }
         if (authError) {
           return done(authError);
         }
         if (!authenticated) {
-          return done(null, false, { status: 1, message: 'Your email or password is not correct. Please try again!' });
+          return done(null, false, { status: shared.status.ERROR, message: 'Your email or password is not correct. Please try again!' });
         } else {
           return done(null, {
             _id: user._id,

@@ -7,15 +7,16 @@
                 </div>
 
                 <div class="title" translate="ACTIVATION.TITLE">Hey! Thank you for registering on do-cart!.</div>
-                <div class="subtitle" translate="ACTIVATION.SUBTITLE">It’s not quite complete yet, you need to activate your account view your email.<br>
-                Please check your email and activate your account.
+                <div class="subtitle" ng-if="!vm.loading">{{vm.description}}
+                </div>
+                <div class="subtitle" translate="ACTIVATION.VERIFY" ng-if="vm.loading">Verifying your user account, please wait a moment.. 
                 </div>
 
             </div>
 
             <form>
                 <md-button class="md-raised md-accent" aria-label="CONTINUE" translate="ACTIVATION.CONTINUE"
-                           translate-attr-aria-label="ACTIVATION.CONTINUE" ui-sref="app.loginV2">
+                           translate-attr-aria-label="ACTIVATION.CONTINUE" ng-click="vm.continueActivation()">
                     CONTINUE
                 </md-button>
             </form>

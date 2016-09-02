@@ -32,14 +32,19 @@
                 method: 'POST' 
             })
                 .then((response) => {
-                    toastr.success('Your account created', 'Success');
                     vm.loading = false;        
-                    $state.go("app.activation", {id: "7f5a605053babdb0cd1ad7abccabe910"});
+                    var user = response.data;
+                    if (!user.active) {
+                        $state.go("app.activation", {id: user._id});
+                    }
+                    else {
+                        $state.go('app.supplierProfile', { id: user._id });
+                    }
                 })
                 .catch((err) => {
                     vm.loading = false;
                     console.error(err);
-                    toastr.error(err.data, 'Error');
+                    toastr.error('Something wrong, please try again', 'Error');
                 });    
         }
 

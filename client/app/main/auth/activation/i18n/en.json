@@ -2,6 +2,7 @@
     "ACTIVATION": {
         "TITLE": "Hey! Thank you for registering on do-cart!.",
         "SUBTITLE": "It’s not quite complete yet, you need to activate your account view your email.",
-        "CONTINUE": "CONTINUE"
+        "CONTINUE": "CONTINUE",
+        "VERIFY": "Verifying your user account, please wait a moment.."
     }
 }

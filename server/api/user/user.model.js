@@ -30,7 +30,8 @@ var UserSchema = new Schema({
   salt: String,
   imageUrl: String,
   supplier: { type: Schema.Types.ObjectId, ref: 'Supplier' },
-  active: { type: Boolean, default: false }
+  active: { type: Boolean, default: false },
+  activationCode: { type: String, default: '' }
 });
 
 

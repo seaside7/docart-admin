@@ -13,6 +13,7 @@
         "CREATE_ACCOUNT": "CREATE MY ACCOUNT",
         "ALREADY_HAVE": "Already have an account?",
         "LOGIN": "Log in",
+        "SIGNUP": "SIGN UP",
         "ERRORS": {
             "USERNAME_REQUIRED": "Fullname field is required",
             "EMAIL_REQUIRED": "Email field is required",

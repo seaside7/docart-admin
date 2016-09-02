@@ -19,7 +19,12 @@
 		"Kodi",
 		"Boks",
 		"Karton"
-	]
+	],
+	"status": {
+		"ERROR": "ERR",
+		"INACTIVE": "ACT",
+		"OK": "OK"
+	}
 })
 
 ;

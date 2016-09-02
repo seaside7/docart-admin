@@ -19,6 +19,8 @@ import s3 from './../../components/s3bucket';
 import path from 'path';
 import fs from 'fs-extra';
 import appRoot from 'app-root-path';
+import sha256 from 'sha256';
+import moment from 'moment';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -124,7 +126,9 @@ export function create(req, res) {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        role: 'supplier'
+        role: 'supplier',
+        active: false,
+        activationCode: sha256(req.body.name + req.body.email + req.body.password + moment().format('DD-MM-YYYY HH:mm:ss'))
     };
 
     if (req.files) {
@@ -139,7 +143,7 @@ export function create(req, res) {
     return User.create(user)
         .then((user) => {
             return user.addSupplier(req.body)
-                .then(respondWithResult(res, 201))
+                .then(respondWithResult(res, 201)({_id: user._id, name: user.name, email: user.email, active: user.active}))
                 .catch(handleError);
         })
         .catch(handleError(res));

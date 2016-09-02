@@ -11,7 +11,7 @@
     {
         // State
         $stateProvider.state('app.activation', {
-            url      : '/register/success/:id',
+            url      : '/activation/:id',
             views    : {
                 'main@'                        : {
                     templateUrl: 'app/core/layouts/content-only.html',
@@ -24,6 +24,22 @@
             },
             bodyClass: 'activation'
         });
+
+        $stateProvider.state('app.user_activate', {
+            url      : '/user/activate/:id/:activationCode',
+            views    : {
+                'main@'                        : {
+                    templateUrl: 'app/core/layouts/content-only.html',
+                    controller : 'MainController as vm'
+                },
+                'content@app.user_activate': {
+                    templateUrl: 'app/main/auth/activation/activation.html',
+                    controller : 'ActivationController as vm'
+                }
+            },
+            bodyClass: 'activation'
+        });
+
 
         // Translation
         $translatePartialLoaderProvider.addPart('app/main/auth/activation');
