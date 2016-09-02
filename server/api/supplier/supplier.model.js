@@ -13,6 +13,7 @@ var SupplierSchema = new mongoose.Schema({
   phone: String,
   zip: String,
   city: String,
+  province: String,
   country: String,
   description: String,
   premium: { type: Boolean, default: false },

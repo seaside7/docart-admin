@@ -17,7 +17,7 @@
 
 
         //////
-        
+
         init();
 
         function init() {
@@ -29,6 +29,12 @@
                     vm.orderCount = dash.data.orderCount;
                     vm.categoryCount = dash.data.categoryCount;
                     vm.supplierRank = dash.data.supplierRank;
+                    console.log('======>' + dash.data.profile);
+                    if (!dash.data.profile) {
+                        Auth.getCurrentUser((user) => {
+                            $state.go('app.supplier', { id: user._id });
+                        });
+                    }
                 })
                 .catch(err => {
                     toastr.error(err.data, 'ERROR');

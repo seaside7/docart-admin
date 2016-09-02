@@ -115,7 +115,10 @@ export function index(req, res) {
                             .then((supplier) => {
                                 
                                 result.supplierRank = supplier ? supplier.rank : 0;
-                                
+                            
+                                // Check if user need to setup their profile
+                                result.profile = !(!supplier.address && !supplier.city && !supplier.province)                                    
+                                    
                                 return res.status(201).json(result);
                             })
                             .catch(handleError(res));
