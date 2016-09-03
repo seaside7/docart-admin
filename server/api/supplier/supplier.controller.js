@@ -87,6 +87,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
+        console.error(err);
         res.status(statusCode).send(err);
     };
 }
@@ -161,7 +162,7 @@ export function create(req, res) {
                             return;
                         }
 
-                        gmail.sendHtmlMail(user.email, 'Aktivasi akun do-cart Anda', html, (err, data) => {
+                        gmail.sendGmail('donotreply@do-cart.com', user.email, 'Aktivasi akun do-cart Anda', '', html, (err, data) => {
                             if (err) {
                                 console.error(err);
                             }

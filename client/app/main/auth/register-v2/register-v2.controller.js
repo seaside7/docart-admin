@@ -41,7 +41,8 @@
                 .catch((err) => {
                     vm.loading = false;
                     console.error(err);
-                    toastr.error('Something wrong, please try again', 'Error');
+                    var errMessage = (err.data ? err.data.message : err.message) + '. Your email might already registered.'; 
+                    toastr.error(errMessage);//'Something wrong, please try again', 'Error');
                 });    
         }
 

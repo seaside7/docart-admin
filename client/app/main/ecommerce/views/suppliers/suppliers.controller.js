@@ -29,7 +29,7 @@
             // reload at startup
             reloadData();
 
-            var searchBox = angular.element('body').find('#e-commerce-search');
+            var searchBox = angular.element('body').find('#e-commerce-supplier-search');
 
             // Bind an external input as a table wide search box
             if (searchBox.length > 0) {

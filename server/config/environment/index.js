@@ -49,7 +49,15 @@ var all = {
     host: 'smtp.gmail.com',
     port: 443,
     username: 'info@do-cart.com',
-    password: 'Docarindo'  
+    password: 'D0cart2016',  
+  },
+
+  GmailApi: {
+    user: 'info@do-cart.com',
+    clientId: '1046017579432-ujfbc7utodcq110i3qsbv43tsh73gsf6.apps.googleusercontent.com',
+    clientSecret: 'NShK1XtpAe8a3GdVpIM6l6r0',
+    refreshToken: 'NShK1XtpAe8a3GdVpIM6l6r0',
+    accessToken: 'ya29.Ci9TA-Hgzju62Al3fGRLLcK3NyHTcLQyqrLb7GYD1aaJZZKKe6KmtH6zPrMcfsN82w'
   }
 };
 
