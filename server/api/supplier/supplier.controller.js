@@ -142,6 +142,8 @@ export function create(req, res) {
             req.body.logoUrl = req.files.images[0].key;
         }
     }
+    
+    req.body.logistics = req.body.logistics ? JSON.parse(req.body.logistics) : [];
 
     return User.create(user)
         .then((user) => {
@@ -204,13 +206,17 @@ export function update(req, res) {
                     user.imageUrl = req.files.file[0].key;
                 }
             }
-
+            
             var updatedUser = _.merge(userResult, user);
 
             // if we dont pass oldPass and newPass, then we only update other data
             if (!oldPass && !newPass) {
                 return updatedUser.save()
                     .then((updatedUser) => {
+                        // Update logistics
+                        updatedUser.supplier.logistics = req.body.logistics ? JSON.parse(req.body.logistics) : [];
+                        delete req.body.logistics;
+                        
                         var supplier = _.merge(updatedUser.supplier, req.body);
                         supplier.save()
                             .then((updatedSupplier) => {
@@ -223,7 +229,11 @@ export function update(req, res) {
             else {
                 if (userResult.authenticate(oldPass)) {
                     updatedUser.password = newPass;
-
+                    
+                    // Update logistics
+                    updatedUser.supplier.logistics = req.body.logistics ? JSON.parse(req.body.logistics) : [];
+                    delete req.body.logistics;
+                        
                     return updatedUser.save()
                         .then((updatedUser) => {
                             var supplier = _.merge(updatedUser.supplier, req.body);

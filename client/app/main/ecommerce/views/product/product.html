@@ -171,7 +171,12 @@
                                     <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
                                     <input type="text" ng-model="price.price">
                                 </md-input-container>
-                                
+                                <md-input-container class="md-block" glex-gt-sm>
+                                    <md-button class="md-warn md-raised md-fab md-mini" 
+                                        ng-click="vm.prices.splice($index, 1)">
+                                        <md-icon md-font-icon="icon-close" ></md-icon>
+                                    </md-button>
+                                </md-input-container>
                             </div>
 
                         </div>

@@ -64,6 +64,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
+        console.error(err);
         res.status(statusCode).send(err);
     };
 }
@@ -106,6 +107,7 @@ export function create(req, res) {
 
     // Set owner of this product
     req.body.owner = req.user;
+    req.body.prices = req.body.prices ? JSON.parse(req.body.prices) : [];
 
     return Product.create(req.body)
         .then(respondWithResult(res, 201))
@@ -117,10 +119,8 @@ export function update(req, res) {
     if (req.body._id) {
         delete req.body._id;
     }
-
-    if (req.body.prices) {
-        req.body.prices = JSON.parse(req.body.prices);
-    }
+    var prices = req.body.prices;
+    delete req.body.prices;
 
     return Product.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
@@ -151,6 +151,9 @@ export function update(req, res) {
                     entity.imageUrl = entity.imageUrls.length > 0 ? entity.imageUrls[0] : ''; 
                 }
             }
+
+            // Parse prices
+            entity.prices = prices ? JSON.parse(prices) : []
 
             return updated.save()
                 .then(updated => {

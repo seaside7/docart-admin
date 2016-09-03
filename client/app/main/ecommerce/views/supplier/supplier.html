@@ -23,7 +23,7 @@
             </div>
 
             <div>
-                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) && (dataForm.$invalid || dataForm.$pristine)">
+                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) && !vm.supplierId">
                     <span translate="EC.SAVE">SAVE</span>
                 </md-button>
             </div>
@@ -212,7 +212,6 @@
 
                 <!-- SUPPLIER BANK -->
                 <md-tab>
-
                     <md-tab-label>
                         <span translate="EC.SUPPLIER.BANK_INFO">Bank Info</span>
                     </md-tab-label>
@@ -221,7 +220,7 @@
                             
                             <!-- BANK NAMES -->
                             <md-input-container class="md-block">
-                                <label translate="EC.SUPPLIER.BANKS">Banks</label>
+                                <label translate="EC.SUPPLIER.BANK">Bank</label>
                                 <md-select ng-model="vm.data.bank" name="banks">
                                     <md-option ng-repeat="bank in vm.banks" ng-value="bank">
                                     {{bank.name}}
@@ -245,6 +244,54 @@
                     </md-tab-body>
                 </md-tab>
                 <!-- SUPPLIER BANK -->
+
+                <!-- LOGISTICS -->
+                <md-tab>
+                    <md-tab-label>
+                        <span translate="EC.LOGISTICS">Logistics</span>
+                    </md-tab-label>
+                    <md-tab-body>
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+                            
+                            <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
+                                translate="EC.COURIER_ADD" ng-click="vm.logistics.push({courier: '', price: vm.data.price})">
+                                <md-icon md-font-icon="icon-plus" ></md-icon>
+                                <span>Add New Price</span>
+                            </md-button>
+                            
+                            <hr ng-if="vm.logistics.length > 0">
+
+                            <div layout-gt-sm="row" layout-align="start start" ng-repeat="log in vm.logistics">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.COURIER">Courier</label>
+                                    <md-select ng-model="log.courier" name="courier">
+                                        <md-option ng-repeat="c in vm.couriers | orderBy" ng-value="c.name">
+                                            {{c.name}}
+                                        </md-option>
+                                    </md-select>                                    
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.SHIPPING_TIME">Shipping Time</label>
+                                    <input type="text" min="0" step="1" ng-model="log.shippingTime">
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.SEND_TIME">Send Time</label>
+                                    <input type="text" ng-model="log.sendTime">
+                                </md-input-container>
+                                
+                                <md-input-container class="md-block" glex-gt-sm>
+                                    <md-button class="md-warn md-raised md-fab md-mini" 
+                                        ng-click="vm.logistics.splice($index, 1)">
+                                        <md-icon md-font-icon="icon-close" ></md-icon>
+                                    </md-button>
+                                </md-input-container>
+                            </div>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <!-- LOGISTICS -->
 
             </md-tabs>
 

@@ -19,7 +19,7 @@
             "BANK_INFO" : "Bank Info",
             "BANK_CODE" : "Bank Code",
             "BANK_ACCOUNT": "Bank Account",
-            "BANKS": "Banks"
+            "BANK": "Bank"
         },
         
         "PRODUCTS": "Products",
@@ -35,6 +35,11 @@
         "HEIGHT": "Height",
         "DEPTH": "Depth",
         "WEIGHT": "Weight",
+        "LOGISTICS": "Logistics",
+        "COURIER": "Courier",
+        "COURIER_ADD": "Add Courier",
+        "SHIPPING_TIME": "Shipping Time (eg: 2 days)",
+        "SEND_TIME": "Send Time (eg: 10am)",
 
         "CATEGORY_EDIT": "Edit Category",
         "CATEGORY_DETAILS": "Category Details",

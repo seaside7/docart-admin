@@ -37,6 +37,9 @@
                     },
                     Provinces: function(msApi) {
                         return msApi.resolve('app.provinces@query');
+                    },
+                    Couriers: function(msApi) {
+                        return msApi.resolve('app.couriers@query');
                     }
                 }
             })
@@ -97,6 +100,7 @@
             msApiProvider.register('e-commerce.banks', ['app/data/bank.json']);
             //app.provinces
             msApiProvider.register('app.provinces', ['app/data/provinces.json']);
+            msApiProvider.register('app.couriers', ['app/data/couriers.json']);
     }
 
     angular.module('app.ecommerce', [])

@@ -20,7 +20,12 @@ var SupplierSchema = new mongoose.Schema({
   rank: { type: Number, min: 0, default: 0 },
   bankName: String,
   bankCode: String,
-  bankAccount: String
+  bankAccount: String,
+  logistics: [{  
+    courier: { type: String, default: '' },
+    shippingTime: { type: String, default: '' },
+    sendTime: { type: String, default: '' }
+  }]
 });
 
 SupplierSchema

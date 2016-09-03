@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function SupplierController($scope, $http, $state, $stateParams, $mdDialog, $document, toastr, Upload, Auth, Banks, Provinces, _) {
+    function SupplierController($scope, $http, $state, $stateParams, $mdDialog, $document, toastr, Upload, Auth, Banks, Provinces, Couriers, _) {
         var vm = this;
         var started = false;
 
@@ -17,7 +17,9 @@
         vm.Auth = Auth;
         vm.banks = Banks;
         vm.provinces = Provinces;
+        vm.couriers = Couriers;
         vm.cities = [];
+        vm.logistics = []; 
 
         // Methods
         vm.saveData = saveData;
@@ -44,6 +46,8 @@
                                 }
                             })
                         }
+
+                        vm.logistics = data.supplier.logistics ? data.supplier.logistics : [];
                     })
                     .catch((err) => {
                         console.error(err);
@@ -81,7 +85,7 @@
          *
          */
         function saveData() {
-            console.log(vm.data);
+            vm.data.logistics = angular.toJson(vm.logistics);
             var upload = {
                 url: '/api/suppliers',
                 data: vm.data
@@ -93,7 +97,6 @@
 
             Upload.upload(upload)
                 .then((response) => {
-                    console.log(response);
                     toastr.success('Profile updated', 'Success');
 
                     if (Auth.isAdmin()) {
