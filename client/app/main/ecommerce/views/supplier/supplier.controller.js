@@ -2,7 +2,7 @@
 
     'use strict';
 
-    function SupplierController($scope, $http, $state, $stateParams, $mdDialog, $document, toastr, Upload, Auth, Banks, _) {
+    function SupplierController($scope, $http, $state, $stateParams, $mdDialog, $document, toastr, Upload, Auth, Banks, Provinces, _) {
         var vm = this;
         var started = false;
 
@@ -16,6 +16,8 @@
         vm.newData = vm.supplierId ? false : true;
         vm.Auth = Auth;
         vm.banks = Banks;
+        vm.provinces = Provinces;
+        vm.cities = [];
 
         // Methods
         vm.saveData = saveData;
@@ -53,6 +55,23 @@
                 if (bank) {
                     vm.data.bankName = bank.name;
                     vm.data.bankCode = bank.code;
+                }
+            })
+
+            $scope.$watch('vm.data.province', province => {
+                if (province) {
+                    
+                    vm.provinces.forEach(p => {
+                        if (p.name === province) {
+                            var cities = [];
+                            p.cities.forEach(city => {
+                                if (cities.indexOf(city) == -1) {
+                                    cities.push(city);
+                                }
+                            })
+                            vm.cities = cities;
+                        }
+                    })
                 }
             })
         }

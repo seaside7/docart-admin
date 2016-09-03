@@ -32,9 +32,11 @@
                 },
                 authenticate: true,
                 resolve  : {
-                    Banks: function(msApi)
-                    {
+                    Banks: function(msApi) {
                         return msApi.resolve('e-commerce.banks@query');
+                    },
+                    Provinces: function(msApi) {
+                        return msApi.resolve('app.provinces@query');
                     }
                 }
             })
@@ -93,6 +95,8 @@
 
             //e-commerce.banks
             msApiProvider.register('e-commerce.banks', ['app/data/bank.json']);
+            //app.provinces
+            msApiProvider.register('app.provinces', ['app/data/provinces.json']);
     }
 
     angular.module('app.ecommerce', [])

@@ -49,6 +49,8 @@
         "PROFILE": "Profile",
         "BASIC_INFO": "Basic Info",
         "ADDRESS": "Address",
+        "DISTRICT": "District",
+        "PROVINCE": "Province",
         "LOGO": "Logo",
         "NAME": "Name",
         "EMAIL": "Email",

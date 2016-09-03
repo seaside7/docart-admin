@@ -140,8 +140,8 @@
                                 <div class="preview" ng-show="vm.data.images">
                                     <img ngf-src="vm.data.images" width="100px" height="100px">
                                 </div>
-                                <label ng-show="vm.data.images" flex>{{vm.data.images.name}}</label>
-                                <label ng-show="!vm.data.images" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
+                                <label ng-show="vm.data.images" flex show-gt-sm>{{vm.data.images.name}}</label>
+                                <label ng-show="!vm.data.images" flex show-gt-sm class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
                                 <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.images" accept="'image/*'" ngf-maxsize="15MB"
                                     type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Logo</md-button>
                             </div>
@@ -151,28 +151,54 @@
                                 <input type="number" step="1" min="0" name="rank" ng-model="vm.data.rank" ng-init="vm.data.rank = 0">
                             </md-input-container>
 
-                            <md-input-container class="md-block md-icon-float">
-                                <label translate="EC.ADDRESS">Address</label>
-                                <input type="text" ng-model="vm.data.address">
-                            </md-input-container>
-
+                            <!-- PHONE & ADDRESS -->
                             <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block md-icon-float" flex-gt-sm>
+                                    <label translate="EC.ADDRESS">Address</label>
+                                    <input type="text" ng-model="vm.data.address">
+                                </md-input-container>
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.PHONE">Phone</label>
                                     <input type="text" ng-model="vm.data.phone">
+                                </md-input-container>
+                            </div>
+                            <!-- PHONE & ADDRESS -->
+
+                            <!-- DISTRICT & ZIP -->
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.DISTRICT">District</label>
+                                    <input type="text" ng-model="vm.data.district">
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.ZIP">Zip</label>
                                     <input type="text" ng-model="vm.data.zip">
                                 </md-input-container>
+                            </div>
+                            <!-- DISTRICT & ZIP -->
+
+                            <!-- PROVINCE & CITY -->
+                            <div layout-gt-sm="row" layout-align="start center">                                
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.PROVINCE">Province</label>
+                                    <md-select ng-model="vm.data.province" name="province">
+                                        <md-option ng-repeat="sc in vm.provinces" ng-value="sc.name">
+                                            {{sc.name}}
+                                        </md-option>
+                                    </md-select>                                    
+                                </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.CITY">City</label>
-                                    <input type="text" ng-model="vm.data.city">
+                                    <md-select ng-model="vm.data.city" name="city">
+                                        <md-option ng-repeat="city in vm.cities | orderBy" ng-value="city">
+                                            {{city}}
+                                        </md-option>
+                                    </md-select>                                    
                                 </md-input-container>
-
                             </div>
+                            <!-- PROVINCE & CITY -->
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <h3 class="secondary-text" translate="EC.SUPPLIER_DESCRIPTION">Supplier Description</h3>
