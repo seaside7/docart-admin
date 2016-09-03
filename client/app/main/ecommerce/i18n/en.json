@@ -30,6 +30,11 @@
         "TOTAL_SUPPLIERS": "Total Suppliers: ",
         "TOTAL_ORDERS": "Total Orders: ",
         "SEARCH": "Search",
+        "SHIPPING": "Shipping",
+        "WIDTH": "Width",
+        "HEIGHT": "Height",
+        "DEPTH": "Depth",
+        "WEIGHT": "Weight",
 
         "CATEGORY_EDIT": "Edit Category",
         "CATEGORY_DETAILS": "Category Details",
@@ -60,8 +65,11 @@
         "FEATURED": "Featured",
         "PRICE": "Price",
         "FINAL_PRICE": "Final Price",
+        "PRICE_ADD": "Add New Price",
+
         "DISCOUNT": "Discount",
         "PRICE_INVENTORY": "Price &amp; Inventory",
+        "INVENTORY": "Inventory",
         "STOCK_QUANTITY": "Stock Quantity",
         "UNIT": "Unit",
         "TAGS": "Tags",

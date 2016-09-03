@@ -22,6 +22,7 @@ module.exports = {
     Bucket: 'images'
   },
 
-  imageHost: 'http://128.199.251.64:9000/images/'
+  imageHost: 'http://128.199.251.64:9000/images/',
+  domain:  'http://do-cart.com:8080/'
 
 };

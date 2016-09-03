@@ -43,6 +43,13 @@ var all = {
         safe: true
       }
     }
+  },
+
+  mailServer: {
+    host: 'smtp.gmail.com',
+    port: 443,
+    username: 'info@do-cart.com',
+    password: 'Docarindo'  
   }
 };
 

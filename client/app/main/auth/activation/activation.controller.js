@@ -59,12 +59,7 @@
         }
 
         function continueActivation() {
-            if (vm.active) {
-                $state.go('app.supplierProfile', { id: secretKey });
-            }
-            else {
-                $state.go('app.loginV2');
-            }
+            $state.go('app.loginV2');
         }
     }
 })();

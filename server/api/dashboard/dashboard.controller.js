@@ -98,6 +98,7 @@ export function index(req, res) {
                                         return User.count({ role: 'supplier' }).exec()
                                             .then(supplierCount => {
 
+                                                result.profile = true;
                                                 result.supplierCount = supplierCount;
 
                                                 return res.status(201).json(result);
@@ -109,7 +110,7 @@ export function index(req, res) {
                             });
                     }
                     else if (req.user.role === 'supplier') {
-
+                        
                         // Find supplier 
                         Supplier.findById(req.user.supplier).exec()
                             .then((supplier) => {
@@ -117,7 +118,7 @@ export function index(req, res) {
                                 result.supplierRank = supplier ? supplier.rank : 0;
                             
                                 // Check if user need to setup their profile
-                                result.profile = !(!supplier.address && !supplier.city && !supplier.province)                                    
+                                result.profile = !(!supplier.address && !supplier.city && !supplier.province)     
                                     
                                 return res.status(201).json(result);
                             })

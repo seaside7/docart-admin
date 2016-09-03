@@ -118,6 +118,10 @@ export function update(req, res) {
         delete req.body._id;
     }
 
+    if (req.body.prices) {
+        req.body.prices = JSON.parse(req.body.prices);
+    }
+
     return Product.findById(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then((entity) => {

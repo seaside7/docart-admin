@@ -27,8 +27,8 @@
         init();
 
         function init() {
-             if (vm.supplierId) {
-                 $http.get('/api/suppliers/' + vm.supplierId)
+            if (vm.supplierId) {
+                $http.get('/api/suppliers/' + vm.supplierId)
                     .then((response) => {
                         var data = _.extend(response.data, response.data.supplier);
                         delete data.password;
@@ -47,12 +47,14 @@
                         console.error(err);
                         toastr.error(err.data, 'Error');
                     })
-             }
+            }
 
-             $scope.$watch('vm.data.bank', bank => {
-                 vm.data.bankName = bank.name;
-                 vm.data.bankCode = bank.code;
-             })
+            $scope.$watch('vm.data.bank', bank => {
+                if (bank) {
+                    vm.data.bankName = bank.name;
+                    vm.data.bankCode = bank.code;
+                }
+            })
         }
 
         /**
@@ -67,14 +69,14 @@
             };
             if (vm.supplierId) {
                 upload.url = '/api/suppliers/' + vm.supplierId;
-                upload.method = 'PUT';    
+                upload.method = 'PUT';
             }
-            
+
             Upload.upload(upload)
                 .then((response) => {
                     console.log(response);
                     toastr.success('Profile updated', 'Success');
-                    
+
                     if (Auth.isAdmin()) {
                         $state.go('app.suppliers');
                     }
@@ -85,7 +87,7 @@
                 .catch((err) => {
                     console.error(err);
                     toastr.error(err.data, 'Error');
-                });    
+                });
         }
 
         /**
@@ -96,7 +98,7 @@
                 $state.go('app.suppliers');
             }
             else {
-                $state.go('app.dashboard'); 
+                $state.go('app.dashboard');
             }
         }
 

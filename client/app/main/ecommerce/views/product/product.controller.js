@@ -7,6 +7,7 @@
 
         // Data
         vm.data = {};
+        vm.prices = [];
         vm.productUnits = appConfig.productUnits;
         vm.productId = $stateParams.id;
         vm.productTitle = 'New Product';
@@ -37,6 +38,9 @@
                         vm.productTitle = vm.data.name.toUpperCase();
                         console.log(vm.data);
 
+                        if (vm.data.prices) {
+                            vm.prices = vm.data.prices;
+                        }
                         if (vm.data.category) {
                             vm.mainCategories.forEach((mc) => {
                                 if (mc._id === vm.data.category.parent) {
@@ -90,7 +94,7 @@
          */
         function saveData() {
             console.log(vm.data);
-
+            vm.data.prices = angular.toJson(vm.prices);
             var query = {
                 url: '/api/products',
                 arrayKey: '',

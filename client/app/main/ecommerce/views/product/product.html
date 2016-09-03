@@ -58,20 +58,20 @@
                             <!-- MAIN CATEGORIES -->
                             <md-input-container class="md-block">
                                 <label translate="EC.MAIN_CATEGORIES">Main Categories</label>
-                                <md-select ng-model="vm.subCategories" >
-                                    <md-option ng-repeat="mc in vm.mainCategories" ng-value="mc.children" >
-                                    {{mc.name}}
+                                <md-select ng-model="vm.subCategories">
+                                    <md-option ng-repeat="mc in vm.mainCategories" ng-value="mc.children">
+                                        {{mc.name}}
                                     </md-option>
                                 </md-select>
                             </md-input-container>
                             <!-- MAIN CATEGORIES -->
-                            
+
                             <!-- SUB CATEGORIES -->
                             <md-input-container class="md-block">
                                 <label translate="EC.SUB_CATEGORIES">Sub Categories</label>
                                 <md-select ng-model="vm.data.category" name="subCategories" required>
                                     <md-option ng-repeat="sc in vm.subCategories" ng-value="sc._id">
-                                    {{sc.name}}
+                                        {{sc.name}}
                                     </md-option>
                                 </md-select>
                                 <div class="errors" ng-messages="dataForm.subCategories.$error" ng-show="dataForm.subCategories.$touched">
@@ -81,7 +81,7 @@
                                 </div>
                             </md-input-container>
                             <!-- SUB CATEGORIES -->
-                            
+
                             <!-- TAGS -->
                             <h3 class="tags secondary-text" translate="EC.TAGS">Tags</h3>
                             <md-chips ng-model="vm.data.tags" placeholder="Enter a tag" delete-button-label="Remove Tag" delete-hint="Press delete to remove tag"
@@ -104,16 +104,17 @@
                     </md-tab-body>
                 </md-tab>
 
-                <!-- /////// PRICE AND INVENTORY //// -->
+                <!-- /////// PRICE //// -->
                 <md-tab>
                     <md-tab-label>
-                        <span translate="EC.PRICE_INVENTORY">Price &amp; Inventory</span>
+                        <span translate="EC.PRICE">Price</span>
                     </md-tab-label>
 
                     <md-tab-body>
-                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
 
-                            <md-input-container class="md-block md-icon-float">
+                        <!-- DEFAULT PRICE -->
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+                            <md-input-container class="md-block md-icon-float" ng-if="vm.Auth.isAdmin()">
                                 <label translate="EC.RANK">Rank</label>
                                 <input type="number" step="1" min="0" name="rank" ng-model="vm.data.rank" ng-init="vm.data.rank = 0">
                             </md-input-container>
@@ -150,18 +151,55 @@
                                     </div>
                                 </div>
                             </md-input-container>
+                            
+                            <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
+                                translate="EC.PRICE_ADD" ng-click="vm.prices.push({minOrder: 1, price: vm.data.price})">
+                                <md-icon md-font-icon="icon-plus" ></md-icon>
+                                <span>Add New Price</span>
+                            </md-button>
+                            
+                            <hr ng-if="vm.prices.length > 0">
 
+                            <div layout-gt-sm="row" layout-align="start center" ng-repeat="price in vm.prices">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.MINIMUM_ORDER">Minimum Order</label>
+                                    <input type="number" name="minOrder" min="0" step="1" ng-model="price.minOrder" required>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.PRICE">Price</label>
+                                    <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
+                                    <input type="text" ng-model="price.price">
+                                </md-input-container>
+                                
+                            </div>
+
+                        </div>
+                        <!-- DEFAULT PRICE -->
+
+                    </md-tab-body>
+                </md-tab>
+                <!-- /////// PRICE AND INVENTORY //// -->
+
+                <!-- INVENTORY -->
+                <md-tab>
+                    <md-tab-label>
+                        <span translate="EC.INVENTORY">Inventory</span>
+                    </md-tab-label>
+
+                    <md-tab-body>
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                             <md-input-container class="md-block">
                                 <label translate="EC.UNIT">Stock Unit</label>
                                 <md-select ng-model="vm.data.unit" required>
                                     <md-option ng-repeat="unit in vm.productUnits" ng-value="unit">
-                                    {{unit}}
+                                        {{unit}}
                                     </md-option>
                                     <div ng-messages="dataForm.unit.$error" ng-show="dataForm.unit.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                        <div ng-message="required">
+                                            <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                        </div>
                                     </div>
-                                </div>
                                 </md-select>
                             </md-input-container>
 
@@ -174,7 +212,7 @@
                                     </div>
                                 </div>
                             </md-input-container>
-                            
+
                             <md-input-container class="md-block md-icon-float">
                                 <label translate="EC.MINIMUM_ORDER">Minimum Order</label>
                                 <input type="number" step="1" name="minOrder" ng-model="vm.data.minOrder" ng-init="vm.data.minOrder = 1" required>
@@ -184,10 +222,44 @@
                                     </div>
                                 </div>
                             </md-input-container>
-                            
                         </div>
                     </md-tab-body>
                 </md-tab>
+                <!-- INVENTORY -->
+
+                <!-- SHIPPING -->
+                <md-tab>
+                    <md-tab-label>
+                        <span translate="EC.SHIPPING">Shipping</span>
+                    </md-tab-label>
+
+                    <md-tab-body>
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.WIDTH">Width</label>
+                                    <input type="text" ng-model="vm.data.width">
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.HEIGHT">Height</label>
+                                    <input type="text" ng-model="vm.data.height">
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.DEPTH">Depth</label>
+                                    <input type="text" ng-model="vm.data.depth">
+                                </md-input-container>
+                            </div>
+
+                            <md-input-container class="md-block">
+                                <label translate="EC.WEIGHT">Weight</label>
+                                <input type="text" ng-model="vm.data.weight">
+                            </md-input-container>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <!-- SHIPPING -->
 
                 <!-- /////// PRODUCT IMAGES //// -->
                 <md-tab>
@@ -196,7 +268,7 @@
                     </md-tab-label>
 
                     <md-tab-body>
-                        <div class="detail-form-container md-background-bg md-whiteframe-1dp" ng-if="vm.productId !== undefined">
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp" ng-if="vm.productId && vm.data.imageUrls && vm.data.imageUrls.length > 0">
                             <div layout="column" layout-align="start start" layout-wrap>
                                 <div>
                                     <span class="secondary-text mt-8">Current Images</span>
@@ -204,17 +276,17 @@
                                 <div layout="row" layout-align="center start">
                                     <div class="product-image" style="position: relative" layout="column" layout-align="center center" ng-repeat="img in vm.data.imageUrls">
                                         <img class="media" style="width: 150px; height: 150px; padding: 5px; margin-right: 10px" ngf-src="img">
-                                        
+
                                         <div layout="row" layout-align="center center">
                                             <md-button class="md-fab md-raised md-mini" ng-disabled="img === vm.data.imageUrl" ng-click="vm.setDefaultImage(img)">
                                                 <md-icon md-font-icon="icon-check" aria-label="Default"></md-icon>
                                             </md-button>
-                                         
+
                                             <md-button class="md-fab md-red-400-bg md-mini md-close" ng-click="vm.deleteImage(img, $index)">
                                                 <md-icon md-font-icon="icon-close" aria-label="Remove"></md-icon>
                                             </md-button>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -240,7 +312,7 @@
                         </div>
                     </md-tab-body>
                 </md-tab>
-
+                <!-- PRODUCT IMAGES -->
 
             </md-tabs>
 

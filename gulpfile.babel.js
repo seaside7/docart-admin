@@ -621,7 +621,8 @@ gulp.task('copy:server', () => {
         'package.json',
         'bower.json',
         '.bowerrc',
-        'aws.credentials.json'
+        'aws.credentials.json',
+        `${serverPath}/**/*.html`,
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });

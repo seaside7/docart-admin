@@ -23,6 +23,10 @@ var ProductSchema = new Schema({
         required: true,
         min: 0
     },
+    prices: [{
+        minOrder: { type: Number, min: 0, default: 0 },
+        price: { type: Number, min: 0, default: 0 }
+    }],
     finalPrice: {
         type: Number,
         required: true,
@@ -53,7 +57,11 @@ var ProductSchema = new Schema({
     tags: [String],
     unit: { type: String, default: '' },
     rank: { type: Number, min: 0, default: 0 },
-    minOrder: { type: Number, min: 0, default: 0}
+    minOrder: { type: Number, min: 0, default: 0 },
+    width: { type: String, default: '' },
+    height: { type: String, default: '' },
+    depth: { type: String, default: '' },
+    weight: { type: String, default: '' } 
 }).index({
     'title': 'text',
     'description': 'text',

@@ -21,6 +21,9 @@ import fs from 'fs-extra';
 import appRoot from 'app-root-path';
 import sha256 from 'sha256';
 import moment from 'moment';
+import gmail from './../../components/gmail';
+import ejs from 'ejs';
+
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -143,7 +146,28 @@ export function create(req, res) {
     return User.create(user)
         .then((user) => {
             return user.addSupplier(req.body)
-                .then(respondWithResult(res, 201)({_id: user._id, name: user.name, email: user.email, active: user.active}))
+                .then(supplier => {
+
+                    var data = {
+                        title: 'do-cart.com',
+                        fullname: user.name,
+                        activation_link: config.domain + 'user/activate/'+ user._id +'/' + user.activationCode 
+                    }
+                    ejs.renderFile(path.join(req.app.get('views'), 'supplier_activation.html'), data, {}, (err, html) => {
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+
+                        gmail.sendHtmlMail(user.email, 'Aktivasi akun do-cart Anda', html, (err, data) => {
+                            if (err) {
+                                console.error(err);
+                            }
+                        });
+                    })
+
+                    respondWithResult(res, 201)({ _id: user._id, name: user.name, email: user.email, active: user.active })
+                })
                 .catch(handleError);
         })
         .catch(handleError(res));
@@ -176,27 +200,9 @@ export function update(req, res) {
         .then((userResult) => {
 
             if (req.files) {
-
-                var removedFiles = [];
                 if (req.files.file && req.files.file.length > 0) {
                     user.imageUrl = req.files.file[0].key;
-                    removedFiles.push(path.basename(userResult.imageUrl));
                 }
-                if (req.files.images && req.files.images.length > 0) {
-                    req.body.logoUrl = req.files.images[0].key;
-                    if (userResult.supplier) {
-                        removedFiles.push(path.basename(userResult.supplier.logoUrl));
-                    }
-                }
-
-                if (removedFiles.length > 0) {
-                    s3.s3FileRemove(appRoot.resolve(config.s3.Credentials), config.s3.Bucket, removedFiles, (err, data) => {
-                        if (err) {
-                            console.error(err);
-                        }
-                    });
-                }
-                
             }
 
             var updatedUser = _.merge(userResult, user);
@@ -241,7 +247,7 @@ export function destroy(req, res) {
     return User.findById(req.params.id).populate('supplier').exec()
         .then(handleEntityNotFound(res))
         .then((user) => {
-            
+
             var removedImages = [];
             if (user.imageUrl) {
                 removedImages.push(path.basename(user.imageUrl));
