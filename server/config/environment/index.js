@@ -56,8 +56,10 @@ var all = {
     user: 'info@do-cart.com',
     clientId: '1046017579432-ujfbc7utodcq110i3qsbv43tsh73gsf6.apps.googleusercontent.com',
     clientSecret: 'NShK1XtpAe8a3GdVpIM6l6r0',
-    refreshToken: 'NShK1XtpAe8a3GdVpIM6l6r0',
-    accessToken: 'ya29.Ci9TA-Hgzju62Al3fGRLLcK3NyHTcLQyqrLb7GYD1aaJZZKKe6KmtH6zPrMcfsN82w'
+    refreshToken: '1/ycny9eHPxTzG6r3OHDvTzfyWJvvu9LMFlHnlvAefs08',
+    accessToken: 'ya29.Ci9TA36bhLXraX6HoVvpUtm2iS0MfeD6KdTBdYaHaseFaZ4aQz_j4lk0BDqme09gWQ'
+                  //dXNlcj1pbmZvQGRvLWNhcnQuY29tAWF1dGg9QmVhcmVyIHlhMjkuQ2k5VEEtSGd6anU2MkFsM2ZHUkxMY0szTnlIVGNMUXlxckxiN0dZRDFhYUpaWktLZTZLbXRINnpQck1jZnNOODJ3AQE=
+
   }
 };
 

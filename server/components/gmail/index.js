@@ -72,16 +72,28 @@ function updateGmail(user, refreshToken, accessToken, timeout, cb) {
     return Gmail.findOne({ user: user }).exec()
         .then(gmail => {
             if (!gmail) {
-                return createGmail(config.GmailApi.user, config.GmailApi.refreshToken, config.GmailApi.accessToken, 0, cb);
+                if (cb) {
+                    cb(new Error('Gmail data not found'), null);
+                }
+                return;
             }
             else {
+
+                console.log('-----------------------------');
+                console.log('Found current gmail data: ');
+                console.log(gmail)
+                console.log('-----------------------------');
+
                 gmail.user = user;
                 gmail.refreshToken = refreshToken;
                 gmail.accessToken = accessToken;
                 gmail.timeout = timeout;
-
                 return gmail.save()
                     .then(updatedGmail => {
+                        console.log('-----------------------------');
+                        console.log('saving new gmail data: ');
+                        console.log(gmail)
+                        console.log('-----------------------------');
                         if (cb) {
                             cb(null, updatedGmail);
                         }
@@ -146,15 +158,62 @@ function sendHtmlMail(to, subject, html, cb) {
 }
 
 function sendGmail(from, to, subject, text, html, cb) {
+
+    var generator = require('xoauth2').createXOAuth2Generator({
+        user: config.GmailApi.user,
+        clientId: config.GmailApi.clientId,
+        clientSecret: config.GmailApi.clientSecret,
+        refreshToken: config.GmailApi.refreshToken
+    });
+
+    // listen for token updates
+    // you probably want to store these to a db
+    generator.on('token', function (token) {
+        console.log('New token for %s: %s', token.user, token.accessToken);
+    });
+
+    // login
+    var transporter = nodemailer.createTransport(({
+        service: 'gmail',
+        auth: {
+            xoauth2: generator
+        }
+    }));
+
+    // setup e-mail data with unicode symbols
+    var mailOptions = {
+        from: from, // sender address
+        to: to, // list of receivers
+        subject: subject, // Subject line
+        text: text, // plaintext body
+        html: html // html body
+    };
     
-    getGmailApi(config.GmailApi.user, (err, gmail) => {
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+            var invalidRequest = error.message;
+            return;
+        }
+        console.log('Message sent: ' + info.response);
+
+        if (cb) {
+            cb(null, info);
+        }
+    });
+    /*getGmailApi(config.GmailApi.user, (err, gmail) => {
         if (err) {
             if (cb) {
                 cb(err, null);
             }
             return;
         }
-        
+
+        console.log('---------------------------------');
+        console.log('Sending Gmail: ');
+        console.log(gmail);
+        console.log('---------------------------------');
         var xoauth2Gen = xoauth2.createXOAuth2Generator({
             user: gmail.user,
             clientId: gmail.clientId,
@@ -166,8 +225,10 @@ function sendGmail(from, to, subject, text, html, cb) {
         // listen for token updates (if refreshToken is set)
         // you probably want to store these to a db
         xoauth2Gen.on('token', function (token) {
-            console.log('# New token for %s: %s', token.user, token.accessToken);
-            updateGmail(token.user, config.GmailApi.refreshToken, token.accessToken, token.timeout);
+            console.log('################# New token for %s: %s', token.user, token.accessToken);
+            updateGmail(config.GmailApi.user, config.GmailApi.refreshToken, token.accessToken, token.timeout, (err, data) => {
+                sendGmail(from, to, subject, text, html, cb);
+            });
         });
 
         // login
@@ -190,10 +251,9 @@ function sendGmail(from, to, subject, text, html, cb) {
         // send mail with defined transport object
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                if (cb) {
-                    cb(error, null);
-                }
-                return console.log(error);
+                console.log(error);
+                var invalidRequest = error.message;
+                return;
             }
             console.log('Message sent: ' + info.response);
 
@@ -201,6 +261,35 @@ function sendGmail(from, to, subject, text, html, cb) {
                 cb(null, info);
             }
         });
+    })*/
+}
+
+function getGmailNewToken(generator, from, to, subject, text, html, cb) {
+    generator.getToken((err, token, accessToken) => {
+        if (err) {
+            var invalidRequest = err.message;
+            if (err.message === 'invalid_request') {
+                console.log('==> Getting new Token')
+                getGmailNewToken(cb);
+            }
+        }
+        else {
+            console.log('-----------------------------');
+            console.log('Get New Token: ' + token);
+            console.log('Get New Access Token: ' + accessToken);
+            console.log('-----------------------------');
+            updateGmail(config.GmailApi.user, config.GmailApi.refreshToken, accessToken, 0, (err, data) => {
+                if (err) {
+                    console.error(err);
+                    if (cb) {
+                        cb(err, null);
+                    }
+                }
+                else {
+                    sendGmail(from, to, subject, text, html, cb);
+                }
+            });
+        }
     })
 }
 

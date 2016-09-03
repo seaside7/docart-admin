@@ -8,7 +8,7 @@ import appRoot from 'app-root-path';
 import path from 'path';
 
 var GmailSchema = new mongoose.Schema({
-  user: String,
+  user: { type: String, unique: true },
   accessToken: String,
   refreshToken: String,
   timeout: String
