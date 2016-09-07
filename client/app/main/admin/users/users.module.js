@@ -37,7 +37,7 @@
                 authenticate: true,
             });
 
-        $translatePartialLoaderProvider.addPart('app/main/admin/users');
+        $translatePartialLoaderProvider.addPart('app/main/admin');
     }
 
     function usersRun(msNavigationService, Auth) {
@@ -56,7 +56,7 @@
             icon: 'icon-account-multiple',
             state: 'app.users', 
             translate: 'USERS.USERS_NAV',
-            weight: 2,
+            weight: 3,
             hidden: function () {
                 return !Auth.isAdmin();
             }

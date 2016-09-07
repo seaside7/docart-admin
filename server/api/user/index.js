@@ -3,8 +3,14 @@
 import {Router} from 'express';
 import * as controller from './user.controller';
 import * as auth from '../../auth/auth.service';
+import * as customer from './customer.controller';
 
 var router = new Router();
+
+// Customer
+router.get('/customers', customer.index);
+router.post('/customers', customer.create);
+router.put('/customers/:id', customer.update);
 
 router.get('/', auth.hasRole('admin'), controller.index);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);

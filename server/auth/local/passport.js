@@ -13,7 +13,7 @@ function localAuthenticate(User, email, password, done) {
         });
       }
       user.authenticate(password, function(authError, authenticated) {
-        if (!user.active && user.role !== 'admin') {
+        if (!user.active && user.role !== shared.userRole.admin) {
           return done(null, false, { status: shared.status.INACTIVE, message: 'You need to activate your account, please check your email!'} );
         }
         if (authError) {

@@ -19,6 +19,8 @@ module.exports = {
 
   imageHost: 'http://128.199.251.64:9000/images/',
 
-  domain:  'http://localhost:8080/'
+  domain:  'http://localhost:8080/',
+
+  website: 'http://localhost:8000/'
 
 };

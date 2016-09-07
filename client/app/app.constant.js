@@ -9,6 +9,13 @@
 		"user",
 		"admin"
 	],
+	"userRole": {
+		"guest": "guest",
+		"customer": "customer",
+		"supplier": "supplier",
+		"user": "user",
+		"admin": "admin"
+	},
 	"productUnits": [
 		"Gram",
 		"Ons",

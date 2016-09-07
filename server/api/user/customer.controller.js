@@ -9,6 +9,10 @@ import path from 'path';
 import fs from 'fs-extra';
 import s3 from './../../components/s3bucket';
 import appRoot from 'app-root-path';
+import moment from 'moment';
+import sha256 from 'sha256';
+import ejs from 'ejs';
+import gmail from './../../components/gmail';
 
 function validationError(res, statusCode) {
     statusCode = statusCode || 422;
@@ -34,14 +38,15 @@ function handleEntityNotFound(res) {
     };
 }
 
+
 /**
  * Get list of users
- * restriction: 'admin'
+ * restriction: 'customer'
  */
 export function index(req, res) {
-    var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") }, 'role': 'admin' } : { 'role': 'admin' };
+    var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") }, 'role': 'customer' } : { 'role': 'customer' };
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
-    options.select = '_id name email role gender dob imageUrl';
+    options.select = '_id name email dob gender active imageUrl';
     options.sort = req.query.sort;
 
     return User.paginate(query, options)
@@ -55,10 +60,16 @@ export function index(req, res) {
  * Creates a new user
  */
 export function create(req, res, next) {
+
+    if (!req.body && (!req.body.fullname || !req.body.phone || !req.body.email || !req.body.password || !req.body.passwordConfirm || !req.gender || !req.dob)) {
+        console.log(req.body);
+        return handleError(res, 400)(new Error('Bad request'));
+    }
+
     var newUser = new User(req.body);
 
     if (req.body.password !== req.body.passwordConfirm) {
-        return res.status(403).json({ message: 'Password mismatch' });
+        return handleError(res, 403)(new Error('Password mismatch'));
     }
 
     if (req.files && req.files.file) {
@@ -68,75 +79,51 @@ export function create(req, res, next) {
     }
 
     newUser.provider = 'local';
-    newUser.role = 'admin';
-    newUser.active = true;
+    newUser.name = req.body.fullname;
+    newUser.role = 'customer';
+    newUser.active = false;
+    newUser.activationCode = sha256(req.body.fullname + req.body.email + req.body.password + moment().format('DD-MM-YYYY HH:mm:ss'));
+
     newUser.save()
         .then(function (user) {
             var token = jwt.sign({ _id: user._id }, config.secrets.session, {
                 expiresIn: 60 * 60 * 5
             });
-            res.json({ token });
+
+            var data = {
+                title: 'do-cart.com',
+                fullname: user.name,
+                activation_link: config.domain + 'user/activate/' + user._id + '/' + user.activationCode
+            }
+            ejs.renderFile(path.join(req.app.get('views'), 'customer_activation.html'), data, {}, (err, html) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+
+                gmail.sendGmail('donotreply@do-cart.com', user.email, 'Aktivasi akun do-cart Anda', '', html, (err, data) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            })
+
+            res.status(201).json({ _id: user._id, token: token, fullname: user.name, email: user.email, active: user.active });
         })
         .catch(validationError(res));
 }
 
-/**
- * Get a single user
+/*
+ * Update a customer
+ * 
  */
-export function show(req, res, next) {
-    var userId = req.params.id;
-
-    return User.findById(userId, '_id name email role gender dob imageUrl').exec()
-        .then(user => {
-            if (!user) {
-                return res.status(404).end();
-            }
-            res.json(user);
-        })
-        .catch(err => next(err));
-}
-
-/**
- * Deletes a user
- * restriction: 'admin'
- */
-export function destroy(req, res) {
-    return User.findByIdAndRemove(req.params.id).exec()
-        .then(function (entity) {
-            res.status(204).end();
-        })
-        .catch(handleError(res));
-}
-
-/**
- * Change a users password
- */
-export function changePassword(req, res, next) {
-    var userId = req.user._id;
-    var oldPass = String(req.body.oldPassword);
-    var newPass = String(req.body.newPassword);
-
-    return User.findById(userId).exec()
-        .then(user => {
-            if (user.authenticate(oldPass)) {
-                user.password = newPass;
-                return user.save()
-                    .then(() => {
-                        res.status(204).end();
-                    })
-                    .catch(validationError(res));
-            } else {
-                return res.status(403).end();
-            }
-        });
-}
 
 export function update(req, res, next) {
-    var userId = req.params.id;//req.user._id;
-    var name = req.body.name;
+    var userId = req.params.id;
+    var name = req.body.fullname;
+    var oldPass = req.body.oldPassword;
     var newPass = req.body.newPassword;
     var newPassConfirm = req.body.newPasswordConfirm;
-    var oldPass = req.body.oldPassword;
     var imageUrl = null;
 
     if (req.body.password !== req.body.passwordConfirm) {
@@ -161,6 +148,8 @@ export function update(req, res, next) {
                 }
             }
             user.name = name;
+            user.gender = req.body.gender;
+            user.dob = req.body.dob;
 
             if (!oldPass && !newPass) {
                 return user.save()
@@ -188,61 +177,6 @@ export function update(req, res, next) {
                             .catch(validationError(res));
                     }
                 });
-            }
-
-        })
-        .catch(handleError(res));
-}
-
-
-/**
- * Get my info
- */
-export function me(req, res, next) {
-    var userId = req.user._id;
-
-    return User.findOne({ _id: userId }, '-salt -password').exec()
-        .then(user => { // don't ever give out the password or salt
-            if (!user) {
-                return res.status(401).end();
-            }
-            res.json(user);
-        })
-        .catch(err => next(err));
-}
-
-/**
- * Authentication callback
- */
-export function authCallback(req, res, next) {
-    res.redirect('/');
-}
-
-
-/*
- * Check User Activation
- */
-export function activation(req, res) {
-    if (!req.body.id) {
-        return res.send(400, { error: 'Bad request' });
-    }
-
-    return User.findById(req.body.id).exec()
-        .then(user => {
-            if (!user) {
-                res.send(400, { error: 'Invalid user, please register again with the correct informations!' });
-            }
-            else {
-                if (req.body.activationCode && req.body.activationCode === user.activationCode) {
-                    user.active = true;
-                    return user.save()
-                        .then((user) => {
-                            res.status(201).json({ active: user.active, role: user.role, redirect: config.website });
-                        })
-                        .catch(handleError(res));
-                }
-
-                res.status(201).json({ active: user.active });
             }
 
         })

@@ -26,12 +26,22 @@ var UserSchema = new Schema({
     type: String,
     required: true
   },
+  gender: {
+    type: String, 
+    default: 'male'
+  },
+  dob: { type: Date },
   provider: String,
   salt: String,
   imageUrl: String,
   supplier: { type: Schema.Types.ObjectId, ref: 'Supplier' },
   active: { type: Boolean, default: false },
   activationCode: { type: String, default: '' }
+})
+.index({
+    'name': 'text',
+    'email': 'text',
+    'role': 'text'
 });
 
 

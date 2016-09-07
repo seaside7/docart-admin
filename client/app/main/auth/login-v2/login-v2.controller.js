@@ -32,7 +32,7 @@
                 .catch(function(err) {
                     vm.loading = false;
                     vm.failed = true;
-                    vm.errorMessage = err.message;
+                    vm.errorMessage = err ? err.message : "";
                 })
         }
     }

@@ -10,14 +10,15 @@ import Category from '../api/category/category.model';
 import Product from '../api/product/product.model';
 import Supplier from '../api/supplier/supplier.model';
 
-User.find({}).remove()
+User.find({})
   .then(() => {
     User.create({
       provider: 'local',
       role: 'admin',
       name: 'Admin',
-      email: 'admin@docart.com',
-      password: 'admin123'
+      email: 'admin@do-cart.com',
+      password: 'admin123',
+      active: true
     })
       .then((user) => {
         console.log('seed: Finished populating users');

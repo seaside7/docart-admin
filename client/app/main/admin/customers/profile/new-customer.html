@@ -1,0 +1,119 @@
+<div id="users" class="page-layout simple tabbed" layout="column">
+
+    <!-- HEADER -->
+    <div class="header md-accent-bg" layout="row" layout-align="start center">
+        <div class="white-fg" layout="row" layout-align="start center" flex>
+            <md-button class="goto-products-button md-icon-button" aria-label="Go to users" ui-sref="app.customers" translate translate-attr-aria-label="USER.GO_TO_USERS">
+                <md-icon md-font-icon="icon-arrow-left"></md-icon>
+            </md-button>
+
+            <div layout="row" layout-align="start center">
+                <div layout="column" layout-align="start start" flex>
+                    <div class="h2"><span translate="CUSTOMER.NEW">New Customer</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <md-button class="md-raised md-background" ng-click="vm.newCustomer(vm.data)" ng-disabled="(dataForm.$invalid || dataForm.$pristine)">
+                <span translate="USER.SAVE">SAVE</span>
+            </md-button>
+        </div>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <md-tabs md-dynamic-height>
+
+            <md-tab>
+                <md-tab-label>
+                    <span translate="CUSTOMER.CREDENTIALS">Customer's Credentials</span>
+                </md-tab-label>
+
+                <md-tab-body>
+                    <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+                        <form name="dataForm">
+                            <md-input-container class="md-block">
+                                <label translate="USER.FULL_NAME">Full Name</label>
+                                <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
+                                <div ng-messages="dataForm.name.$error" ng-show="dataForm.name.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label translate="USER.EMAIL">Email</label>
+                                <input type="email" ng-model="vm.data.email" name="email" autocomplete="new-email" required>
+                                <div ng-messages="dataForm.email.$error" ng-show="dataForm.email.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label translate="USER.PASSWORD">Password</label>
+                                <input type="password" ng-model="vm.data.password" name="password" autocomplete="new-password" required>
+                                <div ng-messages="dataForm.password.$error" ng-show="dataForm.password.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <label translate="USER.PASSWORD_CONFIRMATION">Password Confirm</label>
+                                <input type="password" ng-model="vm.data.passwordConfirm" name="passwordConfirm" autocomplete="new-password" match="vm.data.password"
+                                    required>
+                                <div ng-messages="dataForm.passwordConfirm.$error" ng-show="dataForm.passwordConfirm.$error.match" role="alert">
+                                    <div ng-message="match">
+                                        <span translate="USER.ERRORS.PASSWORD_MISMATCH">Password mismatch</span>
+                                    </div>
+                                    <div ng-message="required">
+                                        <span translate="USER.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block">
+                                <md-radio-group layout="row" layout-align="start start" layout-wrap ng-model="vm.data.gender" ng-init="vm.data.gender = 'male'">
+                                    <md-radio-button value="male">Male</md-radio-button>
+                                    <md-radio-button value="female">Female</md-radio-button>
+                                </md-radio-group>
+                            </md-input-container>
+
+                            <div layout-gt-sm="row">
+                                <div flex-gt-sm class="date-picker-row">
+                                    <label translate="CUSTOMER.DOB">Date of birth</label>
+                                    <md-datepicker ng-model="vm.data.dob" name="dob" required></md-datepicker>
+                                    <div ng-messages="dataForm.dob.$error" style="margin-left: 55px" ng-show="dataForm.dob.$touched" role="alert">
+                                        <div ng-message="valid" style="font-size: 12px; color: red;">The entered value is not a date!</div>
+                                        <div ng-message="required" style="font-size: 12px; color: red;">Required</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="upload" layout="row" layout-align="space-between end" style="padding-top: 30px;">
+                                <div class="preview" ng-show="vm.data.file">
+                                    <img ngf-src="vm.data.file" width="100px" height="100px">
+                                </div>
+                                <label ng-show="vm.data.file" flex>{{vm.data.file.name}}</label>
+                                <label ng-show="!vm.data.file" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>
+                                <md-button class="md-accent md-raised" aria-label="Upload" ng-model="vm.data.file" accept="'image/*'" ngf-maxsize="15MB"
+                                    type="file" class="btn btn-primary" ngf-select="upload($file)">Upload Profile Photo</md-button>
+                            </div>
+                        </form>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+
+        </md-tabs>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

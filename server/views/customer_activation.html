@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <meta charset='utf-8'></meta>
+    <style>
+        body {
+            font-family: "Titallium Web", sans-serif, arial;
+            font-size: 16px;
+            color: #000;
+        }
+    </style>
+
+    <body>
+        <table width='100%' border='0' align='center' cellpadding='0' cellspacing='0' style="font-family: 'Titillium Web', sans-serif;">
+            <tr>
+                <td align='center' valign='top'>
+                    <h1> Selamat datang di
+                        <%= title %>
+                    </h1>
+                    <br> Halo <strong> <%= fullname %> </strong>
+                    <br> Akun Anda belum aktif. Silakan mengaktifkan akun Anda dengan mengklik tautan berikut:<br>
+                    <br>
+                    <a href='<%= activation_link %>'><%= activation_link %></a>
+                    <br><br>
+                </td>
+            </tr>
+        </table>
+    </body>
+
+</html>

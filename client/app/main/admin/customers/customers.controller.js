@@ -2,12 +2,11 @@
 
     'use strict';
 
-    function UsersController($http, $state, $mdDialog, $document, toastr, Upload, msNavigationService, Auth) {
+    function CustomersController($http, $state, $mdDialog, $document, toastr, Upload, msNavigationService, Auth) {
         var vm = this;
         var started = false;
 
         // Data
-        vm.Auth = Auth;
         vm.limitOptions = [5, 10, 25, 50, 100];
         vm.totalData = 0;
         vm.query = {
@@ -51,48 +50,44 @@
         function reloadData() {
             $http({
                 method: 'GET',
-                url: '/api/users',
+                url: '/api/users/customers',
                 params: { offset: (vm.query.page - 1) * vm.query.limit, limit: vm.query.limit, search: vm.query.search, sort: vm.query.sort }
             })
                 .then(function (response) {
                     console.log(response.data);
-                    vm.users = response.data.docs;
+                    vm.customers = response.data.docs;
                     vm.totalData = response.data.total;
                 })
         }
 
 
         /**
-         * Create Supplier
+         * Create Customer
          *
          */
         function createData() {
-            $state.go('app.new_user');
+            $state.go('app.new_customer');
         }
 
         /**
          * editData
          * 
-         * @param {Supplier} data
+         * @param {Customer} data
          */
         function editData(data) {
-            if (data.role === 'supplier') {
-                $state.go('app.supplier', { id: data._id });
-            }
-            else {
-                $state.go('app.user_profile', { id: data._id });
-            }
+            $state.go('app.customer_profile', { id: data._id });
         }
 
         /**
          * Delete data
          * 
-         * @param {Supplier} data
+         * @param {Customer} data
          */
         function deleteData(data) {
+            console.log(data);
             var confirm = $mdDialog.confirm()
                 .title('Delete')
-                .textContent('Are you sure you want to delete user ' + data.name + '?')
+                .textContent('Are you sure you want to delete customer ' + data.name + '?')
                 .ariaLabel('Delete')
                 .ok('Yes')
                 .cancel('No');
@@ -137,7 +132,7 @@
     }
 
     angular
-        .module('app.users')
-        .controller('UsersController', UsersController);
+        .module('app.customers')
+        .controller('CustomersController', CustomersController);
 
 })();

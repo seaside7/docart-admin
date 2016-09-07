@@ -11,17 +11,17 @@
         <div class="header" layout="row" layout-align="space-between center">
             <div class="white-fg" layout="column" layout-align="start start">
                 <div class="h1" layout="row" layout-align="start center">
-                    <md-icon md-font-icon="icon-truck"></md-icon>
-                    <span translate="USERS.USERS_NAV">Users</span>
+                    <md-icon md-font-icon="icon-account-circle"></md-icon>
+                    <span translate="CUSTOMERS.CUSTOMERS_NAV">Customers</span>
                 </div>
                 <div class="data-count secondary-text">
-                    <span translate="USERS.TOTAL_USERS">Total users: </span>
+                    <span translate="CUSTOMERS.TOTAL_CUSTOMERS">Total customers:</span>
                     <span>{{vm.totalData}}</span>
                 </div>
             </div>
 
             <div layout="row" layout-align="start start">
-                <md-button class="md-fab md-red-bg" aria-label="Add Supplier" ng-click="vm.createData()">
+                <md-button class="md-fab md-red-bg" aria-label="Add Customer" ng-click="vm.createData()">
                     <md-icon md-font-icon="icon-plus"></md-icon>
                 </md-button>
             </div>
@@ -39,7 +39,7 @@
 
                 <div class="search" layout="row" layout-align="start center">
                     <md-icon md-font-icon="icon-magnify" class="icon search-icon"></md-icon>
-                    <input id="user-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="USERS.SEARCH"
+                    <input id="e-commerce-supplier-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="EC.SEARCH"
                         flex>
                 </div>
             </div>
@@ -57,31 +57,28 @@
                                 <th md-column><span>Profile Photo</span></th>
                                 <th md-column md-order-by="name"><span>Name</span></th>
                                 <th md-column md-order-by="email"><span>Email</span></th>
-                                <th md-column md-order-by="role"><span>Role</span></th>
-                                <th md-column><span>Active</span></th>
+                                <th md-column md-order-by="active"><span>Active</span></th>
                                 <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
                                 </th>
                             </tr>
                         </thead>
                         <tbody md-body>
-                            <tr md-row ng-repeat="user in vm.users">
+                            <tr md-row ng-repeat="cust in vm.customers">
                                 <td md-cell>{{$index+1}}</td>
-                                <td md-cell><img class="product-image" ng-src="{{user.imageUrl}}"></td>
-                                <td md-cell>{{user.name}}</td>
-                                <td md-cell>{{user.email}}</td>
-                                <td md-cell>{{user.role | uppercase}}</td>
+                                <td md-cell><img class="product-image" ng-src="{{cust.imageUrl}}"></td>
+                                <td md-cell>{{cust.name}}</td>
+                                <td md-cell>{{cust.email}}</td>
                                 <td md-cell>
-                                    <i class="icon-checkbox-marked-circle green-500-fg" ng-show="user.active"></i>
-                                    <i class="icon-cancel grey-500-fg" ng-show="!user.active"></i>
+                                    <i class="icon-checkbox-marked-circle green-500-fg" ng-show="cust.active"></i>
+                                    <i class="icon-cancel grey-500-fg" ng-show="!cust.active"></i>
                                 </td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(user)" aria-label="Order details"
-                                            translate translate-attr-aria-label="USER.DETAILS">
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(cust)" aria-label="Order details"
+                                            translate translate-attr-aria-label="EC.CATEGORY_DETAILS">
                                             <md-icon md-font-icon="icon-dots-horizontal" class="s16"></md-icon>
                                         </md-button>
-                                        
-                                        <md-button ng-show="vm.Auth.getCurrentUserProfile().email !== user.email" class="edit-button md-icon-button" ng-click="vm.deleteData(user)" aria-label="Delete category" translate translate-attr-aria-label="USER.DELETE">
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(cust)" aria-label="Delete customer" translate translate-attr-aria-label="EC.CATEGORY_DELETE">
                                             <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
                                         </md-button>
                                     </div>

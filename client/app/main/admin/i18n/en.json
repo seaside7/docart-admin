@@ -23,5 +23,19 @@
             "REQUIRED": "Required",
             "PASSWORD_MISMATCH": "Password not match"
         }
+    },
+    "CUSTOMERS": {
+        "CUSTOMERS_NAV": "Customers",
+        "TOTAL_CUSTOMERS": "Total customers:"
+    },
+    "CUSTOMER": {
+        "NEW": "New Customer",
+        "CREDENTIALS": "Customer's Credentials",
+        "GENDER": "Gender",
+        "MALE": "Male",
+        "FEMALE": "Female",
+        "DOB": "Date Of Birth",
+        "PROFILE": "Customer's profile"
     }
+
 }

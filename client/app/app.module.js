@@ -41,6 +41,9 @@
             // eCommerce,
             'app.ecommerce',
 
+            // Customers,
+            'app.customers',
+            
             // Users
             'app.users'
         ]);

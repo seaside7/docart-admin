@@ -7,7 +7,7 @@
         .controller('ActivationController', ActivationController);
 
     /** @ngInject */
-    function ActivationController($state, $stateParams, $http)
+    function ActivationController($state, $stateParams, $http, $window)
     {
         var vm = this;
         var secretKey = $stateParams.id;
@@ -17,6 +17,7 @@
         vm.active = false;
         vm.loading = false;
         vm.description = `It’s not quite complete yet, you need to activate your account on your email. Please check your email and activate your account.`;
+        vm.redirectUrl = "#";
 
         // Methods
         vm.continueActivation = continueActivation;
@@ -46,6 +47,7 @@
             })
                 .then(response => {
                     vm.active = response.data ? response.data.active : false;
+                    vm.redirectUrl = response.data ? response.data.redirect : '#';
                     vm.loading = false;
                     if (vm.active) {
                         vm.description = `Congratulations, your account is active now. Don't forget to setup your profile!`;
@@ -59,7 +61,7 @@
         }
 
         function continueActivation() {
-            $state.go('app.loginV2');
+            $window.location.href = vm.redirectUrl;
         }
     }
 })();
