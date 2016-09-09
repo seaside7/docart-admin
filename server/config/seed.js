@@ -7,7 +7,7 @@
 
 import User from '../api/admin/user/user.model';
 import Category from '../api/category/category.model';
-import Product from '../api/product/product.model';
+import Product from '../api/admin/product/product.model';
 import Supplier from '../api/supplier/supplier.model';
 
 User.find({})

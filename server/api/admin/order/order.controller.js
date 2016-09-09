@@ -11,10 +11,11 @@
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import Order from './order.model';
-import shared from './../../config/environment/shared';
 import path from 'path';
 import fs from 'fs-extra';
+
+import Order from './order.model';
+import shared from './../../../config/environment/shared';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
