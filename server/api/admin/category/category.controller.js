@@ -10,13 +10,14 @@
 'use strict';
 
 import _ from 'lodash';
-import Category from './category.model';
-import shared from './../../config/environment/shared';
 import path from 'path';
 import fs from 'fs-extra';
-import config from '../../config/environment';
-import s3 from './../../components/s3bucket';
 import appRoot from 'app-root-path';
+
+import Category from './category.model';
+import shared from './../../../config/environment/shared';
+import config from './../../../config/environment';
+import s3 from './../../../components/s3bucket';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;

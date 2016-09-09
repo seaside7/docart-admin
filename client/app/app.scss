@@ -15,8 +15,8 @@
  */
 // injector
 @import 'client/app/core/scss/global';
-@import 'client/app/core/directives/ms-card/templates/template-1/template-1';
 @import 'client/app/core/directives/ms-card/templates/template-10/template-10';
+@import 'client/app/core/directives/ms-card/templates/template-1/template-1';
 @import 'client/app/core/directives/ms-card/templates/template-2/template-2';
 @import 'client/app/core/directives/ms-card/templates/template-3/template-3';
 @import 'client/app/core/directives/ms-card/templates/template-4/template-4';
@@ -43,8 +43,8 @@
 @import 'client/app/core/directives/ms-stepper/ms-stepper';
 @import 'client/app/core/directives/ms-timeline/ms-timeline';
 @import 'client/app/core/directives/ms-widget/ms-widget';
-@import 'client/app/quick-panel/quick-panel';
 @import 'client/app/toolbar/toolbar';
+@import 'client/app/quick-panel/quick-panel';
 @import 'client/app/main/dashboard/dashboard';
 @import 'client/app/main/ecommerce/ecommerce';
 @import 'client/app/main/admin/customers/customers';
@@ -57,17 +57,17 @@
 @import 'client/app/main/auth/register/register';
 @import 'client/app/main/auth/register-v2/register-v2';
 @import 'client/app/main/auth/reset-password/reset-password';
+@import 'client/app/toolbar/layouts/content-with-toolbar/toolbar';
+@import 'client/app/toolbar/layouts/horizontal-navigation/toolbar';
+@import 'client/app/toolbar/layouts/vertical-navigation-fullwidth-toolbar-2/toolbar';
 @import 'client/app/navigation/layouts/horizontal-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation/navigation';
 @import 'client/app/navigation/layouts/vertical-navigation-fullwidth-toolbar-2/navigation';
 @import 'client/app/quick-panel/tabs/activity/activity-tab';
 @import 'client/app/quick-panel/tabs/chat/chat-tab';
 @import 'client/app/quick-panel/tabs/today/today-tab';
-@import 'client/app/toolbar/layouts/content-with-toolbar/toolbar';
-@import 'client/app/toolbar/layouts/horizontal-navigation/toolbar';
-@import 'client/app/toolbar/layouts/vertical-navigation-fullwidth-toolbar-2/toolbar';
-@import 'client/app/main/ecommerce/views/categories/categories';
 @import 'client/app/main/ecommerce/views/categories.sub/sub.categories';
+@import 'client/app/main/ecommerce/views/categories/categories';
 @import 'client/app/main/ecommerce/views/products/products';
 @import 'client/app/main/ecommerce/views/categories/dialogs/category-form-dialog';
 // endinjector

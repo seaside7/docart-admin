@@ -11,14 +11,15 @@
 
 import _ from 'lodash';
 import Product from './product.model';
-import Category from './../category/category.model';
-import shared from './../../config/environment/shared';
 import path from 'path';
 import fs from 'fs-extra';
 import mongoose from 'mongoose';
-import config from '../../config/environment';
-import s3 from './../../components/s3bucket';
 import appRoot from 'app-root-path';
+
+import Category from './../category/category.model';
+import shared from './../../../config/environment/shared';
+import config from './../../../config/environment';
+import s3 from './../../../components/s3bucket';
 
 
 function respondWithResult(res, statusCode) {

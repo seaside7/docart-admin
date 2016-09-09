@@ -4,10 +4,11 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 var slugs = require('mongoose-url-slugs');
 var mongoosePaginate = require('mongoose-paginate');
-var config = require('../../config/environment');
-import s3 from './../../components/s3bucket';
 import appRoot from 'app-root-path';
 import path from 'path';
+
+import config from './../../../config/environment';
+import s3 from './../../../components/s3bucket';
 
 var CategorySchema = new Schema({
   name: { type: String, required: true },

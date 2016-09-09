@@ -2,7 +2,7 @@
 
 var express = require('express');
 var controller = require('./category.controller');
-var auth = require('./../../auth/auth.service');
+var auth = require('./../../../auth/auth.service');
 
 var router = express.Router();
 

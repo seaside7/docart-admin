@@ -11,9 +11,10 @@
 
 import _ from 'lodash';
 import User from './../admin/user/user.model';
-import Product from './../product/product.model';
+import Category from './../admin/category/category.model';
+import Product from './../admin/product/product.model';
+
 import Order from './../order/order.model';
-import Category from './../category/category.model';
 import Supplier from './../supplier/supplier.model';
 
 function respondWithResult(res, statusCode) {
