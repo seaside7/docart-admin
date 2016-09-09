@@ -10,8 +10,8 @@ import path from 'path';
 export default function(app) {
   // Insert routes below
   app.use('/api/dashboards', require('./api/dashboard'));
-  app.use('/api/suppliers', require('./api/supplier'));
   
+  app.use('/api/suppliers', require('./api/admin/supplier'));
   app.use('/api/orders', require('./api/admin/order'));
   app.use('/api/categories', require('./api/admin/category'));
   app.use('/api/products', require('./api/admin/product'));

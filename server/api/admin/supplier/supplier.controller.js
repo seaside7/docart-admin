@@ -10,20 +10,21 @@
 'use strict';
 
 import _ from 'lodash';
-import Supplier from './supplier.model';
-import User from './../admin/user/user.model';
-import Product from './../admin/product/product.model';
-import shared from './../../config/environment/shared';
-import config from './../../config/environment';
-import s3 from './../../components/s3bucket';
 import path from 'path';
 import fs from 'fs-extra';
 import appRoot from 'app-root-path';
 import sha256 from 'sha256';
 import moment from 'moment';
-import gmail from './../../components/gmail';
 import ejs from 'ejs';
 
+import Supplier from './supplier.model';
+import User from './../user/user.model';
+import Product from './../product/product.model';
+
+import shared from './../../../config/environment/shared';
+import config from './../../../config/environment';
+import s3 from './../../../components/s3bucket';
+import gmail from './../../../components/gmail';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;

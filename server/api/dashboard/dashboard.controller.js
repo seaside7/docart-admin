@@ -15,7 +15,7 @@ import Category from './../admin/category/category.model';
 import Product from './../admin/product/product.model';
 
 import Order from './../admin/order/order.model';
-import Supplier from './../supplier/supplier.model';
+import Supplier from './../admin/supplier/supplier.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;

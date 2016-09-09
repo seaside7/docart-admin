@@ -2,7 +2,7 @@
 
 var express = require('express');
 var controller = require('./supplier.controller');
-var gmail = require('./../../components/gmail');
+var gmail = require('./../../../components/gmail');
 
 var router = express.Router();
 
