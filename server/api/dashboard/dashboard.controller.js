@@ -10,7 +10,7 @@
 'use strict';
 
 import _ from 'lodash';
-import User from './../user/user.model';
+import User from './../admin/user/user.model';
 import Product from './../product/product.model';
 import Order from './../order/order.model';
 import Category from './../category/category.model';

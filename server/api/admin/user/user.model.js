@@ -2,14 +2,15 @@
 
 import crypto from 'crypto';
 import mongoose from 'mongoose';
-mongoose.Promise = require('bluebird');
 import {Schema} from 'mongoose';
-var mongoosePaginate = require('mongoose-paginate');
-var config = require('../../config/environment');
-import s3 from './../../components/s3bucket';
 import appRoot from 'app-root-path';
 import path from 'path';
 
+mongoose.Promise = require('bluebird');
+var mongoosePaginate = require('mongoose-paginate');
+
+import config from '../../../config/environment';
+import s3 from './../../../components/s3bucket';
 
 var UserSchema = new Schema({
   name: String,

@@ -1,6 +1,5 @@
 'use strict';
 
-import app from '../..';
 import User from './user.model';
 var user;
 var genUser = function() {

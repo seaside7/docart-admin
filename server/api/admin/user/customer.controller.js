@@ -2,17 +2,17 @@
 
 import User from './user.model';
 import passport from 'passport';
-import config from '../../config/environment';
+import config from '../../../config/environment';
 import jwt from 'jsonwebtoken';
-import shared from './../../config/environment/shared';
+import shared from './../../../config/environment/shared';
 import path from 'path';
 import fs from 'fs-extra';
-import s3 from './../../components/s3bucket';
+import s3 from './../../../components/s3bucket';
 import appRoot from 'app-root-path';
 import moment from 'moment';
 import sha256 from 'sha256';
 import ejs from 'ejs';
-import gmail from './../../components/gmail';
+import gmail from './../../../components/gmail';
 
 function validationError(res, statusCode) {
     statusCode = statusCode || 422;

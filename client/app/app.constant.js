@@ -7,14 +7,16 @@
 		"customer",
 		"supplier",
 		"user",
-		"admin"
+		"admin",
+		"agent"
 	],
 	"userRole": {
 		"guest": "guest",
 		"customer": "customer",
 		"supplier": "supplier",
 		"user": "user",
-		"admin": "admin"
+		"admin": "admin",
+		"agent": "agent"
 	},
 	"productUnits": [
 		"Gram",

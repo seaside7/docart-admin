@@ -11,7 +11,7 @@
 
 import _ from 'lodash';
 import Supplier from './supplier.model';
-import User from './../user/user.model';
+import User from './../admin/user/user.model';
 import Product from './../product/product.model';
 import shared from './../../config/environment/shared';
 import config from './../../config/environment';
