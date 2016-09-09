@@ -9,8 +9,14 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
-  
+
+  // Client endpoints
+  app.use('/api/v1/customers', require('./api/client/customer'));
+  app.use('/api/v1/carts', require('./api/client/cart'));
+
+  // Admin Endpoints
   app.use('/api/dashboards', require('./api/admin/dashboard'));
+  app.use('/api/carts', require('./api/admin/cart'));
   app.use('/api/suppliers', require('./api/admin/supplier'));
   app.use('/api/orders', require('./api/admin/order'));
   app.use('/api/categories', require('./api/admin/category'));

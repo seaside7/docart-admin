@@ -6,10 +6,7 @@ var controller = require('./customer.controller');
 var router = express.Router();
 
 router.get('/', controller.index);
-router.get('/:id', controller.show);
 router.post('/', controller.create);
-router.put('/:id', controller.upsert);
-router.patch('/:id', controller.patch);
-router.delete('/:id', controller.destroy);
+router.put('/:id', controller.update);
 
 module.exports = router;

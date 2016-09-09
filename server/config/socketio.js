@@ -17,6 +17,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+  require('../api/cart/cart.socket').register(socket);
 }
 
 export default function(socketio) {

@@ -1,17 +1,17 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/v1/carts              ->  index
- * POST    /api/v1/carts              ->  create
- * GET     /api/v1/carts/:id          ->  show
- * PUT     /api/v1/carts/:id          ->  upsert
- * PATCH   /api/v1/carts/:id          ->  patch
- * DELETE  /api/v1/carts/:id          ->  destroy
+ * GET     /api/carts              ->  index
+ * POST    /api/carts              ->  create
+ * GET     /api/carts/:id          ->  show
+ * PUT     /api/carts/:id          ->  upsert
+ * PATCH   /api/carts/:id          ->  patch
+ * DELETE  /api/carts/:id          ->  destroy
  */
 
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import Cart from './../../admin/cart/cart.model';
+import Cart from './cart.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
