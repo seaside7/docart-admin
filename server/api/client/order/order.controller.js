@@ -1,17 +1,17 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/v1/carts              ->  index
- * POST    /api/v1/carts              ->  create
- * GET     /api/v1/carts/:id          ->  show
- * PUT     /api/v1/carts/:id          ->  upsert
- * PATCH   /api/v1/carts/:id          ->  patch
- * DELETE  /api/v1/carts/:id          ->  destroy
+ * GET     /api/v1/orders              ->  index
+ * POST    /api/v1/orders              ->  create
+ * GET     /api/v1/orders/:id          ->  show
+ * PUT     /api/v1/orders/:id          ->  upsert
+ * PATCH   /api/v1/orders/:id          ->  patch
+ * DELETE  /api/v1/orders/:id          ->  destroy
  */
 
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import Cart from './../../admin/cart/cart.model';
+import Order from './../../admin/order/order.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -62,38 +62,31 @@ function handleError(res, statusCode) {
   };
 }
 
+// Gets a list of Orders
+export function index(req, res) {
+  return Order.find().exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
 
-// Gets a single Cart from the DB
+// Gets a single Order from the DB
 export function show(req, res) {
-  return Cart.findById(req.params.id).exec()
+  return Order.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Creates a new Cart in the DB
+// Creates a new Order in the DB
 export function create(req, res) {
-  
-  return Cart.create(req.body)
+  return Order.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Updates an existing Cart in the DB
-export function patch(req, res) {
-  if(req.body._id) {
-    delete req.body._id;
-  }
-  return Cart.findById(req.params.id).exec()
-    .then(handleEntityNotFound(res))
-    .then(patchUpdates(req.body))
-    .then(respondWithResult(res))
-    .catch(handleError(res));
-}
-
-// Deletes a Cart from the DB
+// Deletes a Order from the DB
 export function destroy(req, res) {
-  return Cart.findById(req.params.id).exec()
+  return Order.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

@@ -9,6 +9,8 @@ import config from './../../../config/environment';
 import s3 from './../../../components/s3bucket';
 
 var SupplierSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  name: String,
   logoUrl: String,
   address: String,
   phone: String,

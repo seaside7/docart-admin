@@ -97,7 +97,7 @@ function handleError(res, statusCode) {
 export function index(req, res) {
     var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") }, 'role': 'supplier' } : { 'role': 'supplier' };
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
-    options.select = '_id name email role imageUrl supplier';
+    //options.select = '_id name email role imageUrl supplier';
     options.populate = 'supplier';
     options.sort = req.query.sort;
 
@@ -149,6 +149,7 @@ export function create(req, res) {
 
     return User.create(user)
         .then((user) => {
+            req.body.user = user;
             return user.addSupplier(req.body)
                 .then(supplier => {
 
@@ -220,6 +221,7 @@ export function update(req, res) {
                         delete req.body.logistics;
                         
                         var supplier = _.merge(updatedUser.supplier, req.body);
+                        supplier.user = updatedUser._id;
                         supplier.save()
                             .then((updatedSupplier) => {
                                 updatedUser.supplier = updatedSupplier;
@@ -239,6 +241,7 @@ export function update(req, res) {
                     return updatedUser.save()
                         .then((updatedUser) => {
                             var supplier = _.merge(updatedUser.supplier, req.body);
+                            supplier.user = updatedUser._id;
                             supplier.save()
                                 .then((updatedSupplier) => {
                                     updatedUser.supplier = updatedSupplier;

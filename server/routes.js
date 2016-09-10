@@ -16,6 +16,7 @@ export default function(app) {
   app.use('/api/v1/carts', require('./api/client/cart'));
   app.use('/api/v1/categories', require('./api/client/category'));
   app.use('/api/v1/suppliers', require('./api/client/supplier'));
+  app.use('/api/v1/orders', require('./api/client/order'));
   
   // Admin Endpoints
   app.use('/api/dashboards', require('./api/admin/dashboard'));

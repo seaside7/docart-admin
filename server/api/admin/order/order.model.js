@@ -20,12 +20,16 @@ var OrderSchema = new Schema({
     items: { type: Number, default: 0 }
   }],
   address: {
+    receiverName: String,
+    phone: String,
     address1: String,
     address2: String,
     city: String,
+    district: String, 
     state: String,
     zip: Number
   },
+  logistic: { type: String },
   status: {
     type: String,
     enum: ['delivered', 'not delivered', 'cancelled', 'on process', 'paid'],
