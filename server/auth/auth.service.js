@@ -1,11 +1,12 @@
 'use strict';
 
 import passport from 'passport';
-import config from '../config/environment';
 import jwt from 'jsonwebtoken';
 import expressJwt from 'express-jwt';
 import compose from 'composable-middleware';
 import User from '../api/admin/user/user.model';
+import config from '../config/environment';
+import shared from '../config/environment/shared';
 
 var validateJwt = expressJwt({
   secret: config.secrets.session
@@ -15,7 +16,7 @@ var validateJwt = expressJwt({
  * Attaches the user object to the request if authenticated
  * Otherwise returns 403
  */
-export function isAuthenticated() {
+export function isAuthenticated(role) {
   return compose()
     // Validate jwt
     .use(function(req, res, next) {
@@ -31,6 +32,11 @@ export function isAuthenticated() {
         .then(user => {
           if (!user) {
             return res.status(401).end();
+          }
+          if (role) {
+            if (user.role !== role) {
+              return res.status(401).send('Access denied!');
+            }
           }
           req.user = user;
           next();

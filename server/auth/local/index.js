@@ -28,7 +28,7 @@ router.post('/', function(req, res, next) {
   })(req, res, next)
 });
 
-router.post('/user', function(req, res, next) {
+router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     var error = err || info;
     if (error) {

@@ -56,62 +56,6 @@ export function index(req, res) {
         .catch(handleError(res));
 }
 
-/**
- * Creates a new user
- */
-export function create(req, res, next) {
-
-    if (!req.body && (!req.body.fullname || !req.body.phone || !req.body.email || !req.body.password || !req.body.passwordConfirm || !req.gender || !req.dob)) {
-        console.log(req.body);
-        return handleError(res, 400)(new Error('Bad request'));
-    }
-
-    var newUser = new User(req.body);
-
-    if (req.body.password !== req.body.passwordConfirm) {
-        return handleError(res, 403)(new Error('Password mismatch'));
-    }
-
-    if (req.files && req.files.file) {
-        if (req.files.file.length > 0) {
-            newUser.imageUrl = req.files.file[0].key;
-        }
-    }
-
-    newUser.provider = 'local';
-    newUser.name = req.body.fullname;
-    newUser.role = 'customer';
-    newUser.active = false;
-    newUser.activationCode = sha256(req.body.fullname + req.body.email + req.body.password + moment().format('DD-MM-YYYY HH:mm:ss'));
-
-    newUser.save()
-        .then(function (user) {
-            var token = jwt.sign({ _id: user._id }, config.secrets.session, {
-                expiresIn: 60 * 60 * 5
-            });
-
-            var data = {
-                title: 'do-cart.com',
-                fullname: user.name,
-                activation_link: config.domain + 'user/activate/' + user._id + '/' + user.activationCode
-            }
-            ejs.renderFile(path.join(req.app.get('views'), 'customer_activation.html'), data, {}, (err, html) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-
-                gmail.sendGmail('donotreply@do-cart.com', user.email, 'Aktivasi akun do-cart Anda', '', html, (err, data) => {
-                    if (err) {
-                        console.error(err);
-                    }
-                });
-            })
-
-            res.status(201).json({ _id: user._id, token: token, fullname: user.name, email: user.email, active: user.active });
-        })
-        .catch(validationError(res));
-}
 
 /*
  * Update a customer

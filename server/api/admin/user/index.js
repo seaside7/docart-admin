@@ -8,9 +8,8 @@ import * as customer from './customer.controller';
 var router = new Router();
 
 // Customer
-router.get('/customers', customer.index);
-router.post('/customers', customer.create);
-router.put('/customers/:id', customer.update);
+router.get('/customers', auth.isAuthenticated(), customer.index);
+router.put('/customers/:id', auth.isAuthenticated(), customer.update);
 
 router.get('/', auth.hasRole('admin'), controller.index);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
