@@ -14,7 +14,7 @@ import jsonpatch from 'fast-json-patch';
 import mongoose from 'mongoose';
 import Product from './../../admin/product/product.model';
 
-var ObjectId = mongoose.Types.ObjectId;
+var ObjectId = mongoose.Types.ObjectId
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -137,12 +137,12 @@ export function indexSupplier(req, res) {
     }
 
     var query = req.query.search ? 
-        { 'name': { $regex: new RegExp(req.query.search, "i") }, 'owner': new ObjectId(supplierId) } : 
+        { 'owner' : new ObjectId(supplierId), 'name': { $regex: new RegExp(req.query.search, "i") } } : //, 
         { 'owner' : new ObjectId(supplierId) };
         
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
     //options.select = '_id name categories price discount finalPrice stock unit rank published imageUrl owner minOrder';
-    options.populate = 'owner categories category';
+    options.populate = 'categories category';
     options.sort = req.query.sort;
 
     return Product.paginate(query, options)
