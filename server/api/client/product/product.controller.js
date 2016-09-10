@@ -68,7 +68,9 @@ function handleError(res, statusCode) {
 
 // Gets a list of Products
 export function index(req, res) {
-    var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") } } : {};
+    var query = req.query.search ? 
+        { published: true, 'name': { $regex: new RegExp(req.query.search, "i") } } : 
+        { published: true };
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
     //options.select = '_id name categories price discount finalPrice stock unit rank published imageUrl owner minOrder';
     options.populate = 'owner categories category';
@@ -87,7 +89,7 @@ export function indexHome(req, res) {
     }
 
     function getBestRankProducts() {
-        return Product.paginate({}, { offset: 0, limit: 15, sort: '-rank' })
+        return Product.paginate({published: true}, { offset: 0, limit: 15, sort: '-rank' })
             .then(entity => {
                 return handleResult(entity.docs);
             })
@@ -95,7 +97,7 @@ export function indexHome(req, res) {
     }
 
     function getFeaturedProducts() {
-        return Product.paginate({ featured: true }, { offset: 0, limit: 15, sort: '-finalPrice' })
+        return Product.paginate({ featured: true, published: true }, { offset: 0, limit: 15, sort: '-finalPrice' })
             .then(entity => {
                 return handleResult(entity.docs);
             })
@@ -129,7 +131,7 @@ export function indexHome(req, res) {
         })
 }
 
-
+// Get products for certain supplier
 export function indexSupplier(req, res) {
     var supplierId = req.params.id;
     if (!supplierId) {
@@ -137,8 +139,8 @@ export function indexSupplier(req, res) {
     }
 
     var query = req.query.search ? 
-        { 'owner' : new ObjectId(supplierId), 'name': { $regex: new RegExp(req.query.search, "i") } } : //, 
-        { 'owner' : new ObjectId(supplierId) };
+        { 'owner' : new ObjectId(supplierId), 'name': { $regex: new RegExp(req.query.search, "i") }, published: true } : //, 
+        { 'owner' : new ObjectId(supplierId), published: true };
         
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
     //options.select = '_id name categories price discount finalPrice stock unit rank published imageUrl owner minOrder';
@@ -149,6 +151,28 @@ export function indexSupplier(req, res) {
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
+
+// Get products for a certain category
+export function indexCategory(req, res) {
+    var categoryId = req.params.id;
+    if (!categoryId) {
+        return res.status(400).send("Bad request");
+    }
+
+    var query = req.query.search ? 
+        { 'category' : new ObjectId(categoryId), 'name': { $regex: new RegExp(req.query.search, "i") }, published: true } : //, 
+        { 'category' : new ObjectId(categoryId), published: true };
+        
+    var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
+    //options.select = '_id name categories price discount finalPrice stock unit rank published imageUrl owner minOrder';
+    options.populate = 'category';
+    options.sort = req.query.sort;
+
+    return Product.paginate(query, options)
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 
 // Gets a single Product from the DB
 export function show(req, res) {
