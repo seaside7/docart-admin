@@ -163,7 +163,8 @@ export function update(req, res) {
 
     var body = {
         name: req.body.name,
-        active: req.body.active
+        active: req.body.active,
+        fee: req.body.fee || 0
     };
 
     return Category.findById(req.params.id).exec()

@@ -3,7 +3,7 @@
     'use strict';
 
     /** @ngInject */
-    function MainController($scope, $rootScope)
+    function MainController($scope, $rootScope, $http)
     {
         // Data
 

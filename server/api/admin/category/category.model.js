@@ -16,7 +16,8 @@ var CategorySchema = new Schema({
   parent: { type: Schema.Types.ObjectId, ref: 'Category' },
   ancestors: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
   children: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
-  imageUrl: String
+  imageUrl: String,
+  fee: { type: Number, min: 0, default: 0 }
 }).index({
     'name': 'text'
 });

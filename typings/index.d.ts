@@ -9,3 +9,4 @@
 /// <reference path="globals/multiparty/index.d.ts" />
 /// <reference path="globals/ng-file-upload/index.d.ts" />
 /// <reference path="globals/nodemailer/index.d.ts" />
+/// <reference path="globals/random-js/index.d.ts" />

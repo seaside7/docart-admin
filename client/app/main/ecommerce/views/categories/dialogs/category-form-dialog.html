@@ -21,6 +21,12 @@
                 </div>
             </md-input-container>
 
+            <md-input-container class="md-block" flex-gt-sm>
+                <label translate="EC.FEE">Fee</label>
+                <md-icon md-font-icon="icon icon-percent"></md-icon>
+                <input type="text" ng-model="vm.data.fee" ng-init="vm.data.fee = 0">
+            </md-input-container>
+
             <div class="upload" layout="row" layout-align="space-between end">
                 <label ng-show="vm.data.file" flex>{{vm.data.file.name}}</label>
                 <label ng-show="!vm.data.file" flex class="subtitle grey-fg">Leave this blank if you don't want to update image</label>

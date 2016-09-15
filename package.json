@@ -39,6 +39,7 @@
     "passport": "~0.3.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
+    "random-js": "^1.0.8",
     "serve-favicon": "^2.3.0",
     "sha1": "^1.1.1",
     "sha256": "^0.2.0",

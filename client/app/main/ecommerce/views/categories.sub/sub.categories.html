@@ -65,6 +65,7 @@
                             <tr md-row>
                                 <th md-column><span>No</span></th>
                                 <th md-column md-order-by="name"><span flex>Name</span></th>
+                                <th md-column md-order-by="fee" md-numeric><span>Fee (%)</span></th>
                                 <th md-column><span>Image</span></th>
                                 <th md-column><span>Active</span></th>
                                 <th md-column>
@@ -77,6 +78,7 @@
                             <tr md-row ng-repeat="category in vm.categories">
                                 <td md-cell>{{$index+1}}</td>
                                 <td md-cell>{{category.name}}</td>
+                                <td md-cell>{{category.fee}} %</td>
                                 <td md-cell><img class="product-image" ng-src="{{category.imageUrl}}"></td>
                                 <td md-cell><i class="icon-checkbox-marked-circle green-500-fg" ng-show="category.active"></i><i class="icon-cancel red-500-fg"
                                         ng-show="!category.active"></i></td>

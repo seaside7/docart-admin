@@ -10,6 +10,7 @@
     "multer-s3": "registry:dt/multer-s3#0.0.0+20160829142114",
     "multiparty": "registry:dt/multiparty#0.0.0+20160316155526",
     "ng-file-upload": "registry:dt/ng-file-upload#0.0.0+20160317120654",
-    "nodemailer": "registry:dt/nodemailer#1.3.2+20160811111312"
+    "nodemailer": "registry:dt/nodemailer#1.3.2+20160811111312",
+    "random-js": "registry:dt/random-js#1.0.8+20160316171810"
   }
 }

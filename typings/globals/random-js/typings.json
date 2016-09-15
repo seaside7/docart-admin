@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/14fe4313f4a1cf69add3505a2ab1dbc690dc2116/random-js/random-js.d.ts",
+    "raw": "registry:dt/random-js#1.0.8+20160316171810",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/14fe4313f4a1cf69add3505a2ab1dbc690dc2116/random-js/random-js.d.ts"
+  }
+}

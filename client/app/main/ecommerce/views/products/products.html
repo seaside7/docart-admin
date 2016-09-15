@@ -57,12 +57,12 @@
                                 <th md-column><span>Image</span></th>
                                 <th md-column md-order-by="name"><span>Name</span></th>
                                 <th md-column md-order-by="category"><span>Category</span></th>
-                                <th md-column md-numeric><span>Price</span></th>
-                                <th md-column md-numeric><span>Discount</span></th>
+                                <th md-column md-order-by="price" md-numeric><span>Price</span></th>
+                                <th md-column md-order-by="discount" md-numeric><span>Discount</span></th>
                                 <th md-column md-numeric><span>Final Price</span></th>
                                 <th md-column >Owner</th>
-                                <th md-column md-numeric><span>Quantity</span></th>
-                                <th md-column md-order-by="unit"><span>Unit</span></th>
+                                <th md-column md-order-by="stock" md-numeric><span>Quantity</span></th>
+                                <th md-column md-order-by="fee"><span>Fee (%)</span></th>
                                 <th md-column md-numeric md-order-by="rank"><span>Rank</span></th>
                                 <th md-column><span layout="row" layout-align="center center">Published</span></th>
                                 <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
@@ -80,7 +80,7 @@
                                 <td md-cell>{{product.finalPrice | currency:'IDR '}}</td>
                                 <td md-cell>{{product.owner.name}}</td>
                                 <td md-cell>{{product.stock}}</td>
-                                <td md-cell>{{product.unit}}</td>
+                                <td md-cell>{{product.category ? product.category.fee : 0}} %</td>
                                 <td md-cell>{{product.rank}}</td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">
