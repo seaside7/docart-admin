@@ -280,6 +280,12 @@
                                     <label translate="EC.SEND_TIME">Send Time</label>
                                     <input type="text" ng-model="log.sendTime">
                                 </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.COST">Cost</label>
+                                    <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
+                                    <input type="number" ng-model="log.cost" min=0>
+                                </md-input-container>
                                 
                                 <md-input-container class="md-block" glex-gt-sm>
                                     <md-button class="md-warn md-raised md-fab md-mini" 

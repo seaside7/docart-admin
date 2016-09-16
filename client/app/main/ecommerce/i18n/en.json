@@ -40,6 +40,7 @@
         "COURIER_ADD": "Add Courier",
         "SHIPPING_TIME": "Shipping Time (eg: 2 days)",
         "SEND_TIME": "Send Time (eg: 10am)",
+        "COST": "Cost",
 
         "CATEGORY_EDIT": "Edit Category",
         "CATEGORY_DETAILS": "Category Details",

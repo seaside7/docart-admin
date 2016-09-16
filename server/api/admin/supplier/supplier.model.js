@@ -27,7 +27,8 @@ var SupplierSchema = new mongoose.Schema({
   logistics: [{  
     courier: { type: String, default: '' },
     shippingTime: { type: String, default: '' },
-    sendTime: { type: String, default: '' }
+    sendTime: { type: String, default: '' },
+    cost: { type: Number, default: 0, min: 0 }
   }]
 });
 
