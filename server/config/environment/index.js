@@ -52,6 +52,8 @@ var all = {
     password: 'D0cart2016',  
   },
 
+  adminMail: "info@do-cart.com",
+
   GmailApi: {
     user: 'info@do-cart.com',
     clientId: '1046017579432-ujfbc7utodcq110i3qsbv43tsh73gsf6.apps.googleusercontent.com',

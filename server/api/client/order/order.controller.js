@@ -17,6 +17,7 @@ import async from 'async';
 import path from 'path';
 
 import gmail from './../../../components/gmail';
+import config from './../../../config/environment'; 
 
 import Order from './../../admin/order/order.model';
 import Product from './../../admin/product/product.model';
@@ -233,7 +234,7 @@ export function confirm(req, res) {
 
                 gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan konfirmasi pembayaran', path.join(req.app.get('views')), 'order_confirmed.html', confirmedData, (err, data, html) => {
                     
-                    gmail.sendHtmlMail('syuaibi@gmail.com', 'Customer melakukan konfirmasi pembayaran', path.join(req.app.get('views')), 'order_admin_confirmed.html', confirmedData, (err, data, html) => {
+                    gmail.sendHtmlMail(config.adminMail, 'Customer melakukan konfirmasi pembayaran', path.join(req.app.get('views')), 'order_admin_confirmed.html', confirmedData, (err, data, html) => {
                         res.json({status: "OK", message: "Your order has been confirmed"});    
                     });
 
