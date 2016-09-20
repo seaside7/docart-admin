@@ -8,6 +8,7 @@ import * as auth from '../../../auth/auth.service';
 
 var router = express.Router();
 
+router.get('/', auth.isAuthenticated(config.userRole.customer), controller.index); 
 router.post('/checkout', auth.isAuthenticated(config.userRole.customer), controller.checkout);
 
 module.exports = router;

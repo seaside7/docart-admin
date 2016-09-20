@@ -98,6 +98,16 @@ function getCarts(req, res, cb) {
         .catch(handleError(res));
 }
 
+export function index(req, res) {
+    return Order.find({customer: req.user._id})
+        .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+        .populate('products.product')
+        .populate({ path: "customer", select: "name email imageUrl gender" })
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+}
+
 // Checkout order
 export function checkout(req, res) {
 
