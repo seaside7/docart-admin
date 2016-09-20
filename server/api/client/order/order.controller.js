@@ -208,3 +208,49 @@ export function checkout(req, res) {
         });
     })
 }
+
+export function confirm(req, res) {
+
+    function updateOrderStatus(orders) {
+        return Order.update({customer: req.user._id, status: 'on process', transferId: req.body.transferId}, { status: 'transferred' })
+            .then(updatedOrder => {
+                
+                if (updatedOrder.ok === 1 && updatedOrder.nModified === 0) {
+                    res.status(404).json({status: "ERROR", message: "No order found"});
+                    return null;
+                }
+
+                var total = 0;
+                if (orders.length > 0) {
+                    total = orders[0].transferId;
+                }
+
+                var confirmedData = {
+                    fullname: req.user.name,
+                    orders: orders,
+                    total: total
+                }
+
+                gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan konfirmasi pembayaran', path.join(req.app.get('views')), 'order_confirmed.html', confirmedData, (err, data, html) => {
+                    
+                    gmail.sendHtmlMail('syuaibi@gmail.com', 'Customer melakukan konfirmasi pembayaran', path.join(req.app.get('views')), 'order_admin_confirmed.html', confirmedData, (err, data, html) => {
+                        res.json({status: "OK", message: "Your order has been confirmed"});    
+                    });
+
+                });
+
+                return null;
+            })
+            .catch(handleError(res));
+    }
+
+    return Order.find({customer: req.user._id, transferId: req.body.transferId})
+        .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+        .populate('products.product') 
+        .populate({ path: "customer", select: "name email imageUrl gender" })
+        .exec()
+        .then(orders => { 
+            return updateOrderStatus(orders);
+        })
+        .catch(handleError(res));
+} 

@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <meta charset='utf-8'></meta>
+    <style>
+        body {
+            font-family: "Titallium Web", sans-serif, arial;
+            font-size: 16px;
+            color: #000;
+        }
+    </style>
+
+    <body>
+        <br> User <strong> <%= fullname %> </strong>
+        <br>
+        <br> Telah melakukan konfirmasi pembayaran untuk order :<br>
+        <br>
+        <% for (var i=0; i < orders.length; i++) { var order = orders[i] %>
+        <div>
+            <span>
+                Supplier: <strong><%= order.supplier.name %></strong><br>
+                Order ID: <strong><%= order._id %></strong><br>
+                Transfer ID: <strong> <%= order.transferId %> </strong>
+            </span>
+            <br>
+        </div><br><br>
+        <% } %>
+        <br>
+        <br>
+        Silakan lakukan cek terhadap transfer pembayaran customer ybs, dan update order status menjadi PAID setelah pembayaran valid.
+        <br>
+        <br><br>
+    </body>
+
+</html>

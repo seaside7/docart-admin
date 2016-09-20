@@ -15,7 +15,7 @@
         </h1>
         <br> Halo, <strong> <%= fullname %> </strong>
         <br>
-        <br> Berikut adalah pembelian daftar pembelian Anda :<br>
+        <br> Berikut adalah daftar pembelian Anda :<br>
         <br>
         <% for (var i=0; i < carts.length; i++) { var cart = carts[i]%>
         <div>
@@ -24,7 +24,7 @@
                 Order ID: <strong><%= cart._id %></strong>
             </span>
             <br>
-            <span>Delivery cost: <strong>IDR <%= cart.logistic ? cart.logistic : 0 %></strong></span>
+            <span>Delivery cost: <strong>IDR <%= cart.logisticFee ? cart.logisticFee : 0 %></strong></span>
             <hr>
             <table>
                 <% for (var j=0; j < cart.products.length; j++) { var product = cart.products[j]%>
@@ -50,9 +50,10 @@
             <br>
             <strong>BNI - 0111966992 a/n Suhendra Ahmad</strong>
             <br>
-            <br>
+            Kode konfirmasi transfer ID anda adalah <strong><%= total %></strong> 
+            <br><br><br>
             Setelah melakukan transfer silakan silakan lakukan konfirmasi pembayaran dengan mengklik tautan berikut :
-            <br>
+            <br><br>
             <a href="#">Konfirmasi Pembayaran</a> 
         </span>
 

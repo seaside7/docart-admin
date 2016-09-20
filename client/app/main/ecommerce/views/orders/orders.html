@@ -63,7 +63,7 @@
                                 <td md-cell>{{order.customer.name}}</td>
                                 <td md-cell><img class="product-image" ng-src="{{order.customer.imageUrl}}"></td>
                                 <td md-cell>{{order.products.length}}</td>
-                                <td md-cell>{{order.status}}</td>
+                                <td md-cell>{{order.status.toUpperCase()}}</td>
                                 <td md-cell>{{order.created | date: 'dd MMM yyyy HH:mm:ss'}}</td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">
