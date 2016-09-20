@@ -13,12 +13,15 @@
 import jsonpatch from 'fast-json-patch';
 import Cart from './../../admin/cart/cart.model';
 import Product from './../../admin/product/product.model';
+import Supplier from './../../admin/supplier/supplier.model';
+import User from './../../admin/user/user.model';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function (entity) {
         if (entity) {
             res.status(statusCode).json(entity);
+            return null;
         }
     };
 }
@@ -64,107 +67,264 @@ function handleError(res, statusCode) {
     };
 }
 
-// Gets a list of Carts
-export function index(req, res) {
-    return Cart.find()
-        .populate({path: "supplier", select: "name email imageUrl supplier", populate: {path: "supplier"}})
-        .populate('products.product')
-        .exec()
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
 // Gets a single Cart from the DB
 export function show(req, res) {
-    return Cart.findById(req.params.id).exec()
+    return Cart.find({ customer: req.user._id })
+        .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+        .populate('products.product')
+        .populate({ path: "customer", select: "name email imageUrl gender" })
+        .exec()
         .then(handleEntityNotFound(res))
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
 
-function calculateProductPrices(products, cb) {
-    
+function fetchProduct(productId, cb) {
+    return Product.findById(productId)
+        .populate({ path: "owner", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+        .populate('category')
+        .lean()
+        .exec()
+        .then(product => {
+
+            if (cb) {
+                if (product) {
+                    return cb(null, product);
+                }
+                else {
+                    return cb(new Error('Product not found'), null);
+                }
+            }
+        })
+        .catch(err => {
+            if (cb) {
+                return cb(err, null);
+            }
+        })
 }
 
-// Creates a new Cart in the DB
-export function create(req, res) {
-    var supplierId = req.headers.supplier;
-    if (!supplierId) {
-        return res.status(400).send("Bad request");
-    }
-
-    return Cart.findOne({supplier: supplierId})
-        .exec()
-        .then(cart => {
-            if (!cart) {
-                Cart.create({
-                    supplier: supplierId,
-                    products: [{
-                        product: req.body.product,
-                        count: req.body.count
-                    }]
-                })
-                    .then(savedCart => {
-                        return index(req, res);
-                    })
-                    .catch(handleError(res));
+function getLogisticFee(supplier, courier) {
+    if (supplier.supplier && supplier.supplier.logistics) {
+        var cost = 0;        
+        supplier.supplier.logistics.forEach(transport => {
+            
+            if (transport.courier.toLowerCase() === courier.toLowerCase()) {
+                cost = transport.cost;
             }
-            else {
-                if (!cart.products) {
-                    cart.products = [];
+        })
+
+        return cost;
+    }
+    return 0;
+}
+
+function getSupplier(req, res, supplierId, cb) {
+    return User.findById(supplierId)
+        .populate("supplier")
+        .exec()
+        .then(supplier => {
+            if (cb) {
+                if (supplier) {
+                    return cb(null, supplier)
                 }
-                
-                var exist = false;
-                
-                cart.products.forEach(p => {
-                    console.log(p);
-                    if (p.product && p.product.toString() === req.body.product) {
-                        p.count += +req.body.count;
-                        exist = true;
-                    }
-                })
-                
-                if (!exist) {
-                    cart.products.push({ product: req.body.product, count: req.body.count })
+                else {
+                    res.status(404).end();
                 }
-                
-                cart.save()
-                    .then(updatedCart => {
-                        return index(req, res);
-                    })
-                    .catch(handleError(res));
+                return null;
             }
         })
         .catch(handleError(res));
 }
 
-// Upserts the given Cart in the DB at the specified ID
-export function upsert(req, res) {
-    if (req.body._id) {
-        delete req.body._id;
-    }
-    return Cart.findOneAndUpdate(req.params.id, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
+function updateCart(req, res, createNew, appendCount) {
 
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    var itemCount = req.body.count || 1;
+    var courier = req.body.courier;
+    var productId = req.body.product;
+
+    // Create a new cart
+    function createCart(product, itemCount, supplierId, accPrice, logisticFee) {
+        return Cart.create({
+            customer: req.user._id,
+            supplier: supplierId,
+            products: [{
+                product: product,
+                count: itemCount
+            }],
+            subTotal: accPrice,
+            logistic: logisticFee,
+            total: logisticFee + accPrice
+        })
+            .then(savedCart => {
+                return show(req, res);
+            })
+            .catch(handleError(res));
+    }
+
+    // Update a cart
+    function updateCart(cart, product, accPrice, logisticFee) {
+        if (!cart.products) {
+                cart.products = [];
+            }
+
+            var exist = false;
+
+            // Accumulate or update product count
+            cart.products.forEach(p => {
+                if (p.product && p.product.toString() === req.body.product) {
+                    if (appendCount) {
+                        p.count += +itemCount;
+                    }
+                    else {
+                        p.count = itemCount;
+                    }
+                    exist = true; 
+                }
+            })
+
+            // If no products exist at the moment, add new product
+            if (!exist) {
+                cart.products.push({ product: product, count: itemCount })
+            }
+
+            cart.subTotal += accPrice;
+            cart.total = cart.subTotal + logisticFee;
+            cart.logistic = logisticFee;
+
+            return cart.save()
+                .then(updatedCart => {
+                    return show(req, res);
+                })
+                .catch(handleError(res));
+    }
+
+    if (!courier || !productId) {
+        return res.status(400).send("Bad request");
+    }
+
+    // Fetch the product to add to cart
+    return fetchProduct(productId, (err, product) => {
+        if (err) {
+            res.status(404).end();
+            return null;
+        }
+
+        // Accumulate price
+        var accPrice = product.finalPrice * itemCount;
+        if (product.prices && product.prices.length > 0) {
+            product.prices.forEach(price => {
+                if (itemCount >= price.minOrder) {
+                    accPrice = price.price * itemCount;
+                }
+            })
+        }
+
+        // Fee
+        if (product.category && product.category.fee) {
+            var totalFee = accPrice * product.category.fee * 0.01;
+            accPrice += totalFee;
+        }
+
+        // Logistics 
+        product.subTotal = accPrice;
+
+        if (!product.owner._id) {
+            res.status(404).end("This product is not being sale by any supplier");
+            return null;
+        }
+        var supplierId = product.owner._id;
+
+        return getSupplier(req, res, supplierId, (err, supplier) => {
+
+            if (err) {
+                res.status(404).end();
+                return null;
+            }
+            else {
+                var logisticFee = getLogisticFee(supplier, courier);
+                
+                return Cart.findOne({ supplier: supplierId })
+                    .exec()
+                    .then(cart => {
+
+                        if (!cart) {
+                            
+                            if (!createNew) {
+                                res.status(404).end();
+                                return null;
+                            }
+                            else {
+                                return createCart(product, itemCount, supplierId, accPrice, logisticFee);
+                            }
+                        }
+                        else {
+                            return updateCart(cart, product, accPrice, logisticFee);
+                        }
+
+                    })
+                    .catch(handleError(res))
+            }
+        })
+    })
+}
+
+// Creates a new Cart in the DB
+export function create(req, res) {
+    
+    return updateCart(req, res, true, true);
+    
 }
 
 // Updates an existing Cart in the DB
 export function patch(req, res) {
-    if (req.body._id) {
-        delete req.body._id;
-    }
-    return Cart.findById(req.params.id).exec()
-        .then(handleEntityNotFound(res))
-        .then(patchUpdates(req.body))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
+    
+    return updateCart(req, res, false, false);
+
 }
 
 // Deletes a Cart from the DB
 export function destroy(req, res) {
-    return Cart.findById(req.params.id).exec()
+    var cartId = req.body.cartId;
+    var productId = req.body.product;
+    
+    return Cart.findById(cartId).exec()
         .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
+        .then(cart => {
+            
+            if (!cart) {
+                res.status(404).end("Cart not found");
+                return null;
+            }
+            var foundIndex = -1;
+
+            if (cart.products) {
+                for (var idx = 0; idx < cart.products.length; idx ++) {
+                    var product = cart.products[idx];
+
+                    if (product.product.toString() === productId) {
+                        foundIndex = idx;
+                        break;
+                    }
+                }                
+            }
+
+            if (foundIndex === 0) {
+                return cart.remove()
+                    .then(removedCart => {
+                        return show(req, res);
+                    })
+                    .catch(handleError(res));
+            }
+            else if (foundIndex > 0) {
+                cart.products.splice(foundIndex, 1);
+                return cart.save()
+                    .then(savedCart => {
+                        return show(req, res);
+                    })
+                    .catch(handleError(res));
+            }
+            
+            return show(req, res);
+        })
         .catch(handleError(res));
 }
