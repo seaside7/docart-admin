@@ -73,9 +73,9 @@ export function hasRole(roleRequired) {
 /**
  * Returns a jwt token signed by the app secret
  */
-export function signToken(id, role) {
+export function signToken(id, role, isClient) {
   return jwt.sign({ _id: id, role: role }, config.secrets.session, {
-    expiresIn: 60 * 60 * 5
+    expiresIn: isClient ? config.timeout.client : config.timeout.admin
   });
 }
 

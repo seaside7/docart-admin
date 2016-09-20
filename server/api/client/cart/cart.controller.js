@@ -143,17 +143,19 @@ function updateCart(req, res, createNew, appendCount) {
     var productId = req.body.product;
 
     // Create a new cart
-    function createCart(product, itemCount, supplierId, accPrice, logisticFee) {
+    function createCart(product, itemCount, supplierId, accPrice, logisticFee, courier) {
         return Cart.create({
             customer: req.user._id,
             supplier: supplierId,
             products: [{
                 product: product,
-                count: itemCount
+                count: itemCount,
+                totalPrice: accPrice
             }],
             subTotal: accPrice,
             logistic: logisticFee,
-            total: logisticFee + accPrice
+            total: logisticFee + accPrice,
+            courier: courier
         })
             .then(savedCart => {
                 return show(req, res);
@@ -162,40 +164,45 @@ function updateCart(req, res, createNew, appendCount) {
     }
 
     // Update a cart
-    function updateCart(cart, product, accPrice, logisticFee) {
+    function updateCart(cart, product, accPrice, logisticFee, courier) {
         if (!cart.products) {
-                cart.products = [];
-            }
+            cart.products = [];
+        }
 
-            var exist = false;
-
-            // Accumulate or update product count
-            cart.products.forEach(p => {
-                if (p.product && p.product.toString() === req.body.product) {
-                    if (appendCount) {
-                        p.count += +itemCount;
-                    }
-                    else {
-                        p.count = itemCount;
-                    }
-                    exist = true; 
+        var exist = false;
+        // Accumulate or update product count
+        cart.products.forEach(p => {
+            if (p.product && p.product.toString() === productId) {
+                if (appendCount) {
+                    p.count += +itemCount;
                 }
-            })
-
-            // If no products exist at the moment, add new product
-            if (!exist) {
-                cart.products.push({ product: product, count: itemCount })
+                else {
+                    p.count = itemCount;
+                }
+                p.totalPrice = accPrice;
+                exist = true; 
             }
+        })
 
-            cart.subTotal += accPrice;
-            cart.total = cart.subTotal + logisticFee;
-            cart.logistic = logisticFee;
+        // If no products exist at the moment, add new product
+        if (!exist) {
+            cart.products.push({ 
+                product: product, 
+                count: itemCount,
+                totalPrice: accPrice 
+            })
+        }
+        
+        cart.subTotal += accPrice;
+        cart.total = cart.subTotal + logisticFee;
+        cart.logistic = logisticFee;
+        cart.courier = courier;
 
-            return cart.save()
-                .then(updatedCart => {
-                    return show(req, res);
-                })
-                .catch(handleError(res));
+        return cart.save()
+            .then(updatedCart => {
+                return show(req, res);
+            })
+            .catch(handleError(res));
     }
 
     if (!courier || !productId) {
@@ -225,9 +232,6 @@ function updateCart(req, res, createNew, appendCount) {
             accPrice += totalFee;
         }
 
-        // Logistics 
-        product.subTotal = accPrice;
-
         if (!product.owner._id) {
             res.status(404).end("This product is not being sale by any supplier");
             return null;
@@ -254,11 +258,11 @@ function updateCart(req, res, createNew, appendCount) {
                                 return null;
                             }
                             else {
-                                return createCart(product, itemCount, supplierId, accPrice, logisticFee);
+                                return createCart(product, itemCount, supplierId, accPrice, logisticFee, courier);
                             }
                         }
                         else {
-                            return updateCart(cart, product, accPrice, logisticFee);
+                            return updateCart(cart, product, accPrice, logisticFee, courier);
                         }
 
                     })

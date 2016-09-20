@@ -158,19 +158,12 @@ export function create(req, res) {
                         fullname: user.name,
                         activation_link: config.domain + 'user/activate/'+ user._id +'/' + user.activationCode 
                     }
-                    ejs.renderFile(path.join(req.app.get('views'), 'supplier_activation.html'), data, {}, (err, html) => {
+                    gmail.sendHtmlMail(user.email, 'Aktivasi akun do-cart Anda', path.join(req.app.get('views')), 'supplier_activation.html', data, (err, data) => {
                         if (err) {
-                            console.log(err);
-                            return;
+                            console.error(err);
                         }
-
-                        gmail.sendGmail('donotreply@do-cart.com', user.email, 'Aktivasi akun do-cart Anda', '', html, (err, data) => {
-                            if (err) {
-                                console.error(err);
-                            }
-                        });
                     })
-
+                    
                     respondWithResult(res, 201)({ _id: user._id, name: user.name, email: user.email, active: user.active })
                 })
                 .catch(handleError);

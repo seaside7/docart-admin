@@ -1,0 +1,63 @@
+<html>
+
+<head>
+    <meta charset='utf-8'></meta>
+    <style>
+        body {
+            font-family: "Titallium Web", sans-serif, arial;
+            font-size: 16px;
+            color: #000;
+        }
+    </style>
+
+    <body>
+        <h1> Terima kasih sudah melakukan pembelian di do-cart.com
+        </h1>
+        <br> Halo, <strong> <%= fullname %> </strong>
+        <br>
+        <br> Berikut adalah pembelian daftar pembelian Anda :<br>
+        <br>
+        <% for (var i=0; i < carts.length; i++) { var cart = carts[i]%>
+        <div>
+            <span>
+                Supplier: <strong><%= cart.supplier.name %></strong><br>
+                Order ID: <strong><%= cart._id %></strong>
+            </span>
+            <br>
+            <span>Delivery cost: <strong>IDR <%= cart.logistic ? cart.logistic : 0 %></strong></span>
+            <hr>
+            <table>
+                <% for (var j=0; j < cart.products.length; j++) { var product = cart.products[j]%>
+                    <tr>
+                        <td width="50"><%= j+1 %></td>
+                        <td width="400"><%= product.product.name %></td>
+                        <td width="50"><%= product.count %></td>
+                        <td width="150">IDR <%= product.totalPrice %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </div><br><br>
+        <% } %>
+        <br>
+        <br>
+        <span>
+            Rincian total yang harus Anda bayarkan adalah:
+        <br>
+            <strong>IDR <%= total %></strong>
+            <br>
+            <br>
+            Silakan melakukan transfer ke rekening berikut:
+            <br>
+            <strong>BNI - 0111966992 a/n Suhendra Ahmad</strong>
+            <br>
+            <br>
+            Setelah melakukan transfer silakan silakan lakukan konfirmasi pembayaran dengan mengklik tautan berikut :
+            <br>
+            <a href="#">Konfirmasi Pembayaran</a> 
+        </span>
+
+        <br>
+        <br><br>
+    </body>
+
+</html>

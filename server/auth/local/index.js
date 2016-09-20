@@ -42,7 +42,7 @@ router.post('/login', function(req, res, next) {
       return res.status(403).json({message: 'Access denied!'});
     }
 
-    var token = signToken(user._id, user.role);
+    var token = signToken(user._id, user.role, true);
     
     res.json({ token: token, user: user });
   })(req, res, next)

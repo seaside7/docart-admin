@@ -1,0 +1,100 @@
+<html>
+
+<head>
+    <meta charset='utf-8'></meta>
+    <style>
+        body {
+            font-family: "Titallium Web", sans-serif, arial;
+            font-size: 16px;
+            color: #000;
+        }
+    </style>
+
+    <body>
+        <h1> Halo, <strong> <%= fullname %> </strong></h1>
+        <br>
+        <br>
+        <span>
+            Pelanggan kami melakukan pembelian produk Anda
+        </span>
+        
+        <br>
+        <br> Berikut adalah pembelian daftar pembelian dari produk Anda :<br>
+        <br>
+        <span>Nama pelanggan: <%= order.customer.name %></span>
+        <br>
+        <hr>        
+        <table>
+            <% for (var i=0; i < order.products.length; i++) { var product = order.products[i]%>
+            <tr>
+                <td width="50"><%= i+1 %></td>
+                <td width="400"><%= product.product.name %></td>
+                <td width="50"><%= product.count %></td>
+                <td width="150">IDR <%= product.totalPrice %></td>
+            </tr>
+            <% } %>
+        </table>
+        <br>
+        <br>
+        <span>
+            Courier: <strong><%= courier %></strong>
+            <br>
+            Delivery cost: <strong>IDR <%= order.logisticFee ? order.logisticFee : 0 %></strong>
+            <br>
+            <br>
+            Total: <strong>IDR <%= total %></strong>
+            <br>
+            <br>
+            <strong>Alamat Pengiriman:</strong>
+            <table>
+                <tr>
+                    <td>Nama Penerima </td>
+                    <td> : </td>
+                    <td><%= order.address.receiverName %></td>
+                </tr>
+                <tr>
+                    <td>No Telepon </td>
+                    <td> : </td>
+                    <td><%= order.address.phone %></td>
+                </tr>
+                <tr>
+                    <td>Alamat 1 </td>
+                    <td> : </td>
+                    <td><%= order.address.address1 %></td>
+                </tr>
+                <tr>
+                    <td>Alamat 2 </td>
+                    <td> : </td>
+                    <td><%= order.address.address2 %></td>
+                </tr>
+                <tr>
+                    <td>Kecamatan </td>
+                    <td> : </td>
+                    <td><%= order.address.district %></td>
+                </tr>
+                <tr>
+                    <td>Kota </td>
+                    <td> : </td>
+                    <td><%= order.address.city %></td>
+                </tr>
+                <tr>
+                    <td>Provinsi </td>
+                    <td> : </td>
+                    <td><%= order.address.state %></td>
+                </tr>
+                <tr>
+                    <td>Kode Pos </td>
+                    <td> : </td>
+                    <td><%= order.address.zip %></td>
+                </tr>
+            </table>
+            <br>
+            <br>
+            Silakan cek status order Anda pada halaman Admin
+        </span>
+
+        <br>
+        <br><br>
+    </body>
+
+</html>

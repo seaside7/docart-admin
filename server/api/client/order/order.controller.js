@@ -13,8 +13,14 @@
 import jsonpatch from 'fast-json-patch';
 import _ from 'lodash';
 import randomJs from 'random-js';
+import async from 'async';
+import path from 'path';
+
+import gmail from './../../../components/gmail';
+
 import Order from './../../admin/order/order.model';
 import Product from './../../admin/product/product.model';
+import Cart from './../../admin/cart/cart.model';
 
 var random = randomJs();
 
@@ -67,12 +73,6 @@ function handleError(res, statusCode) {
     };
 }
 
-// Gets a list of Orders
-export function index(req, res) {
-    return Order.find().exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
 
 // Gets a single Order from the DB
 export function show(req, res) {
@@ -82,102 +82,119 @@ export function show(req, res) {
         .catch(handleError(res));
 }
 
-// Creates a new Order in the DB
-export function create(req, res) {
-    return Order.create(req.body)
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
 
-// Deletes a Order from the DB
-export function destroy(req, res) {
-    return Order.findById(req.params.id).exec()
-        .then(handleEntityNotFound(res))
-        .then(removeEntity(res))
-        .catch(handleError(res));
-}
-
-function calculateProductOrder(products, mapProductItems, cb) {
-    
-    
-    var sumPrice = 0;
-    products.forEach(product => {
-
-        var itemCount = mapProductItems[product._id];
-
-        // 1. Check for stock availability
-        product.outOfStock = itemCount > product.stock;
-
-
-        // 2. Calculate finalPrice
-
-        var finalPrice = product.finalPrice;
-
-        if (product.prices && product.prices.length > 0) {
-
-            for (var priceIdx = 0; priceIdx < product.prices.length; priceIdx++) {
-                var price = product.prices[priceIdx];
-                if (itemCount >= price.minOrder) {
-                    finalPrice = price.price;
-                    break;
-                }
-            }
-
-        }
-
-        var totalPrice = +finalPrice * itemCount;
-
-        // 3. Calculate shipping fee
-        ///////////////                
-        if (product.owner) {
-            // TODO:
-        }
-
-        // 4. Add price markup
-        // TODO: 
-        ///////////
-
-        product.subTotalPrice = totalPrice;
-        sumPrice += totalPrice;
-    });
-
-    // 5. Add transfer digit
-    //sumPrice += random.integer(1, 100);
-
-    if (cb) {
-        cb(null, { totalPrice: sumPrice, products: products });
-    }
-}
-
-// Inquiry order
-export function inquiry(req, res) {
-    if (!req.body && (!req.body.user_id || !req.body.products)) {
-        return res.status(400).send("Bad request");
-    }
-
-    var mapProductItems = {};
-    var productIds = [];
-
-    req.body.products.forEach(p => {
-        mapProductItems[p._id] = p.items;
-        productIds.push(p._id);
-    })
-    
-    Product.find({ _id: { $in: productIds } })
-        .populate({ path: 'owner', select: '_id name email imageUrl supplier', populate: { path: 'supplier' } })
-        .lean()
+function getCarts(req, res, cb) {
+    return Cart.find({ customer: req.user._id })
+        .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+        .populate('products.product')
+        .populate({ path: "customer", select: "name email imageUrl gender" })
         .exec()
-        .then(products => {
-
-            calculateProductOrder(products, mapProductItems, (err, data) => {
-                res.status(201).json(data);
-            })
-            
+        .then(handleEntityNotFound(res))
+        .then(carts => {
+            if (cb) {
+                cb(null, carts);
+            }
         })
         .catch(handleError(res));
 }
 
 // Checkout order
 export function checkout(req, res) {
-    return res.status(201).json(req.body);
+
+    // Create order for a cart
+    function checkoutFn(req, transferId, cart, cb) {
+        var order = {
+            customer: cart.customer,
+            supplier: cart.supplier,
+            products: cart.products,
+            subTotal: cart.subTotal,
+            logisticFee: cart.logistic, 
+            total: cart.total,
+            courier: cart.courier, 
+            status: 'on process',
+            transferId: transferId,
+            address: { 
+                receiverName: req.body.receiverName,
+                phone: req.body.phone,
+                address1: req.body.address1,
+                address2: req.body.address2,
+                city: req.body.city,
+                district: req.body.district, 
+                state: req.body.state, 
+                zip: req.body.zip 
+            }
+        }
+
+        return Order.create(order)
+            .then(savedOrder => {
+                var data = {
+                    fullname: order.supplier.name,  
+                    order: savedOrder,
+                    total: cart.total,
+                    courier: cart.courier
+                }
+                gmail.sendHtmlMail(cart.supplier.email, 'Pelanggan telah membeli produk Anda', path.join(req.app.get('views')), 'order_supplier.html', data, (err, data, html) => {
+                    if (err) {
+                        console.error(err);
+                    }
+                    
+                    return cb(null, savedOrder); 
+                })
+                
+            })
+            .catch(err => {
+                return cb(err, null);
+            })
+    }
+
+    // Process checkout for all the carts
+    return getCarts(req, res, (err, carts) => {
+        var tasks = [];
+        var total = 0;
+        
+        if (carts.length === 0) {
+            res.status(404).json({status: "ERROR", message: "Cart Empty"});
+            return null;
+        }
+
+        // Calculate total first
+        carts.forEach(cart => {
+            total += cart.total;
+        })
+
+        carts.forEach(cart => {
+            total = total + random.integer(1, 500);
+            tasks.push(async.apply(checkoutFn, req, total, cart));
+        })
+        
+        async.series(tasks, (err, results) => {
+            if (err) {
+                res.status(400).send(err.message);
+                return null;
+            }
+            else {
+
+                Cart.remove({customer: req.user._id})
+                    .then(removedCart => {
+                        var data = {
+                            fullname: req.user.name, 
+                            carts: results,
+                            total: total
+                        } 
+                    
+                        gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan pembelian', path.join(req.app.get('views')), 'order_checkout.html', data, (err, data, html) => {
+                            if (err) {
+                                console.error(err);
+                            }
+                            
+                            res.json({status: "OK", orders: results});
+
+                            return null; 
+                        })
+
+                    })
+                    .catch(handleError(res));
+            }
+        });
+    })
 }

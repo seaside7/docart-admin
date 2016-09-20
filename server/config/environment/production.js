@@ -29,5 +29,9 @@ module.exports = {
 
   imageHost: 'http://static.do-cart.com/images/',
   domain:  'http://admin.do-cart.com/',
-  website: 'http://www.do-cart.com/'
+  website: 'http://www.do-cart.com/',
+  timeout: {
+    client: 60 * 60 * 60,
+    admin: 60 * 60 * 15
+  }
 };

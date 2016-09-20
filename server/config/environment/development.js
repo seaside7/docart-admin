@@ -21,6 +21,10 @@ module.exports = {
 
   domain:  'http://localhost:8080/',
 
-  website: 'http://localhost:8000/'
+  website: 'http://localhost:8000/',
 
+  timeout: {
+    client: 60 * 60 * 60,
+    admin: 60 * 60 * 15
+  }
 };

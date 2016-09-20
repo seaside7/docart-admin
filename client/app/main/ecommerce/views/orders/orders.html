@@ -50,7 +50,7 @@
                                 <th md-column><span>No</span></th>
                                 <th md-column><span>Customer</span></th>
                                 <th md-column><span>Customer Image</span></th>
-                                <th md-column md-numeric><span>Cart Items</span></th>
+                                <th md-column md-numeric><span>Product Count</span></th>
                                 <th md-column md-order-by="status"><span>Status</span></th>
                                 <th md-column md-order-by="created"><span>Created At</span></th>
                                 <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
@@ -62,7 +62,7 @@
                                 <td md-cell>{{$index+1}}</td>
                                 <td md-cell>{{order.customer.name}}</td>
                                 <td md-cell><img class="product-image" ng-src="{{order.customer.imageUrl}}"></td>
-                                <td md-cell>{{order.cart.length}}</td>
+                                <td md-cell>{{order.products.length}}</td>
                                 <td md-cell>{{order.status}}</td>
                                 <td md-cell>{{order.created | date: 'DD-MM-YYYY HH:mm:ss'}}</td>
                                 <td md-cell>
