@@ -64,14 +64,14 @@
                                 <td md-cell><img class="product-image" ng-src="{{order.customer.imageUrl}}"></td>
                                 <td md-cell>{{order.products.length}}</td>
                                 <td md-cell>{{order.status}}</td>
-                                <td md-cell>{{order.created | date: 'DD-MM-YYYY HH:mm:ss'}}</td>
+                                <td md-cell>{{order.created | date: 'dd MMM yyyy HH:mm:ss'}}</td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">
                                         <md-button class="edit-button md-icon-button" ng-click="vm.editData(order)" 
                                             aria-label="Order details" translate translate-attr-aria-label="EC.ORDER_DETAILS">
                                             <md-icon md-font-icon="icon-dots-horizontal" class="s16"></md-icon>
                                         </md-button>
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(order)" 
+                                        <md-button ng-if="vm.Auth.isAdmin()" class="edit-button md-icon-button" ng-click="vm.deleteData(order)" 
                                             aria-label="Delete order" translate translate-attr-aria-label="EC.ORDER_DELETE">
                                             <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
                                         </md-button>

@@ -76,7 +76,7 @@ export function index(req, res) {
     
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
     options.populate = 'customer supplier products.product';
-    options.sort = req.query.sort;
+    options.sort = req.query.sort || '-created';
 
     return Order.paginate(query, options)
         .then(respondWithResult(res))
