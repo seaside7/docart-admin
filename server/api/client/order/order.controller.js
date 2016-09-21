@@ -122,7 +122,7 @@ export function checkout(req, res) {
             logisticFee: cart.logistic, 
             total: cart.total,
             courier: cart.courier, 
-            status: 'on process',
+            status: Order.Status.OnProcess,
             transferId: transferId,
             address: { 
                 receiverName: req.body.receiverName,
@@ -213,7 +213,7 @@ export function checkout(req, res) {
 export function confirm(req, res) {
 
     function updateOrderStatus(orders) {
-        return Order.update({customer: req.user._id, status: 'on process', transferId: req.body.transferId}, { status: 'transferred' })
+        return Order.update({customer: req.user._id, status: Order.Status.OnProcess, transferId: req.body.transferId}, { status: Order.Status.Transferred })
             .then(updatedOrder => {
                 
                 if (updatedOrder.ok === 1 && updatedOrder.nModified === 0) {
