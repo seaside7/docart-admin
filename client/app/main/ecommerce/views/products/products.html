@@ -57,8 +57,6 @@
                                 <th md-column><span>Image</span></th>
                                 <th md-column md-order-by="name"><span>Name</span></th>
                                 <th md-column md-order-by="category"><span>Category</span></th>
-                                <th md-column md-order-by="price" md-numeric><span>Price</span></th>
-                                <th md-column md-order-by="discount" md-numeric><span>Discount</span></th>
                                 <th md-column md-numeric><span>Final Price</span></th>
                                 <th md-column >Owner</th>
                                 <th md-column md-order-by="stock" md-numeric><span>Quantity</span></th>
@@ -75,8 +73,6 @@
                                 <td md-cell><img class="product-image" ng-src="{{product.imageUrl}}"></td>
                                 <td md-cell>{{product.name}}</td>
                                 <td md-cell>{{product.category.name}}</td>
-                                <td md-cell>{{product.price | currency:'IDR '}}</td>
-                                <td md-cell>{{product.discount}} %</td>
                                 <td md-cell>{{product.finalPrice | currency:'IDR '}}</td>
                                 <td md-cell>{{product.owner.name}}</td>
                                 <td md-cell>{{product.stock}}</td>
@@ -90,6 +86,10 @@
                                 </td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">
+                                        <md-button class="edit-button md-icon-button" ui-sref="app.productComments({id: product._id})" aria-label="Product comments"
+                                            translate translate-attr-aria-label="EC.PRODUCT_COMMENTS">
+                                            <md-icon md-font-icon="icon-comment-multipe-outline" class="s16"></md-icon>
+                                        </md-button>
                                         <md-button class="edit-button md-icon-button" ng-click="vm.editData(product)" aria-label="Product details"
                                             translate translate-attr-aria-label="EC.PRODUCT_DETAILS">
                                             <md-icon md-font-icon="icon-dots-horizontal" class="s16"></md-icon>

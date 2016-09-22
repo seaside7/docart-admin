@@ -4,7 +4,8 @@
             "CATEGORIES": "Categories",
             "PRODUCTS": "Products",
             "ORDERS": "Orders",
-            "SUPPLIERS": "Suppliers"
+            "SUPPLIERS": "Suppliers",
+            "PRODUCT_COMMENTS": "Product Comments"
         },
         
         "DIALOG" : {

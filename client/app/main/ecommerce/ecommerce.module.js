@@ -104,6 +104,16 @@
                     }
                 },
                 authenticate: true
+            })
+            .state('app.productComments', {
+                url: '/product/:id/comments',
+                views: {
+                    'content@app': {
+                        templateUrl: 'app/main/ecommerce/views/product.comments/product.comments.html',
+                        controller: 'ProductCommentsController as vm'
+                    }
+                },
+                authenticate: true
             });
 
             //e-commerce.banks
