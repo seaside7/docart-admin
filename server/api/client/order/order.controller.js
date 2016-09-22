@@ -70,6 +70,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
+        console.error(err);
         res.status(statusCode).send(err);
     };
 }
@@ -122,7 +123,7 @@ export function checkout(req, res) {
             logisticFee: cart.logistic, 
             total: cart.total,
             courier: cart.courier, 
-            status: Order.Status.OnProcess,
+            status: Order.Status().OnProcess,
             transferId: transferId,
             address: { 
                 receiverName: req.body.receiverName,
@@ -131,7 +132,7 @@ export function checkout(req, res) {
                 address2: req.body.address2,
                 city: req.body.city,
                 district: req.body.district, 
-                state: req.body.state, 
+                province: req.body.province, 
                 zip: req.body.zip 
             }
         }
@@ -213,7 +214,7 @@ export function checkout(req, res) {
 export function confirm(req, res) {
 
     function updateOrderStatus(orders) {
-        return Order.update({customer: req.user._id, status: Order.Status.OnProcess, transferId: req.body.transferId}, { status: Order.Status.Transferred })
+        return Order.update({customer: req.user._id, status: Order.Status().OnProcess, transferId: req.body.transferId}, { status: Order.Status().Transferred })
             .then(updatedOrder => {
                 
                 if (updatedOrder.ok === 1 && updatedOrder.nModified === 0) {
@@ -252,6 +253,55 @@ export function confirm(req, res) {
         .exec()
         .then(orders => { 
             return updateOrderStatus(orders);
+        })
+        .catch(handleError(res));
+} 
+
+export function received(req, res) {
+
+    function updateOrderStatus(order) {
+        order.status = Order.Status().Received;
+        return order.save()
+            .then(updatedOrder => {
+                
+                if (updatedOrder.ok === 1 && updatedOrder.nModified === 0) {
+                    res.status(404).json({status: "ERROR", message: "No order found"});
+                    return null;
+                }
+
+                var data = {
+                    order : order,
+                    orderId: order._id,
+                    fullname: order.customer.name,
+                    status: order.status ? order.status.toUpperCase() : Order.Status().OnProcess
+                }
+                
+                return gmail.sendHtmlMail(order.customer.email, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                    
+                    data.fullname = order.supplier.name;
+
+                    return gmail.sendHtmlMail(order.supplier.email, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                        res.json({status: "OK", message: "Your order has been received"});
+
+                        data.fullname = "Admin";
+                        return gmail.sendHtmlMail(config.adminMail, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                            return null;
+                        })
+                        
+                    })
+                    
+                })
+            })
+            .catch(handleError(res));
+    }
+    console.log(req.body.orderId);
+    return Order.findOne({_id: req.body.orderId})
+        .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+        .populate('products.product') 
+        .populate({ path: "customer", select: "name email imageUrl gender" })
+        .exec()
+        .then(order => { 
+            return updateOrderStatus(order);
         })
         .catch(handleError(res));
 } 

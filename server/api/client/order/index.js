@@ -11,5 +11,6 @@ var router = express.Router();
 router.get('/', auth.isAuthenticated(config.userRole.customer), controller.index); 
 router.post('/checkout', auth.isAuthenticated(config.userRole.customer), controller.checkout);
 router.post('/confirm', auth.isAuthenticated(config.userRole.customer), controller.confirm);
+router.post('/received', auth.isAuthenticated(config.userRole.customer), controller.received);
 
 module.exports = router;

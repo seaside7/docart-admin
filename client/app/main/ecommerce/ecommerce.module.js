@@ -75,6 +75,16 @@
                 },
                 authenticate: true
             })
+            .state('app.order', {
+                url: '/orders/:id',
+                views: {
+                    'content@app': {
+                        templateUrl: 'app/main/ecommerce/views/order/order.html',
+                        controller: 'OrderController as vm'
+                    }
+                },
+                authenticate: true
+            })
             .state('app.products', {
                 url: '/products',
                 views: {

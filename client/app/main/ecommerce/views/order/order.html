@@ -1,0 +1,260 @@
+<form name="dataForm">
+    <div id="e-commerce" class="page-layout simple tabbed" layout="column">
+
+        <!-- HEADER -->
+        <div class="header md-accent-bg" layout="row" layout-align="start center">
+            <div class="white-fg" layout="row" layout-align="start center" flex>
+                <md-button class="goto-products-button md-icon-button" aria-label="Go to products" ng-click="vm.goBack()" translate translate-attr-aria-label="EC.GO_TO_PRODUCTS">
+                    <md-icon md-font-icon="icon-arrow-left"></md-icon>
+                </md-button>
+
+                <div layout="row" layout-align="start center">
+                    <div layout="column" layout-align="start start">
+                        <div class="h2">
+                            Order
+                        </div>
+                        <div class="subtitle secondary-text">
+                            Created at {{vm.data.created | date: 'dd MMM yyyy HH:mm:ss'}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <md-button class="md-raised md-background" ng-click="vm.saveData(vm.data)" ng-disabled="(dataForm.$invalid) && !vm.productId && vm.loading">
+                    <span translate="EC.UPDATE">UPDATE</span>
+                </md-button>
+            </div>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <md-tabs md-dynamic-height>
+
+                <md-tab>
+                    <md-tab-label>
+                        <span translate="EC.PRODUCT">Product</span>
+                    </md-tab-label>
+
+                    <md-tab-body>
+
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+
+                            <md-input-container class="md-block" flex-gt-sm ng-if="vm.Auth.isAdmin()">
+                                <label translate="EC.TRANSFER_ID">Transfer ID</label>
+                                <input type="text" ng-model="vm.data.transferId" name="transferId" readonly>
+                            </md-input-container>
+
+                            <!-- PRODUCTS -->
+                            <div ng-repeat="p in vm.data.products">
+                                <div layout-gt-sm="row" layout-align="start center">
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label translate="EC.PRODUCT_NAME">Product Name</label>
+                                        <input type="text" ng-model="p.product.name" name="name" readonly>
+                                    </md-input-container>
+
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label translate="EC.COUNT">Product Count</label>
+                                        <input type="text" ng-model="p.count" name="count" readonly>
+                                    </md-input-container>
+
+                                    <md-input-container class="md-block" flex-gt-sm>
+                                        <label translate="EC.TOTAL_PRICE">Total Price</label>
+                                        <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
+                                        <input type="text" ng-model="p.totalPrice" name="totalPrice" readonly>
+                                    </md-input-container>
+
+                                    <md-input-container class="md-block" glex-gt-sm>
+                                        <md-button title="Open product" aria-label="Open product" class="md-accent md-raised md-fab md-mini"
+                                            ui-sref="app.product({id: p.product._id})">
+                                            <md-icon md-font-icon="icon-dots-horizontal" ></md-icon>
+                                        </md-button>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <!-- PRODUCTS -->
+
+                            <hr>
+                            <!-- PRICE -->
+                            <div layout="row" layout-align="space-between space-between">
+                                <div layout="column" layout-align="start center" flex-gt-sm>
+                                    <label translate="EC.SUBTOTAL" class="font-weight-700"> Sub Total</label>
+                                    <label>{{vm.data.subTotal | currency: "IDR "}}</label>
+                                </div>
+                                <div layout="column" layout-align="start center" flex-gt-sm>
+                                    <label translate="EC.LOGISTIC_FEE" class="font-weight-700">Logistic Fee</label>
+                                    <label>{{vm.data.logisticFee | currency: "IDR "}}</label>
+                                </div>
+                                <div layout="column" layout-align="start center" flex-gt-sm>
+                                    <label translate="EC.COURIER" class="font-weight-700">Courier</label>
+                                    <label>{{vm.data.courier}}</label>
+                                </div>
+                                <div layout="column" layout-align="start center" flex-gt-sm>
+                                    <label translate="EC.TOTAL" class="font-weight-700">Total</label>
+                                    <label>{{vm.data.total | currency: "IDR "}}</label>
+                                </div>
+                            </div>
+                            <!-- PRICE -->
+
+                            <br>
+                            
+                            <!-- STATUS -->
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label translate="EC.STATUS">Status</label>
+                                <input type="text" ng-model="vm.data.status" name="status" required readonly style="text-transform:uppercase; font-weight:700">
+                            </md-input-container>
+                            <!-- STATUS -->
+
+                            <!-- STATUS BUTTONS -->
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block" glex-gt-sm ng-if="vm.data.status === 'transferred' || vm.Auth.isAdmin()">
+                                    <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
+                                        translate="EC.STATUS_PAID" ng-click="vm.data.status = 'paid'"
+                                        >
+                                        <md-icon md-font-icon="icon-plus" ></md-icon>
+                                        <span>Status Paid</span> 
+                                    </md-button>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" glex-gt-sm ng-if="vm.data.status === 'paid' || vm.Auth.isAdmin()">
+                                    <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
+                                        translate="EC.STATUS_ONDELIVERY" ng-click="vm.data.status = 'on delivery'"
+                                        >
+                                        <md-icon md-font-icon="icon-plus" ></md-icon>
+                                        <span>Status Paid</span> 
+                                    </md-button>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" glex-gt-sm ng-if="vm.data.status === 'on process' || vm.Auth.isAdmin()">
+                                    <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
+                                        translate="EC.STATUS_CANCELLED" ng-click="vm.data.status = 'cancelled'"
+                                        >
+                                        <md-icon md-font-icon="icon-plus" ></md-icon>
+                                        <span>Status Cancelled</span> 
+                                    </md-button>
+                                </md-input-container>
+                            
+                            </div>
+                            <!-- STATUS BUTTONS -->
+
+                            <hr ng-if="vm.data.messages.length > 0">
+
+                            <!-- MESSAGES -->
+                            <div ng-hide="!vm.Auth.isAdmin() && vm.data.status !== 'paid'">
+                            <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
+                                translate="EC.MESSAGE_ADD" 
+                                ng-click="vm.data.messages.push(''); disabled=true"
+                                ng-disabled="disabled && vm.data.messages.length > 0"
+
+                                >
+                                <md-icon md-font-icon="icon-plus" ></md-icon>
+                                <span>Add Message</span> 
+                            </md-button>
+                            </div>
+                            
+                            <div layout-gt-sm="row" layout-align="start center" 
+                                ng-repeat="message in vm.data.messages track by $index">
+                                
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.MESSAGE">Message</label>
+                                    <input type="text" name="message" ng-model="vm.data.messages[$index]" required>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" glex-gt-sm ng-if="vm.Auth.isAdmin()">
+                                    <md-button aria-label="Delete Message" class="md-warn md-raised md-fab md-mini" 
+                                        ng-click="vm.data.messages.splice($index, 1)">
+                                        <md-icon md-font-icon="icon-close" ></md-icon>
+                                    </md-button>
+                                </md-input-container>
+                            </div>
+                            <!-- MESSAGES -->
+                            
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+
+                <!-- /////// ADDRESS //// -->
+                <md-tab>
+                    <md-tab-label>
+                        <span translate="EC.SHIPPING_ADDRESS">Shipping Address</span>
+                    </md-tab-label>
+
+                    <md-tab-body>
+
+                        <!-- ADDRESS -->
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+                            
+                            <!-- RECEIVERNAME -->
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label translate="EC.RECEIVER_NAME">Receiver Name</label>
+                                <input type="text" ng-model="vm.data.address.receiverName" readonly>
+                            </md-input-container>
+                            <!-- RECEIVERNAME -->
+                            
+                            <!-- PHONE & ADDRESS -->
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.PHONE">Phone</label>
+                                    <input type="text" ng-model="vm.data.address.phone" readonly>
+                                </md-input-container>
+
+                                <md-input-container class="md-block md-icon-float" flex-gt-sm>
+                                    <label translate="EC.ADDRESS">Address</label>
+                                    <input type="text" ng-model="vm.data.address.address1" readonly>
+                                </md-input-container>
+                            </div>
+                            <!-- PHONE & ADDRESS -->
+
+                            <!-- ADDRESS2 -->
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block md-icon-float" flex-gt-sm>
+                                    <label translate="EC.ADDRESS2">Address 2</label>
+                                    <input type="text" ng-model="vm.data.address.address2" readonly>
+                                </md-input-container>
+                            </div>
+                            <!-- ADDRESS2 -->
+
+                            <!-- DISTRICT & ZIP -->
+                            <div layout-gt-sm="row" layout-align="start center">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.DISTRICT">District</label>
+                                    <input type="text" ng-model="vm.data.address.district" readonly>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.ZIP">Zip</label>
+                                    <input type="text" ng-model="vm.data.address.zip" readonly>
+                                </md-input-container>
+                            </div>
+                            <!-- DISTRICT & ZIP -->
+
+                            <!-- PROVINCE & CITY -->
+                            <div layout-gt-sm="row" layout-align="start center">                                
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.PROVINCE">Province</label>
+                                    <input type="text" ng-model="vm.data.address.province" readonly>
+                                </md-input-container>
+
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label translate="EC.CITY">City</label>
+                                    <input type="text" ng-model="vm.data.address.city" readonly>
+                                </md-input-container>
+                            </div>
+                            <!-- PROVINCE & CITY -->
+
+                        </div>
+                        <!-- ADDRESS -->
+
+                    </md-tab-body>
+                </md-tab>
+                <!-- /////// ADDRESS //// -->
+
+            </md-tabs>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+</form>

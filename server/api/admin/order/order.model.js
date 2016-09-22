@@ -31,7 +31,7 @@ var OrderSchema = new Schema({
         address2: String,
         city: String,
         district: String,
-        state: String,
+        province: String,
         zip: Number
     },
     status: {
@@ -39,6 +39,7 @@ var OrderSchema = new Schema({
         enum: ['on process', 'transferred', 'paid', 'on delivery', 'received', 'cancelled'],
         default: 'on process'
     },
+    messages: [{ type: String }],
     transferId: { type: String },
     created: { type: Date, default: Date.now }
 });

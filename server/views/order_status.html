@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    <meta charset='utf-8'></meta>
+    <style>
+        body {
+            font-family: "Titallium Web", sans-serif, arial;
+            font-size: 16px;
+            color: #000;
+        }
+    </style>
+
+    <body>
+        <br> Halo, <strong> <%= fullname %> </strong>
+        <br>
+        <br> Pesanan dengan order ID <%= orderId %> telah berubah status :<br>
+        <br> Status: <strong><%= status %> </strong>
+        <br>
+        <br>
+        <br> Berikut adalah rincian daftar pesanan Anda :<br>
+        <br>
+        <div>
+            <span>
+                Supplier: <strong><%= order.supplier.name %></strong><br>
+                Order ID: <strong><%= order._id %></strong>
+            </span>
+            <br>
+            <span>Delivery cost: <strong>IDR <%= order.logisticFee ? order.logisticFee : 0 %></strong></span>
+            <hr>
+            <table>
+                <% for (var j=0; j < order.products.length; j++) { var product = order.products[j]%>
+                    <tr>
+                        <td width="50"><%= j+1 %></td>
+                        <td width="400"><%= product.product.name %></td>
+                        <td width="50"><%= product.count %></td>
+                        <td width="150">IDR <%= product.totalPrice %></td>
+                    </tr>
+                <% } %>
+            </table>
+        </div>
+        <br>
+        <br>
+        <br>
+         <br><br>
+    </body>
+
+</html>

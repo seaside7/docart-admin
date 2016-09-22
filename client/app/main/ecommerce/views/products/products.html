@@ -21,7 +21,7 @@
             </div>
 
             <div layout="row" layout-align="start start">
-                <md-button class="md-fab md-red-bg" aria-label="Add Product" ng-click="vm.createData()">
+                <md-button class="md-fab md-red-bg" aria-label="Add Product" ng-if="!vm.Auth.isAdmin()" ng-click="vm.createData()">
                     <md-icon md-font-icon="icon-plus"></md-icon>
                 </md-button>
             </div>

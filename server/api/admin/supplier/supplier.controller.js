@@ -30,25 +30,6 @@ function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
     return function (entity) {
         if (entity) {
-            if (entity.docs) {
-                var entities = entity.docs;
-                entities.forEach((e) => {
-                    if (e.imageUrl) {
-                        e.imageUrl = config.imageHost + path.basename(e.imageUrl);
-                    }
-                    if (e.supplier && e.supplier.logoUrl) {
-                        e.supplier.logoUrl = config.imageHost + path.basename(e.supplier.logoUrl);
-                    }
-                })
-            }
-            else {
-                if (entity.imageUrl) {
-                    entity.imageUrl = config.imageHost + path.basename(entity.imageUrl);
-                }
-                if (entity.supplier && entity.supplier.logoUrl) {
-                    entity.supplier.logoUrl = config.imageHost + path.basename(entity.supplier.logoUrl);
-                }
-            }
             res.status(statusCode).json(entity);
         }
     };

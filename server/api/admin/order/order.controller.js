@@ -16,6 +16,7 @@ import fs from 'fs-extra';
 
 import Order from './order.model';
 import shared from './../../../config/environment/shared';
+import gmail from './../../../components/gmail';
 
 function respondWithResult(res, statusCode) {
     statusCode = statusCode || 200;
@@ -24,18 +25,6 @@ function respondWithResult(res, statusCode) {
             res.status(statusCode).json(entity);
             return null;
         }
-    };
-}
-
-function patchUpdates(patches) {
-    return function (entity) {
-        try {
-            jsonpatch.apply(entity, patches, /*validate*/ true);
-        } catch (err) {
-            return Promise.reject(err);
-        }
-
-        return entity.save();
     };
 }
 
@@ -63,6 +52,7 @@ function handleEntityNotFound(res) {
 function handleError(res, statusCode) {
     statusCode = statusCode || 500;
     return function (err) {
+        console.log(err);
         res.status(statusCode).send(err);
     };
 }
@@ -85,26 +75,12 @@ export function index(req, res) {
 
 // Gets a single Order from the DB
 export function show(req, res) {
-    return Order.findById(req.params.id).populate('user cart').exec()
+    return Order.findById(req.params.id)
+        .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+        .populate('products.product')
+        .populate({ path: "customer", select: "name email imageUrl gender" })
+        .exec()
         .then(handleEntityNotFound(res))
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-}
-
-// Creates a new Order in the DB
-export function create(req, res) {
-    return Order.create(req.body)
-        .then(respondWithResult(res, 201))
-        .catch(handleError(res));
-}
-
-// Upserts the given Order in the DB at the specified ID
-export function upsert(req, res) {
-    if (req.body._id) {
-        delete req.body._id;
-    }
-    return Order.findOneAndUpdate(req.params.id, req.body, { upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
-
         .then(respondWithResult(res))
         .catch(handleError(res));
 }
@@ -114,10 +90,39 @@ export function patch(req, res) {
     if (req.body._id) {
         delete req.body._id;
     }
-    return Order.findById(req.params.id).exec()
+
+    return Order.findById(req.params.id)
+        .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+        .populate('products.product')
+        .populate({ path: "customer", select: "name email imageUrl gender" })
+        .exec()
         .then(handleEntityNotFound(res))
-        .then(patchUpdates(req.body))
-        .then(respondWithResult(res))
+        .then(order => {
+            order.messages = req.body.messages;
+            order.status = req.body.status;
+
+            return order.save();
+        })
+        .then(order => {
+
+            var data = {
+                order : order,
+                orderId: order._id,
+                fullname: order.customer.name,
+                status: order.status.toUpperCase()
+            }
+            
+            return gmail.sendHtmlMail(order.customer.email, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                
+                data.fullname = order.supplier.name;
+
+                return gmail.sendHtmlMail(order.supplier.email, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                    return respondWithResult(res)(order);    
+                })
+                
+            })
+            
+        })
         .catch(handleError(res));
 }
 

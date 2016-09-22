@@ -6,6 +6,7 @@
         var vm = this;
 
         // Data
+        vm.Auth = Auth;
         vm.limitOptions = [5, 10, 25, 50, 100];
         vm.totalData = 0;
         vm.query = {
