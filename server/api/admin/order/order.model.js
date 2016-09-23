@@ -2,6 +2,8 @@
 
 import mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate';
+import Hashids from 'hashids';
+import moment from 'moment';
 
 /**
  * Module dependencies.
@@ -13,6 +15,11 @@ var Schema = mongoose.Schema;
  * Order Schema
  */
 var OrderSchema = new Schema({
+    orderId: { type: String, default: () => {
+        var date = new Date();
+        var hashids = new Hashids();
+        return hashids.encode(date.getTime());
+    } },
     customer: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     supplier: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     products: [{
@@ -42,6 +49,11 @@ var OrderSchema = new Schema({
     messages: [{ type: String }],
     transferId: { type: String },
     created: { type: Date, default: Date.now }
+}).index({
+    'orderId': 'text',
+    'status': 'text',
+    'transferId': 'text',
+    'courier': 'text'
 });
 
 OrderSchema.plugin(mongoosePaginate);

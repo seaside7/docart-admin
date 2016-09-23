@@ -59,11 +59,11 @@ function handleError(res, statusCode) {
 
 // Gets a list of Orders
 export function index(req, res) {
-    var query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") }, 'supplier': req.user._id } : { 'supplier': req.user._id };
-    if (req.user.role === shared.userRole.admin) {
-        query = req.query.search ? { 'name': { $regex: new RegExp(req.query.search, "i") } } : { };
+    var query = req.query.search ? { $text: { $search: req.query.search } } : {};
+    if (req.user.role === shared.userRole.supplier) {
+        query.supplier = req.user._id;
     }
-    
+
     var options = (req.query.offset && req.query.limit) ? { offset: +(req.query.offset || 0), limit: +(req.query.limit || 0) } : {};
     options.populate = 'customer supplier products.product';
     options.sort = req.query.sort || '-created';

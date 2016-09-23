@@ -48,6 +48,8 @@
                         <thead md-head md-order="vm.query.order" md-on-reorder="vm.onReorder">
                             <tr md-row>
                                 <th md-column><span>No</span></th>
+                                <th md-column><span>Order ID</span></th>
+                                <th md-column ng-if="vm.Auth.isAdmin()"><span>Transfer ID</span></th>
                                 <th md-column><span>Customer</span></th>
                                 <th md-column><span>Customer Image</span></th>
                                 <th md-column md-numeric><span>Product Count</span></th>
@@ -60,6 +62,8 @@
                         <tbody md-body>
                             <tr md-row ng-repeat="order in vm.orders">
                                 <td md-cell>{{$index+1}}</td>
+                                <td md-cell>{{order.orderId}}</td>
+                                <td md-cell ng-if="vm.Auth.isAdmin()">{{order.transferId}}</td>
                                 <td md-cell>{{order.customer.name}}</td>
                                 <td md-cell><img class="product-image" ng-src="{{order.customer.imageUrl}}"></td>
                                 <td md-cell>{{order.products.length}}</td>
