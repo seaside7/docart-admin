@@ -1,0 +1,105 @@
+<div id="e-commerce" class="page-layout carded fullwidth" layout="row">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg md-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center" layout="column" flex>
+
+        <!-- CONTENT HEADER -->
+        <div class="header" layout="row" layout-align="space-between center">
+            <div class="white-fg" layout="row" layout-align="start center" flex>
+                <md-button class="goto-products-button md-icon-button" aria-label="Go to suppliers" ui-sref="app.suppliers" 
+                    translate translate-attr-aria-label="EC.GO_TO_SUPPLIERS"
+                    ng-if="vm.back">
+                    <md-icon md-font-icon="icon-arrow-left"></md-icon>
+                </md-button>
+                <div class="h1" layout="row" layout-align="start center" ng-if="!vm.back">
+                    <md-icon md-font-icon="icon-inbox"></md-icon>
+                </div>
+
+                <div layout="row" layout-align="start center">
+                    <div layout="column" layout-align="start start">
+                        <div class="h2">
+                            {{vm.data.name}} Inbox
+                        </div>
+                        <div class="subtitle secondary-text">
+                            <span translate="EC.TOTAL_MESSAGES">Total Messages</span> : 
+                            <span>{{vm.totalData}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+
+        <div class="content-card" layout="column" flex>
+
+            <!-- CONTENT TOOLBAR -->
+
+            <div class="toolbar" layout="row" layout-align="end center">
+
+                <div class="search" layout="row" layout-align="start center">
+                    <md-icon md-font-icon="icon-magnify" class="icon search-icon"></md-icon>
+                    <input id="e-commerce-search" class="search-input" type="text" placeholder="Search" translate translate-attr-placeholder="EC.SEARCH"
+                        flex>
+                </div>
+            </div>
+
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            <div class="content fullpage-datatable table-responsive" layout="column" flex>
+
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head md-order="vm.query.order" md-on-reorder="vm.onReorder">
+                            <tr md-row>
+                                <th md-column><span>No</span></th>
+                                <th md-column><span>Sender</span></th>
+                                <th md-column><span>Sender Image</span></th>
+                                <th md-column md-order-by="title"><span>Title</span></th>
+                                <th md-column md-order-by="content"><span>Content</span></th>
+                                <th md-column md-order-by="created_at"><span>Created At</span></th>
+                                <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
+                            </tr>
+                        </thead>
+                        <tbody md-body>
+                            <tr md-row ng-repeat="message in vm.messages">
+                                <td md-cell>{{$index+1}}</td>
+                                <td md-cell>{{message.sender.name}}</td>
+                                <td md-cell><img class="product-image" ng-src="{{message.sender.imageUrl}}"></td>
+                                <td md-cell>{{message.title}}</td>
+                                <td md-cell>{{message.content}}</td>
+                                <td md-cell>{{message.created_at | date: 'dd MMM yyyy HH:mm:ss'}}</td>
+                                <td md-cell>
+                                    <div layout="row" layout-align="center center">
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(message)" 
+                                            aria-label="Delete order" translate translate-attr-aria-label="EC.MESSAGE_DELETE">
+                                            <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
+                                        </md-button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+
+                <md-table-pagination md-limit="vm.query.limit" md-limit-options="vm.limitOptions" md-page="vm.query.page" md-total="{{vm.totalData}}"
+                    md-page-select="true" md-boundary-links="true" md-on-paginate="vm.onPaginate"></md-table-pagination>
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

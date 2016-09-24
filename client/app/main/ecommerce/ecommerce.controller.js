@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    function eCommerceRunBlock(msApi, msNavigationService, Auth) {
+    function eCommerceRunBlock(msApi, msNavigationService, Auth, appConfig) {
 
         // Navigation
         msNavigationService.saveItem('ecommerce', {
@@ -58,6 +58,20 @@
             weight: 1,
             hidden: function() {
                 return !Auth.isAdmin();
+            }
+        });
+
+        /*
+         * Supplier Inbox
+         */
+        msNavigationService.saveItem('ecommerce.supplierInbox', {
+            title: 'Inbox',
+            icon: 'icon-inbox',
+            state: 'app.supplierInbox',
+            translate: 'EC.NAV.INBOX',
+            weight: 1,
+            hidden: function() {
+                return Auth.isAdmin();
             }
         });
     }

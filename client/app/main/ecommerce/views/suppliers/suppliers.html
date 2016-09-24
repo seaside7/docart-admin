@@ -83,11 +83,16 @@
                                 </td>
                                 <td md-cell>
                                     <div layout="row" layout-align="center center">
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(supplier)" aria-label="Order details"
-                                            translate translate-attr-aria-label="EC.CATEGORY_DETAILS">
+                                        <md-button class="edit-button md-icon-button" ui-sref="app.supplierInbox({id: supplier._id, back:1})" 
+                                            aria-label="Order details" translate translate-attr-aria-label="EC.SUPPLIER_INBOX">
+                                            <md-icon md-font-icon="icon-inbox" class="s16"></md-icon>
+                                        </md-button>
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.editData(supplier)" aria-label="Edit supplier"
+                                            translate translate-attr-aria-label="EC.SUPPLIER_EDIT">
                                             <md-icon md-font-icon="icon-dots-horizontal" class="s16"></md-icon>
                                         </md-button>
-                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(supplier)" aria-label="Delete category" translate translate-attr-aria-label="EC.CATEGORY_DELETE">
+                                        <md-button class="edit-button md-icon-button" ng-click="vm.deleteData(supplier)" aria-label="Delete supplier" 
+                                            translate translate-attr-aria-label="EC.SUPPLIER_DELETE">
                                             <md-icon md-font-icon="icon-cancel" class="s16 red-400-fg"></md-icon>
                                         </md-button>
                                     </div>

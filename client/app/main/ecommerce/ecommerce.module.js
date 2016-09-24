@@ -43,6 +43,16 @@
                     }
                 }
             })
+            .state('app.supplierInbox', {
+                url: '/supplier/:id/messages/:back',
+                views: {
+                    'content@app': {
+                        templateUrl: 'app/main/ecommerce/views/supplier.inbox/supplier.inbox.html',
+                        controller: 'SupplierInboxController as vm'
+                    }
+                },
+                authenticate: true
+            })
             .state('app.categories', {
                 url: '/categories',
                 views: {

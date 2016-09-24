@@ -5,7 +5,8 @@
             "PRODUCTS": "Products",
             "ORDERS": "Orders",
             "SUPPLIERS": "Suppliers",
-            "PRODUCT_COMMENTS": "Product Comments"
+            "PRODUCT_COMMENTS": "Product Comments",
+            "INBOX": "Inbox"
         },
         
         "DIALOG" : {
@@ -105,6 +106,7 @@
         "STATUS_PAID": "Set Status: Paid",
         "STATUS_ONDELIVERY": "Set Status: On Delivery",
         "STATUS_CANCELLED": "Set Status: Cancelled",
+        "TOTAL_MESSAGES": "Total Messages",
 
         "ERRORS": {
             "REQUIRED": "Required"
