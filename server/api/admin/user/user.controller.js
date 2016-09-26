@@ -205,9 +205,11 @@ export function me(req, res, next) {
     return User.findOne({ _id: userId }, '-salt -password').exec()
         .then(user => { // don't ever give out the password or salt
             if (!user) {
-                return res.status(401).end();
+                res.status(401).end();
+                return null;
             }
             res.json(user);
+            return null;
         })
         .catch(err => next(err));
 }
@@ -238,7 +240,8 @@ export function activation(req, res) {
                     user.active = true;
                     return user.save()
                         .then((user) => {
-                            res.status(201).json({ active: user.active, role: user.role, redirect: config.website });
+                            var targetUrl = user.role === shared.userRole.customer ? config.website : config.domain;
+                            res.status(201).json({ active: user.active, role: user.role, redirect: targetUrl });
                         })
                         .catch(handleError(res));
                 }

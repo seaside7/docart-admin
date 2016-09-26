@@ -23,7 +23,7 @@
             </div>
 
             <div>
-                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) && !vm.supplierId">
+                <md-button class="md-raised md-background" ng-click="vm.saveData()" ng-disabled="(dataForm.$invalid || dataForm.$pristine) && !vm.supplierId" ng-if="!vm.Auth.isAdmin()">
                     <span translate="EC.SAVE">SAVE</span>
                 </md-button>
             </div>
@@ -46,7 +46,7 @@
 
                             <md-input-container class="md-block">
                                 <label translate="EC.SUPPLIER_NAME">Supplier Name</label>
-                                <input type="text" ng-model="vm.data.name" name="name" required md-autofocus>
+                                <input type="text" ng-model="vm.data.name" name="name" required md-autofocus ng-disabled="vm.Auth.isAdmin()">
                                 <div ng-messages="dataForm.name.$error" ng-show="dataForm.name.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="EC.ERRORS.REQUIRED">Required</span>
@@ -56,7 +56,7 @@
 
                             <md-input-container class="md-block" ng-if="vm.newData">
                                 <label translate="USER.EMAIL">Email</label>
-                                <input type="email" ng-model="vm.data.email" name="email" autocomplete="new-email" required>
+                                <input type="email" ng-model="vm.data.email" name="email" autocomplete="new-email" required ng-disabled="vm.Auth.isAdmin()">
                                 <div ng-messages="dataForm.email.$error" ng-show="dataForm.email.$touched" role="alert">
                                     <div ng-message="required">
                                         <span translate="USER.ERRORS.REQUIRED">Required</span>
@@ -65,19 +65,19 @@
                             </md-input-container>
 
                             <!-- PASSWORD FOR UPDATE USER -->
-                            <md-input-container class="md-block" ng-if="!vm.newData">
+                            <md-input-container class="md-block" ng-if="!vm.newData && !vm.Auth.isAdmin()">
                                 <label translate="EC.OLD_PASSWORD">Old Password</label>
-                                <input type="password" ng-model="vm.data.oldPassword" name="oldPassword" autocomplete="new-password">
+                                <input type="password" ng-model="vm.data.oldPassword" name="oldPassword" autocomplete="new-password" >
                             </md-input-container>
 
-                            <md-input-container class="md-block" ng-if="!vm.newData">
+                            <md-input-container class="md-block" ng-if="!vm.newData && !vm.Auth.isAdmin()" >
                                 <label translate="EC.NEW_PASSWORD">New Password</label>
-                                <input type="password" ng-model="vm.data.newPassword" name="newPassword" autocomplete="new-password">
+                                <input type="password" ng-model="vm.data.newPassword" name="newPassword" autocomplete="new-password" >
                             </md-input-container>
 
-                            <md-input-container class="md-block" ng-if="!vm.newData">
+                            <md-input-container class="md-block" ng-if="!vm.newData && !vm.Auth.isAdmin()">
                                 <label translate="EC.NEW_PASSWORD_CONFIRMATION">New Password Confirmation</label>
-                                <input type="password" ng-model="vm.data.newPasswordConfirm" name="newPasswordConfirm" autocomplete="new-password">
+                                <input type="password" ng-model="vm.data.newPasswordConfirm" name="newPasswordConfirm" autocomplete="new-password" >
                             </md-input-container>
                             <!-- PASSWORD FOR UPDATE USER -->
 
@@ -103,7 +103,7 @@
                             </md-input-container>
                             <!-- PASSWORD FOR NEW USER -->
 
-                            <div class="upload" layout="row" layout-align="space-between end" style="padding-top: 30px;">
+                            <div class="upload" layout="row" layout-align="space-between end" style="padding-top: 30px;" ng-if="!vm.Auth.isAdmin()">
                                 <div class="preview" ng-show="vm.data.file">
                                     <img ngf-src="vm.data.file" width="100px" height="100px">
                                 </div>
@@ -136,7 +136,7 @@
                                 </div>
                             </div>
 
-                            <div class="upload" layout="row" layout-align="space-between end" style="margin-top: 30px;">
+                            <div class="upload" layout="row" layout-align="space-between end" style="margin-top: 30px;" ng-if="!vm.Auth.isAdmin()">
                                 <div class="preview" ng-show="vm.data.images">
                                     <img ngf-src="vm.data.images" width="100px" height="100px">
                                 </div>
@@ -155,11 +155,11 @@
                             <div layout-gt-sm="row" layout-align="start center">
                                 <md-input-container class="md-block md-icon-float" flex-gt-sm>
                                     <label translate="EC.ADDRESS">Address</label>
-                                    <input type="text" ng-model="vm.data.address">
+                                    <input type="text" ng-model="vm.data.address" ng-disabled="vm.Auth.isAdmin()">
                                 </md-input-container>
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.PHONE">Phone</label>
-                                    <input type="text" ng-model="vm.data.phone">
+                                    <input type="text" ng-model="vm.data.phone" ng-disabled="vm.Auth.isAdmin()">
                                 </md-input-container>
                             </div>
                             <!-- PHONE & ADDRESS -->
@@ -168,21 +168,21 @@
                             <div layout-gt-sm="row" layout-align="start center">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.DISTRICT">District</label>
-                                    <input type="text" ng-model="vm.data.district">
+                                    <input type="text" ng-model="vm.data.district" ng-disabled="vm.Auth.isAdmin()">
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.ZIP">Zip</label>
-                                    <input type="text" ng-model="vm.data.zip">
+                                    <input type="text" ng-model="vm.data.zip" ng-disabled="vm.Auth.isAdmin()">
                                 </md-input-container>
                             </div>
                             <!-- DISTRICT & ZIP -->
 
                             <!-- PROVINCE & CITY -->
                             <div layout-gt-sm="row" layout-align="start center">                                
-                                <md-input-container class="md-block" flex-gt-sm>
+                                <md-input-container class="md-block" flex-gt-sm> 
                                     <label translate="EC.PROVINCE">Province</label>
-                                    <md-select ng-model="vm.data.province" name="province">
+                                    <md-select ng-model="vm.data.province" name="province" ng-disabled="vm.Auth.isAdmin()">
                                         <md-option ng-repeat="sc in vm.provinces" ng-value="sc.name">
                                             {{sc.name}}
                                         </md-option>
@@ -191,7 +191,7 @@
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.CITY">City</label>
-                                    <md-select ng-model="vm.data.city" name="city">
+                                    <md-select ng-model="vm.data.city" name="city" ng-disabled="vm.Auth.isAdmin()">
                                         <md-option ng-repeat="city in vm.cities | orderBy" ng-value="city">
                                             {{city}}
                                         </md-option>
@@ -202,7 +202,7 @@
 
                             <md-input-container class="md-block" flex-gt-sm>
                                 <h3 class="secondary-text" translate="EC.SUPPLIER_DESCRIPTION">Supplier Description</h3>
-                                <textarea aria-label="Description" style="height: auto;" rows="3" name="description" ng-model="vm.data.description"></textarea>
+                                <textarea aria-label="Description" style="height: auto;" rows="3" name="description" ng-model="vm.data.description" ng-disabled="vm.Auth.isAdmin()"></textarea>
                             </md-input-container>
 
                         </div>
@@ -221,7 +221,7 @@
                             <!-- BANK NAMES -->
                             <md-input-container class="md-block">
                                 <label translate="EC.SUPPLIER.BANK">Bank</label>
-                                <md-select ng-model="vm.data.bank" name="banks">
+                                <md-select ng-model="vm.data.bank" name="banks" ng-disabled="vm.Auth.isAdmin()">
                                     <md-option ng-repeat="bank in vm.banks" ng-value="bank">
                                     {{bank.name}}
                                     </md-option>
@@ -231,13 +231,13 @@
 
                             <div layout-gt-sm="row" layout-align="start center">
                                 <md-input-container class="md-block" flex-gt-sm>
-                                    <label translate="EC.SUPPLIER.BANK_CODE">Bank Code</label>
-                                    <input type="text" ng-model="vm.data.bankCode">
+                                    <label translate="EC.SUPPLIER.BANK_CODE" >Bank Code</label>
+                                    <input type="text" ng-model="vm.data.bankCode" readonly ng-disabled="vm.Auth.isAdmin()">
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.SUPPLIER.BANK_ACCOUNT">Bank Account</label>
-                                    <input type="text" ng-model="vm.data.bankAccount">
+                                    <input type="text" ng-model="vm.data.bankAccount" ng-disabled="vm.Auth.isAdmin()">
                                 </md-input-container>
                             </div>
                         </div>
@@ -254,7 +254,7 @@
                         <div class="detail-form-container md-background-bg md-whiteframe-1dp">
                             
                             <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
-                                translate="EC.COURIER_ADD" ng-click="vm.logistics.push({courier: '', price: vm.data.price})">
+                                translate="EC.COURIER_ADD" ng-click="vm.logistics.push({courier: '', price: vm.data.price})" ng-disabled="vm.Auth.isAdmin()">
                                 <md-icon md-font-icon="icon-plus" ></md-icon>
                                 <span>Add New Price</span>
                             </md-button>
@@ -264,7 +264,7 @@
                             <div layout-gt-sm="row" layout-align="start start" ng-repeat="log in vm.logistics">
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.COURIER">Courier</label>
-                                    <md-select ng-model="log.courier" name="courier">
+                                    <md-select ng-model="log.courier" name="courier" ng-disabled="vm.Auth.isAdmin()">
                                         <md-option ng-repeat="c in vm.couriers | orderBy" ng-value="c.name">
                                             {{c.name}}
                                         </md-option>
@@ -273,23 +273,27 @@
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.SHIPPING_TIME">Shipping Time</label>
-                                    <input type="text" min="0" step="1" ng-model="log.shippingTime">
+                                    <input type="number" min="1" step="1" ng-model="log.shippingTime" ng-disabled="vm.Auth.isAdmin()">
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.SEND_TIME">Send Time</label>
-                                    <input type="text" ng-model="log.sendTime">
+                                    <md-select ng-model="log.sendTime" name="sendTime" ng-disabled="vm.Auth.isAdmin()">
+                                        <md-option ng-repeat="time in vm.sendTimes" ng-value="time">
+                                            {{time}}
+                                        </md-option>
+                                    </md-select>                                    
                                 </md-input-container>
 
                                 <md-input-container class="md-block" flex-gt-sm>
                                     <label translate="EC.COST">Cost</label>
                                     <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
-                                    <input type="number" ng-model="log.cost" min=0>
+                                    <input type="number" ng-model="log.cost" min=0 ng-disabled="vm.Auth.isAdmin()">
                                 </md-input-container>
                                 
                                 <md-input-container class="md-block" glex-gt-sm>
                                     <md-button class="md-warn md-raised md-fab md-mini" 
-                                        ng-click="vm.logistics.splice($index, 1)">
+                                        ng-click="vm.logistics.splice($index, 1)" ng-disabled="vm.Auth.isAdmin()">
                                         <md-icon md-font-icon="icon-close" ></md-icon>
                                     </md-button>
                                 </md-input-container>

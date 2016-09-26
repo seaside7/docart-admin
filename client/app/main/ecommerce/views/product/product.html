@@ -104,7 +104,53 @@
                     </md-tab-body>
                 </md-tab>
 
-                <!-- /////// PRICE //// -->
+                <!-- INVENTORY -->
+                <md-tab>
+                    <md-tab-label>
+                        <span translate="EC.INVENTORY">Inventory</span>
+                    </md-tab-label>
+
+                    <md-tab-body>
+                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
+                            <md-input-container class="md-block">
+                                <label translate="EC.UNIT">Stock Unit</label>
+                                <md-select ng-model="vm.data.unit" required>
+                                    <md-option ng-repeat="unit in vm.productUnits" ng-value="unit">
+                                        {{unit}}
+                                    </md-option>
+                                    <div ng-messages="dataForm.unit.$error" ng-show="dataForm.unit.$touched" role="alert">
+                                        <div ng-message="required">
+                                            <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                        </div>
+                                    </div>
+                                </md-select>
+                            </md-input-container>
+
+                            <md-input-container class="md-block md-icon-float">
+                                <label translate="EC.STOCK_QUANTITY">Stock Quantity</label>
+                                <input type="number" step="1" min="0" name="stock" ng-model="vm.data.stock" required>
+                                <div ng-messages="dataForm.stock.$error" ng-show="dataForm.stock.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container class="md-block md-icon-float">
+                                <label translate="EC.MINIMUM_ORDER">Minimum Order</label>
+                                <input type="number" step="1" name="minOrder" ng-model="vm.data.minOrder" ng-init="vm.data.minOrder = 1" required>
+                                <div ng-messages="dataForm.minOrder.$error" ng-show="dataForm.minOrder.$touched" role="alert">
+                                    <div ng-message="required">
+                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <!-- INVENTORY -->
+
+<!-- /////// PRICE //// -->
                 <md-tab>
                     <md-tab-label>
                         <span translate="EC.PRICE">Price</span>
@@ -184,53 +230,7 @@
 
                     </md-tab-body>
                 </md-tab>
-                <!-- /////// PRICE AND INVENTORY //// -->
-
-                <!-- INVENTORY -->
-                <md-tab>
-                    <md-tab-label>
-                        <span translate="EC.INVENTORY">Inventory</span>
-                    </md-tab-label>
-
-                    <md-tab-body>
-                        <div class="detail-form-container md-background-bg md-whiteframe-1dp">
-                            <md-input-container class="md-block">
-                                <label translate="EC.UNIT">Stock Unit</label>
-                                <md-select ng-model="vm.data.unit" required>
-                                    <md-option ng-repeat="unit in vm.productUnits" ng-value="unit">
-                                        {{unit}}
-                                    </md-option>
-                                    <div ng-messages="dataForm.unit.$error" ng-show="dataForm.unit.$touched" role="alert">
-                                        <div ng-message="required">
-                                            <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                        </div>
-                                    </div>
-                                </md-select>
-                            </md-input-container>
-
-                            <md-input-container class="md-block md-icon-float">
-                                <label translate="EC.STOCK_QUANTITY">Stock Quantity</label>
-                                <input type="number" step="1" min="0" name="stock" ng-model="vm.data.stock" required>
-                                <div ng-messages="dataForm.stock.$error" ng-show="dataForm.stock.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
-                            </md-input-container>
-
-                            <md-input-container class="md-block md-icon-float">
-                                <label translate="EC.MINIMUM_ORDER">Minimum Order</label>
-                                <input type="number" step="1" name="minOrder" ng-model="vm.data.minOrder" ng-init="vm.data.minOrder = 1" required>
-                                <div ng-messages="dataForm.minOrder.$error" ng-show="dataForm.minOrder.$touched" role="alert">
-                                    <div ng-message="required">
-                                        <span translate="EC.ERRORS.REQUIRED">Required</span>
-                                    </div>
-                                </div>
-                            </md-input-container>
-                        </div>
-                    </md-tab-body>
-                </md-tab>
-                <!-- INVENTORY -->
+                <!-- /////// PRICE //// -->
 
                 <!-- SHIPPING -->
                 <md-tab>

@@ -26,7 +26,7 @@ var SupplierSchema = new mongoose.Schema({
   bankAccount: String,
   logistics: [{  
     courier: { type: String, default: '' },
-    shippingTime: { type: String, default: '' },
+    shippingTime: { type: Number, default: 1, min: 1 },
     sendTime: { type: String, default: '' },
     cost: { type: Number, default: 0, min: 0 }
   }]
