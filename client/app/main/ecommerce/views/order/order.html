@@ -127,6 +127,15 @@
                                     </md-button>
                                 </md-input-container>
 
+                                <md-input-container class="md-block" glex-gt-sm ng-if="vm.data.status === 'received' || vm.Auth.isAdmin()">
+                                    <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
+                                        translate="EC.STATUS_SUPPLIER_PAID" ng-click="vm.data.status = 'supplier paid'"
+                                        >
+                                        <md-icon md-font-icon="icon-plus" ></md-icon>
+                                        <span>Status Supplier Paid</span> 
+                                    </md-button>
+                                </md-input-container>
+
                                 <md-input-container class="md-block" glex-gt-sm ng-if="vm.data.status === 'on process' || vm.Auth.isAdmin()">
                                     <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
                                         translate="EC.STATUS_CANCELLED" ng-click="vm.data.status = 'cancelled'"

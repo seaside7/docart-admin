@@ -53,6 +53,7 @@
                                 <th md-column><span>Customer</span></th>
                                 <th md-column><span>Customer Image</span></th>
                                 <th md-column md-numeric><span>Product Count</span></th>
+                                <th md-column ng-if="vm.Auth.isAdmin()"><span>Supplier</span></th>
                                 <th md-column md-order-by="status"><span>Status</span></th>
                                 <th md-column md-order-by="created"><span>Created At</span></th>
                                 <th md-column><div layout="row" layout-align="center center" flex>Actions</div></th>
@@ -67,6 +68,7 @@
                                 <td md-cell>{{order.customer.name}}</td>
                                 <td md-cell><img class="product-image" ng-src="{{order.customer.imageUrl}}"></td>
                                 <td md-cell>{{order.products.length}}</td>
+                                <td md-cell ng-if="vm.Auth.isAdmin()">{{order.supplier.name.toUpperCase()}}</td>
                                 <td md-cell>{{order.status.toUpperCase()}}</td>
                                 <td md-cell>{{order.created | date: 'dd MMM yyyy HH:mm:ss'}}</td>
                                 <td md-cell>

@@ -43,7 +43,7 @@ var OrderSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['on process', 'transferred', 'paid', 'on delivery', 'received', 'cancelled'],
+        enum: ['on process', 'transferred', 'paid', 'on delivery', 'received', 'supplier paid', 'cancelled'],
         default: 'on process'
     },
     messages: [{ type: String }],
@@ -65,7 +65,8 @@ OrderSchema.statics.Status = () => {
         Paid: 'paid',
         OnDelivery: 'on delivery',
         Received: 'received',
-        Cancelled: 'cancelled'
+        Cancelled: 'cancelled',
+        SupplierPaid: 'supplier paid'
     }
 }
 

@@ -108,19 +108,23 @@ export function patch(req, res) {
             var data = {
                 order : order,
                 orderId: order.orderId,
-                fullname: order.customer.name,
+                fullname: order.supplier.name,
                 status: order.status.toUpperCase()
             }
             
-            return gmail.sendHtmlMail(order.customer.email, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
-                
-                data.fullname = order.supplier.name;
+            return gmail.sendHtmlMail(order.supplier.email, "Pesanan dengan order ID " + order.orderId + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                data.fullname = order.customer.name;
 
-                return gmail.sendHtmlMail(order.supplier.email, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
-                    return respondWithResult(res)(order);    
-                })
-                
+                if (order.status === Order.Status.SupplierPaid) {
+                    return respondWithResult(res)(order);
+                }
+                else {
+                    return gmail.sendHtmlMail(order.customer.email, "Pesanan dengan order ID " + order.orderId + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {    
+                        return respondWithResult(res)(order);
+                    })
+                }
             })
+                
             
         })
         .catch(handleError(res));

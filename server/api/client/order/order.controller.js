@@ -173,9 +173,10 @@ export function checkout(req, res) {
         carts.forEach(cart => {
             total += cart.total;
         })
-
-        carts.forEach(cart => {
-            total = total + random.integer(1, 500);
+    
+        // Calculate transfer ID
+        total = total + random.integer(1, 500);
+        carts.forEach(cart => {    
             tasks.push(async.apply(checkoutFn, req, total, cart));
         })
         
@@ -215,7 +216,7 @@ export function checkout(req, res) {
 export function confirm(req, res) {
 
     function updateOrderStatus(orders) {
-        return Order.update({customer: req.user._id, status: Order.Status().OnProcess, transferId: req.body.transferId}, { status: Order.Status().Transferred })
+        return Order.update({customer: req.user._id, status: Order.Status().OnProcess, transferId: req.body.transferId}, { status: Order.Status().Transferred }, {multi: true})
             .then(updatedOrder => {
                 
                 if (updatedOrder.ok === 1 && updatedOrder.nModified === 0) {
@@ -277,15 +278,15 @@ export function received(req, res) {
                     status: order.status ? order.status.toUpperCase() : Order.Status().OnProcess
                 }
                 
-                return gmail.sendHtmlMail(order.customer.email, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                return gmail.sendHtmlMail(order.customer.email, "Pesanan dengan order ID " + order.orderId + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
                     
                     data.fullname = order.supplier.name;
 
-                    return gmail.sendHtmlMail(order.supplier.email, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                    return gmail.sendHtmlMail(order.supplier.email, "Pesanan dengan order ID " + order.orderId + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
                         res.json({status: "OK", message: "Your order has been received"});
 
                         data.fullname = "Admin";
-                        return gmail.sendHtmlMail(config.adminMail, "Pesanan dengan order ID " + order._id + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
+                        return gmail.sendHtmlMail(config.adminMail, "Pesanan dengan order ID " + order.orderId + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
                             return null;
                         })
                         
@@ -295,14 +296,20 @@ export function received(req, res) {
             })
             .catch(handleError(res));
     }
-    console.log(req.body.orderId);
-    return Order.findOne({_id: req.body.orderId})
+    
+    return Order.findOne({_id: req.body.id})
         .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
         .populate('products.product') 
         .populate({ path: "customer", select: "name email imageUrl gender" })
         .exec()
-        .then(order => { 
-            return updateOrderStatus(order);
+        .then(order => {
+            if (!order) {
+                res.status(404).send("Invalid Order");
+                return null;
+            } 
+            else {
+                return updateOrderStatus(order);
+            }
         })
         .catch(handleError(res));
 } 

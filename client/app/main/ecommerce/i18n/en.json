@@ -106,6 +106,7 @@
         "STATUS_PAID": "Set Status: Paid",
         "STATUS_ONDELIVERY": "Set Status: On Delivery",
         "STATUS_CANCELLED": "Set Status: Cancelled",
+        "STATUS_SUPPLIER_PAID": "Set Status: Supplier Paid",
         "TOTAL_MESSAGES": "Total Messages",
 
         "ERRORS": {
