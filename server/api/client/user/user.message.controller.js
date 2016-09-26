@@ -105,7 +105,7 @@ export function create(req, res) {
 }
 
 export function destroy(req, res) {
-    return UserMessage.findById(req.params.id).exec()
+    return UserMessage.find(req.params.id).exec()
         .then(handleEntityNotFound(res))
         .then(removeEntity(res))
         .catch(handleError(res));

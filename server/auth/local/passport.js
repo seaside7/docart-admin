@@ -2,9 +2,10 @@ import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
 import shared from '../../config/environment/shared';
 
-function localAuthenticate(User, email, password, done) {
+function localAuthenticate(User, email, password, role, done) {
   User.findOne({
-    email: email.toLowerCase()
+    email: email.toLowerCase(),
+    role: role
   }).populate('supplier customer').exec()
     .then(user => {
       if (!user) {
@@ -38,8 +39,9 @@ function localAuthenticate(User, email, password, done) {
 export function setup(User, config) {
   passport.use(new LocalStrategy({
     usernameField: 'email',
-    passwordField: 'password' // this is the virtual field on the model
-  }, function(email, password, done) {
-    return localAuthenticate(User, email, password, done);
+    passwordField: 'password', // this is the virtual field on the model,
+    passReqToCallback: true
+  }, function(req, email, password, done) {
+    return localAuthenticate(User, email, password, req.role, done);
   }));
 }
