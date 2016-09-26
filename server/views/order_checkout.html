@@ -27,6 +27,12 @@
             <span>Delivery cost: <strong>IDR <%= cart.logisticFee ? cart.logisticFee : 0 %></strong></span>
             <hr>
             <table>
+                <tr>
+                    <td width="50"><strong>No.</strong></td>
+                    <td width="400"><strong>Name Produk</strong></td>
+                    <td width="50"><strong>Qty</strong></td>
+                    <td width="150"><strong>Total Harga</strong></td>
+                </tr>
                 <% for (var j=0; j < cart.products.length; j++) { var product = cart.products[j]%>
                     <tr>
                         <td width="50"><%= j+1 %></td>
@@ -48,7 +54,7 @@
             <br>
             Silakan melakukan transfer ke rekening berikut:
             <br>
-            <strong>BNI - 0111966992 a/n Suhendra Ahmad</strong>
+            <strong><%= bankAccount %></strong>
             <br>
             Kode konfirmasi transfer ID anda adalah <strong><%= total %></strong> 
             <br><br><br>

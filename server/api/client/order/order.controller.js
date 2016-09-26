@@ -191,7 +191,8 @@ export function checkout(req, res) {
                         var data = {
                             fullname: req.user.name, 
                             carts: results,
-                            total: total
+                            total: total,
+                            bankAccount: config.bankAccount
                         } 
                     
                         gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan pembelian', path.join(req.app.get('views')), 'order_checkout.html', data, (err, data, html) => {
@@ -271,7 +272,7 @@ export function received(req, res) {
 
                 var data = {
                     order : order,
-                    orderId: order._id,
+                    orderId: order.orderId,
                     fullname: order.customer.name,
                     status: order.status ? order.status.toUpperCase() : Order.Status().OnProcess
                 }

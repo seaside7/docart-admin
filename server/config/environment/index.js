@@ -62,7 +62,9 @@ var all = {
     accessToken: 'ya29.Ci9TA36bhLXraX6HoVvpUtm2iS0MfeD6KdTBdYaHaseFaZ4aQz_j4lk0BDqme09gWQ'
                   //dXNlcj1pbmZvQGRvLWNhcnQuY29tAWF1dGg9QmVhcmVyIHlhMjkuQ2k5VEEtSGd6anU2MkFsM2ZHUkxMY0szTnlIVGNMUXlxckxiN0dZRDFhYUpaWktLZTZLbXRINnpQck1jZnNOODJ3AQE=
 
-  }
+  },
+
+  bankAccount: "BNI - 0111966992 a/n Suhendra Ahmad"
 };
 
 // Export the config object based on the NODE_ENV

@@ -107,7 +107,7 @@ export function patch(req, res) {
 
             var data = {
                 order : order,
-                orderId: order._id,
+                orderId: order.orderId,
                 fullname: order.customer.name,
                 status: order.status.toUpperCase()
             }
