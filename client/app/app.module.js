@@ -16,10 +16,7 @@
 
             // Toolbar
             'app.toolbar',
-
-            // Quick panel
-            'app.quick-panel',
-
+            
             // Auth
             'app.auth',
 

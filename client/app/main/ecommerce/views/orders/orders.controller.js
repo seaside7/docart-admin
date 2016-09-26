@@ -85,7 +85,7 @@
         function deleteData(data) {
             var confirm = $mdDialog.confirm()
                     .title('Delete')
-                    .textContent('Are you sure you want to delete order id ' + data._id + '?')
+                    .textContent('Are you sure you want to delete order id ' + data.orderId + '?')
                     .ariaLabel('Delete')
                     .ok('Yes')
                     .cancel('No');

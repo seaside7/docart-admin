@@ -95,7 +95,7 @@ UserSchema
   .validate(function (value, respond) {
     var self = this;
 
-    return this.constructor.findOne({ email: value }).exec()
+    return this.constructor.findOne({ email: value, role: this.role }).exec()
       .then(function (user) {
         if (user) {
           if (self.id === user.id) {
