@@ -48,6 +48,22 @@ SupplierSchema
     }
   });
 
+SupplierSchema
+  .post('find', function (doc) {
+    doc.forEach((entity) => {
+      if (entity.logoUrl) {
+        entity.logoUrl = config.imageHost + path.basename(entity.logoUrl);
+      }
+    })
+  });
+
+SupplierSchema
+  .post('findOne', function (doc) {
+    if (doc && doc.logoUrl) {
+      doc.logoUrl = config.imageHost + path.basename(doc.logoUrl);
+    }
+  });
+
 SupplierSchema.plugin(mongoosePaginate);
 
 export default mongoose.model('Supplier', SupplierSchema);

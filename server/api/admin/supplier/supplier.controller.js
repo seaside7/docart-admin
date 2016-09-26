@@ -182,6 +182,9 @@ export function update(req, res) {
                 if (req.files.file && req.files.file.length > 0) {
                     user.imageUrl = req.files.file[0].key;
                 }
+                if (req.files.images && req.files.images.length > 0) {
+                    req.body.logoUrl = req.files.images[0].key;
+                }
             }
             
             var updatedUser = _.merge(userResult, user);
