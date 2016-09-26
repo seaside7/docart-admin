@@ -13,6 +13,8 @@ router.get('/', controller.index);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
 
+router.post('/activation/resend', controller.activationResend);
+
 router.get('/messages', auth.isAuthenticated(config.userRole.customer), message.index);
 router.get('/messages/sent', auth.isAuthenticated(config.userRole.customer), message.indexOutgoing);
 router.post('/messages', auth.isAuthenticated(config.userRole.customer), message.create);

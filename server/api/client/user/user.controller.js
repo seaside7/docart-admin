@@ -62,7 +62,6 @@ export function index(req, res) {
 export function create(req, res, next) {
 
     if (!req.body && (!req.body.fullname || !req.body.phone || !req.body.email || !req.body.password || !req.body.passwordConfirm || !req.gender || !req.dob)) {
-        console.log(req.body);
         return handleError(res, 400)(new Error('Bad request'));
     }
 
@@ -181,4 +180,50 @@ export function update(req, res, next) {
 
         })
         .catch(handleError(res));
+}
+
+export function activationResend(req, res) {
+    if (!req.body && (!req.body.email || !req.body.password)) {
+        return handleError(res, 400)(new Error('Bad request'));
+    }
+
+    return User.findOne({email: req.body.email, role: shared.userRole.customer}).exec()
+        .then(user => {
+
+            if (!user) {
+                res.status(404).send("User not found");
+                return null;
+            }
+            
+
+            return user.authenticate(req.body.password, function (authError, authenticated) {
+                if (authError) {
+                    res.status(403).send("Authentication error");
+                    return null;
+                }
+
+                if (!authenticated) {
+                    res.status(403).send("Authentication failed");
+                    return null; 
+                }
+                else {
+                    var data = {
+                        title: 'do-cart.com',
+                        fullname: user.name,
+                        activation_link: config.domain + 'user/activate/' + user._id + '/' + user.activationCode
+                    }
+
+                    return gmail.sendHtmlMail(req.body.email, 'Aktivas akun do-cart Anda', req.app.get('views'), 'customer_activation.html', data, (err, html) => {
+                        if (err) {
+                            res.status(400).send("Failed to send your activation, please try again");
+                        }
+                        else {
+                            res.status(201).json({ _id: user._id, fullname: user.name, email: user.email, active: user.active });
+                        }
+                        return null;
+                    });
+                }
+
+            })
+        })
 }
