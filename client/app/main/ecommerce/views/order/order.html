@@ -127,7 +127,7 @@
                                     </md-button>
                                 </md-input-container>
 
-                                <md-input-container class="md-block" glex-gt-sm ng-if="vm.data.status === 'received' || vm.Auth.isAdmin()">
+                                <md-input-container class="md-block" glex-gt-sm ng-if="vm.data.status === 'received' && vm.Auth.isAdmin()">
                                     <md-button class="md-accent md-raised" aria-label="Add" style="margin-bottom: 20px; margin-left: -5px;"
                                         translate="EC.STATUS_SUPPLIER_PAID" ng-click="vm.data.status = 'supplier paid'"
                                         >
