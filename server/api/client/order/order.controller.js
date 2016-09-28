@@ -166,7 +166,7 @@ export function checkout(req, res) {
                                 console.error(err);
                             }
                             
-                            return cb(null, savedOrder); 
+                            return cb(null, foundOrder); 
                         })
                     })
                     .catch(handleError(res));
@@ -213,6 +213,8 @@ export function checkout(req, res) {
                             total: total,
                             bankAccount: config.bankAccount
                         } 
+                        console.log("========================>");
+                        console.log(results);
                     
                         gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan pembelian', path.join(req.app.get('views')), 'order_checkout.html', data, (err, data, html) => {
                             if (err) {
