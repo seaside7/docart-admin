@@ -94,7 +94,7 @@ function getCarts(req, res, cb) {
         .then(handleEntityNotFound(res))
         .then(carts => {
             if (cb) {
-                cb(null, carts);
+                return cb(null, carts);
             }
         })
         .catch(handleError(res));
@@ -140,22 +140,36 @@ export function checkout(req, res) {
         return Order.create(order)
             .then(savedOrder => {
                 
-                return Order.populate(savedOrder, 'products.produt',(err, populatedOrder) => {
-                    var data = {
-                        fullname: order.supplier.name,  
-                        order: populatedOrder,
-                        total: cart.total,
-                        courier: cart.courier
-                    }
+                var id = savedOrder._id;
 
-                    gmail.sendHtmlMail(cart.supplier.email, 'Pelanggan telah membeli produk Anda', path.join(req.app.get('views')), 'order_supplier.html', data, (err, data, html) => {
-                        if (err) {
-                            console.error(err);
+                return Order.findById(id)
+                    .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
+                    .populate('products.product')
+                    .populate({ path: "customer", select: "name email imageUrl gender" })
+                    .exec()
+                    .then(foundOrder => {
+                        if (!foundOrder) {
+                            res.status(404).send("Order fetch failed");
+                            return null;
                         }
-                        
-                        return cb(null, savedOrder); 
+                        console.log(JSON.stringify(foundOrder));
+
+                        var data = {
+                            fullname: order.supplier.name,  
+                            order: foundOrder,
+                            total: cart.total,
+                            courier: cart.courier
+                        }
+
+                        gmail.sendHtmlMail(cart.supplier.email, 'Pelanggan telah membeli produk Anda', path.join(req.app.get('views')), 'order_supplier.html', data, (err, data, html) => {
+                            if (err) {
+                                console.error(err);
+                            }
+                            
+                            return cb(null, savedOrder); 
+                        })
                     })
-                })
+                    .catch(handleError(res));
                 
             })
             .catch(err => {

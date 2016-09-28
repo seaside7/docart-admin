@@ -39,7 +39,7 @@ export function isAuthenticated(role) {
             }
           }
           req.user = user;
-          next();
+          return next();
         })
         .catch(err => next(err));
     })
