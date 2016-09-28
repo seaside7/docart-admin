@@ -139,18 +139,22 @@ export function checkout(req, res) {
 
         return Order.create(order)
             .then(savedOrder => {
-                var data = {
-                    fullname: order.supplier.name,  
-                    order: savedOrder,
-                    total: cart.total,
-                    courier: cart.courier
-                }
-                gmail.sendHtmlMail(cart.supplier.email, 'Pelanggan telah membeli produk Anda', path.join(req.app.get('views')), 'order_supplier.html', data, (err, data, html) => {
-                    if (err) {
-                        console.error(err);
+                
+                return Order.populate(savedOrder, 'products.produt',(err, populatedOrder) => {
+                    var data = {
+                        fullname: order.supplier.name,  
+                        order: populatedOrder,
+                        total: cart.total,
+                        courier: cart.courier
                     }
-                    
-                    return cb(null, savedOrder); 
+
+                    gmail.sendHtmlMail(cart.supplier.email, 'Pelanggan telah membeli produk Anda', path.join(req.app.get('views')), 'order_supplier.html', data, (err, data, html) => {
+                        if (err) {
+                            console.error(err);
+                        }
+                        
+                        return cb(null, savedOrder); 
+                    })
                 })
                 
             })
@@ -297,7 +301,7 @@ export function received(req, res) {
             .catch(handleError(res));
     }
     
-    return Order.findOne({_id: req.body.id})
+    return Order.findOne({orderId: req.body.id})
         .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
         .populate('products.product') 
         .populate({ path: "customer", select: "name email imageUrl gender" })
