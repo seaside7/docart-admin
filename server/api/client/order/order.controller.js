@@ -152,7 +152,7 @@ export function checkout(req, res) {
                             res.status(404).send("Order fetch failed");
                             return null;
                         }
-                        console.log(JSON.stringify(foundOrder));
+                        //console.log(JSON.stringify(foundOrder));
 
                         var data = {
                             fullname: order.supplier.name,  
@@ -213,9 +213,7 @@ export function checkout(req, res) {
                             total: total,
                             bankAccount: config.bankAccount
                         } 
-                        console.log("========================>");
-                        console.log(results);
-                    
+                        
                         gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan pembelian', path.join(req.app.get('views')), 'order_checkout.html', data, (err, data, html) => {
                             if (err) {
                                 console.error(err);
