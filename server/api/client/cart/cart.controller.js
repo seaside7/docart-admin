@@ -216,6 +216,11 @@ function updateCart(req, res, createNew, appendCount) {
             return null;
         }
 
+        if (product.stock < itemCount) {
+            res.status(404).send(product.name + " is out of stock");
+            return null;
+        }
+
         // Accumulate price
         var accPrice = product.finalPrice * itemCount;
         if (product.prices && product.prices.length > 0) {

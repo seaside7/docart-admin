@@ -17,7 +17,7 @@ import async from 'async';
 import path from 'path';
 
 import gmail from './../../../components/gmail';
-import config from './../../../config/environment'; 
+import config from './../../../config/environment';
 
 import Order from './../../admin/order/order.model';
 import Product from './../../admin/product/product.model';
@@ -101,7 +101,7 @@ function getCarts(req, res, cb) {
 }
 
 export function index(req, res) {
-    return Order.find({customer: req.user._id})
+    return Order.find({ customer: req.user._id })
         .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
         .populate('products.product')
         .populate({ path: "customer", select: "name email imageUrl gender" })
@@ -113,33 +113,83 @@ export function index(req, res) {
 // Checkout order
 export function checkout(req, res) {
 
+    function deductProductStock(item, cb) {
+        return Product.findById(item.product._id)
+            .exec()
+            .then(product => {
+                var stockLeft = product.stock - item.count;
+
+                product.stock = stockLeft;
+                product.save()
+                    .then(savedProduct => {
+                        if (cb) {
+                            cb(null, savedProduct);
+                        }
+                    }) 
+                    .catch(err => {
+                        if (cb) {
+                            cb(err, null);
+                        }
+                    })
+            })
+            .catch(err => {
+                if (cb) {
+                    cb(err, null);
+                }
+            })
+    }
+
+    function updateProducts(orders, cb) {
+        var tasks = [];
+
+        orders.forEach(order => {
+            order.products.forEach(item => {
+                tasks.push(async.apply(deductProductStock, item));
+            })
+        })
+
+        async.series(tasks, cb);
+    }
+
     // Create order for a cart
     function checkoutFn(req, transferId, cart, cb) {
+
+        if (cart.products.length > 0) {
+            for (var i = 0; i < cart.products.length; i++) {
+                var p = cart.products[i];
+                if (p.count > p.product.stock) {
+                    if (cb) {
+                        return cb(new Error(p.product.name + " is out of stock"), null);
+                    }
+                }
+            }
+        }
+
         var order = {
             customer: cart.customer,
             supplier: cart.supplier,
             products: cart.products,
             subTotal: cart.subTotal,
-            logisticFee: cart.logistic, 
+            logisticFee: cart.logistic,
             total: cart.total,
-            courier: cart.courier, 
+            courier: cart.courier,
             status: Order.Status().OnProcess,
             transferId: transferId,
-            address: { 
+            address: {
                 receiverName: req.body.receiverName,
                 phone: req.body.phone,
                 address1: req.body.address1,
                 address2: req.body.address2,
                 city: req.body.city,
-                district: req.body.district, 
-                province: req.body.province, 
-                zip: req.body.zip 
+                district: req.body.district,
+                province: req.body.province,
+                zip: req.body.zip
             }
         }
 
         return Order.create(order)
             .then(savedOrder => {
-                
+
                 var id = savedOrder._id;
 
                 return Order.findById(id)
@@ -155,7 +205,7 @@ export function checkout(req, res) {
                         //console.log(JSON.stringify(foundOrder));
 
                         var data = {
-                            fullname: order.supplier.name,  
+                            fullname: order.supplier.name,
                             order: foundOrder,
                             total: cart.total,
                             courier: cart.courier
@@ -165,12 +215,12 @@ export function checkout(req, res) {
                             if (err) {
                                 console.error(err);
                             }
-                            
-                            return cb(null, foundOrder); 
+
+                            return cb(null, foundOrder);
                         })
                     })
                     .catch(handleError(res));
-                
+
             })
             .catch(err => {
                 return cb(err, null);
@@ -181,9 +231,9 @@ export function checkout(req, res) {
     return getCarts(req, res, (err, carts) => {
         var tasks = [];
         var total = 0;
-        
+
         if (carts.length === 0) {
-            res.status(404).json({status: "ERROR", message: "Cart Empty"});
+            res.status(404).json({ status: "ERROR", message: "Cart Empty" });
             return null;
         }
 
@@ -191,41 +241,47 @@ export function checkout(req, res) {
         carts.forEach(cart => {
             total += cart.total;
         })
-    
+
         // Calculate transfer ID
         total = total + random.integer(1, 500);
-        carts.forEach(cart => {    
+        carts.forEach(cart => {
             tasks.push(async.apply(checkoutFn, req, total, cart));
         })
-        
+
         async.series(tasks, (err, results) => {
             if (err) {
-                res.status(400).send(err.message);
+                res.status(404).send(err.message);
                 return null;
             }
             else {
 
-                Cart.remove({customer: req.user._id})
-                    .then(removedCart => {
-                        var data = {
-                            fullname: req.user.name, 
-                            carts: results,
-                            total: total,
-                            bankAccount: config.bankAccount
-                        } 
-                        
-                        gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan pembelian', path.join(req.app.get('views')), 'order_checkout.html', data, (err, data, html) => {
-                            if (err) {
-                                console.error(err);
+                // Update products
+                updateProducts(results, (err, products) => {
+
+                    // Remove cars
+                    Cart.remove({ customer: req.user._id })
+                        .then(removedCart => {
+                            var data = {
+                                fullname: req.user.name,
+                                carts: results,
+                                total: total,
+                                bankAccount: config.bankAccount
                             }
-                            
-                            res.json({status: "OK", orders: results});
 
-                            return null; 
+                            gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan pembelian', path.join(req.app.get('views')), 'order_checkout.html', data, (err, data, html) => {
+                                if (err) {
+                                    console.error(err);
+                                }
+
+                                res.json({ status: "OK", orders: results });
+
+                                return null;
+                            })
+
                         })
+                        .catch(handleError(res));
+                })
 
-                    })
-                    .catch(handleError(res));
             }
         });
     })
@@ -234,11 +290,11 @@ export function checkout(req, res) {
 export function confirm(req, res) {
 
     function updateOrderStatus(orders) {
-        return Order.update({customer: req.user._id, status: Order.Status().OnProcess, transferId: req.body.transferId}, { status: Order.Status().Transferred }, {multi: true})
+        return Order.update({ customer: req.user._id, status: Order.Status().OnProcess, transferId: req.body.transferId }, { status: Order.Status().Transferred }, { multi: true })
             .then(updatedOrder => {
-                
+
                 if (updatedOrder.ok === 1 && updatedOrder.nModified === 0) {
-                    res.status(404).json({status: "ERROR", message: "No order found"});
+                    res.status(404).json({ status: "ERROR", message: "No order found" });
                     return null;
                 }
 
@@ -254,9 +310,9 @@ export function confirm(req, res) {
                 }
 
                 gmail.sendHtmlMail(req.user.email, 'Anda telah melakukan konfirmasi pembayaran', path.join(req.app.get('views')), 'order_confirmed.html', confirmedData, (err, data, html) => {
-                    
+
                     gmail.sendHtmlMail(config.adminMail, 'Customer melakukan konfirmasi pembayaran', path.join(req.app.get('views')), 'order_admin_confirmed.html', confirmedData, (err, data, html) => {
-                        res.json({status: "OK", message: "Your order has been confirmed"});    
+                        res.json({ status: "OK", message: "Your order has been confirmed" });
                     });
 
                 });
@@ -266,16 +322,16 @@ export function confirm(req, res) {
             .catch(handleError(res));
     }
 
-    return Order.find({customer: req.user._id, transferId: req.body.transferId})
+    return Order.find({ customer: req.user._id, transferId: req.body.transferId })
         .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
-        .populate('products.product') 
+        .populate('products.product')
         .populate({ path: "customer", select: "name email imageUrl gender" })
         .exec()
-        .then(orders => { 
+        .then(orders => {
             return updateOrderStatus(orders);
         })
         .catch(handleError(res));
-} 
+}
 
 export function received(req, res) {
 
@@ -283,48 +339,48 @@ export function received(req, res) {
         order.status = Order.Status().Received;
         return order.save()
             .then(updatedOrder => {
-                
+
                 if (updatedOrder.ok === 1 && updatedOrder.nModified === 0) {
-                    res.status(404).json({status: "ERROR", message: "No order found"});
+                    res.status(404).json({ status: "ERROR", message: "No order found" });
                     return null;
                 }
 
                 var data = {
-                    order : order,
+                    order: order,
                     orderId: order.orderId,
                     fullname: order.customer.name,
                     status: order.status ? order.status.toUpperCase() : Order.Status().OnProcess
                 }
-                
+
                 return gmail.sendHtmlMail(order.customer.email, "Pesanan dengan order ID " + order.orderId + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
-                    
+
                     data.fullname = order.supplier.name;
 
                     return gmail.sendHtmlMail(order.supplier.email, "Pesanan dengan order ID " + order.orderId + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
-                        res.json({status: "OK", message: "Your order has been received"});
+                        res.json({ status: "OK", message: "Your order has been received" });
 
                         data.fullname = "Admin";
                         return gmail.sendHtmlMail(config.adminMail, "Pesanan dengan order ID " + order.orderId + " telah berubah status", req.app.get('views'), "order_status.html", data, (err, result) => {
                             return null;
                         })
-                        
+
                     })
-                    
+
                 })
             })
             .catch(handleError(res));
     }
-    
-    return Order.findOne({orderId: req.body.id})
+
+    return Order.findOne({ orderId: req.body.id })
         .populate({ path: "supplier", select: "name email imageUrl supplier", populate: { path: "supplier" } })
-        .populate('products.product') 
+        .populate('products.product')
         .populate({ path: "customer", select: "name email imageUrl gender" })
         .exec()
         .then(order => {
             if (!order) {
                 res.status(404).send("Invalid Order");
                 return null;
-            } 
+            }
             else {
                 return updateOrderStatus(order);
             }
