@@ -21,7 +21,7 @@ var all = {
   uploadsPath: './client/assets/uploads',
 
   // Server port
-  port: process.env.PORT || 8080,
+  port: process.env.PORT || 7000,
 
   // Server IP
   ip: process.env.IP || '0.0.0.0',
